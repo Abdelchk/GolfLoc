@@ -6,7 +6,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.Properties;
 import java.util.UUID;
-
+//test
 public class GmailAuthentification {
 	
 	public static String generateResetToken() {
