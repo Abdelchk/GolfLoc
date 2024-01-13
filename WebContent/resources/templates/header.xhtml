@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+	
+<h:head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+</h:head>
+
+<body>
+	<ui:composition>
+		<div id="navbar">
+			<h:form>
+				<h:commandLink value="GolfLoc" styleClass="golfloc" action="accueil" />
+				<h:commandLink value="Accueil" styleClass="commandlink" action="achats" />
+	            <h:commandLink value="A propos" styleClass="commandlink" action="#" />
+	            <h:panelGroup rendered="#{not empty userbean.connectedUser}">
+	            	<h:commandLink value="Déconnexion" styleClass="commandlink" action="#{userbean.seDeconnecter}" />
+	            </h:panelGroup>
+	            <h:panelGroup rendered="#{empty userbean.connectedUser}">
+	            	<h:commandLink value="Connexion" styleClass="commandlink" action="connexion" />
+	            </h:panelGroup>
+			</h:form>
+        </div>
+	</ui:composition>
+</body>
+</html>

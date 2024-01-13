@@ -1,0 +1,69 @@
+@charset "ISO-8859-1";
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    text-align: center; 
+}
+
+h2 {
+	color: #333;
+	margin-bottom: 10px;
+}
+
+.panelFieldsUser {
+    width: 35%;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: inline-block;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 10px;
+    align-items: center;
+}
+
+.inputText,
+.inputSecret {
+    width: 100%;
+    padding: 5px;
+}
+
+.commandButton {
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.commandLink {
+    color: blue;
+}
+
+.messages {
+    color: red;
+    list-style-type: none;
+    
+}
+
+.deconnexion {
+	background-color: red;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    text-decoration: none;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 5px;
+}

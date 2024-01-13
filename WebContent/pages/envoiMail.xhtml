@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+	
+<h:head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<h:outputStylesheet name="email.css" library="css" />
+<h:outputStylesheet name="common-style.css" library="css" />
+<title>Mot de passe oublié</title>
+</h:head>
+<body>
+	<f:view>
+		<ui:include src="/resources/templates/header.xhtml" />
+		<h2>Demande de réinitialisation</h2>
+		
+		<h:form>
+			<h:panelGroup id = "panelFieldsUser" columns = "2" cellpadding = "0" cellspacing = "2">
+				<h:panelGrid>
+				<h:outputText value="Email associé à votre compte :" />
+				<h:inputText id="email" styleClass="inputText" size="20" required="true"
+						value="#{userbean.email}" requiredMessage="L'email est obligatoire !"
+						validatorMessage="Veuillez entrer une adresse email conforme.">
+					<f:validateLength maximum="35" />
+					<f:validateRegex pattern="\b[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+\.[A-Z|a-z]{2,}\b"/>
+				</h:inputText>
+					<h:message for="email" style="color: red"></h:message>
+				</h:panelGrid>
+			</h:panelGroup>
+			<p></p>
+			<h:panelGroup>
+				<h:commandButton id="btnSendMail" styleClass="commandButton" value="Envoyer" action="#{userbean.demandeReinitialisation}"/>
+			</h:panelGroup>
+			<p></p>
+			<h:messages id="messages" showDetail="true" styleClass="messages" globalOnly="true" />
+		</h:form>
+	</f:view>
+</body>
+</html>

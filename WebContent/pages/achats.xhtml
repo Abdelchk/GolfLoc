@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+<h:head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<h:outputStylesheet name="connexion.css" library="css"/>
+<h:outputStylesheet name="common-style.css" library="css" />
+<title>Articles</title>
+</h:head>
+<h:body>
+
+	<f:view>
+	<ui:include src="/resources/templates/header.xhtml" />
+		<h2>Articles</h2>
+		
+	    <h:panelGroup rendered="#{not empty userbean.connectedUser}">
+	        <!-- Contenu à afficher uniquement si l'utilisateur est connecté -->
+	        <h:outputText value="Bienvenue sur la page des achats #{userbean.connectedUser.prenom}" />
+	        <h:form>
+	            
+	        </h:form>
+	    </h:panelGroup>
+	    <h:panelGroup rendered="#{empty userbean.connectedUser}">
+	        <!-- Contenu à afficher lorsque l'utilisateur n'est pas connecté -->
+	        <h:outputText value="Bienvenue sur la page des achats" />
+	    </h:panelGroup>
+	</f:view>
+
+</h:body>
+</html>

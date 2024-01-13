@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+<h:head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<h:outputStylesheet name="resetPwd.css" library="css" />
+<h:outputStylesheet name="common-style.css" library="css" />
+<title>Réinitialisation du mot de passe</title>
+</h:head>
+<body>
+	<f:view>
+	<f:metadata>
+        <f:viewParam name="token" />
+    </f:metadata>
+		<ui:include src="/resources/templates/header.xhtml" />
+		<h2>Réinitialisation du mot de passe</h2>
+		
+		<h:form>
+			<h:panelGroup id = "panelFieldsUser" columns = "2" cellpadding = "0" cellspacing = "2">
+				<h:panelGrid>
+					<h:outputText value="Mot de passe :" />
+					<h:inputSecret id="password" styleClass="inputSecret" size="20" required="true"
+							value="#{userbean.password}" requiredMessage="Veuillez entrer un mot de passe !"
+							validatorMessage="Le mot de passe doit obligatoirement contenir 8 caractères (1 majuscule/minuscule et au moins un cractère spécial)">
+						<!-- <f:validateLength minimum="8" maximum="30" /> -->
+						<f:validateRegex 
+						pattern="^(?=.*[A-Za-zÀ-ÖØ-öø-ÿ])(?=.*\d)(?=.*[@$!%*?&amp;#])[A-Za-zÀ-ÖØ-öø-ÿ\d@$!%*?&amp;#]{8,}$"/>
+					</h:inputSecret>
+					<h:message for="password"></h:message>
+					
+					<h:outputText value="Confirmer mot de passe :" />
+					<h:inputSecret id="pwdConfirm" styleClass="inputSecret" size="20" required="true"
+						value="#{userbean.pwdConfirm}" requiredMessage="Veuillez confirmer le mot de passe !"
+						validator="#{userbean.validatePasswordConfirmation}">
+					<!-- <f:validateLength minimum="8" maximum="30" /> -->
+					<f:validateRegex 
+					pattern="^(?=.*[A-Za-zÀ-ÖØ-öø-ÿ])(?=.*\d)(?=.*[@$!%*?&amp;#])[A-Za-zÀ-ÖØ-öø-ÿ\d@$!%*?&amp;#]{8,}$"/>
+					</h:inputSecret>
+					<h:message for="pwdConfirm"></h:message>
+				</h:panelGrid>
+			</h:panelGroup>
+			<p></p>
+			<h:panelGroup>
+				<h:commandButton id="btnResetPwd" styleClass="commandButton" value="Réinitialiser" action="#{userbean.reinitialiserMdp(token)}" />
+			</h:panelGroup>
+			<p></p>
+			<h:messages id="messages" showDetail="true" styleClass="messages" globalOnly="true" />
+		</h:form>
+	</f:view>
+</body>
+</html>
