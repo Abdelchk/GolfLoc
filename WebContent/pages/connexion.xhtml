@@ -18,10 +18,11 @@
 		
 		<h:form>
 			<h:panelGroup>
-				<h:panelGrid id = "panelFieldsUser" styleClass="panelFieldsUser" columns = "3" cellpadding = "0" cellspacing = "2">
+				<h:panelGrid id = "panelFieldsUser" styleClass="panelFieldsUser" columns = "3" cellpadding = "5" cellspacing = "2" border="1">
+				
 					<h:outputText value = "Email :"/>
-					<h:inputText id="email" styleClass="inputText" size="35" required="true"
-						value="#{userbean.email}" requiredMessage="L'email est obligatoire !" style="margin-right: 40px"
+					<h:inputText id="email" styleClass="inputText" size="20" required="true"
+						value="#{userbean.email}" requiredMessage="L'email est obligatoire !"
 						validatorMessage="Veuillez entrer une adresse email conforme.">
 						<f:validateLength maximum="35" />
 						<f:validateRegex pattern="\b[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+\.[A-Z|a-z]{2,}\b" />
@@ -31,17 +32,22 @@
 					<h:outputText value = "Mot de passe :"/>
 					<h:inputSecret id="password" styleClass="inputSecret" size="20" required="true"
 						value="#{userbean.password}" requiredMessage="Le mot de passe est obligatoire !">
-						
 					</h:inputSecret>
 					<h:message for="password" styleClass="messages"></h:message>
-					<h:commandLink id="pwdReset" styleClass="commandLink" value="Mot de passe oublié ?" action="envoiMail" immediate="true"/>
+					
+					
+					<h:panelGroup>
+						<h:commandLink id="pwdReset" styleClass="pwdReset" value="Mot de passe oublié ?" action="envoiMail" immediate="true"/>	
+					</h:panelGroup>
+					
 				</h:panelGrid>
+				
 			</h:panelGroup>
 			<p></p>
-			<h:commandLink id = "btnInscription" styleClass="btnInscription" value = "Créer un compte" action="inscription" immediate="true"/>
+				<h:commandButton id = "btnInscription" styleClass="btnInscription" value = "Créer un compte" action="inscription" immediate="true"/>
 			<p></p>
 			<h:panelGroup>
-				<h:commandButton id = "btnConnection" styleClass="commandButton" value = "Se connecter" action="#{userbean.seConnecter}"/>
+				<h:commandButton id = "btnConnection" styleClass="btnConnection" value = "Se connecter" action="#{userbean.seConnecter}"/>
 			</h:panelGroup>
 			<p></p>
 			<!-- Afficher les messages globaux -->
