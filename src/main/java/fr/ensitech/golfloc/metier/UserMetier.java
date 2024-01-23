@@ -29,7 +29,7 @@ public class UserMetier {
 					return createUser;
 				}
 				else {
-					System.out.println("Une erreur est survenue lors de la création du compte !");
+					System.out.println("L'adresse email est déjà utilisée !");
 				}
 			}
 			

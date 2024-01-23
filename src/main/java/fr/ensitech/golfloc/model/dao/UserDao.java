@@ -38,7 +38,7 @@ public final class UserDao implements IUserDao {
 		ResultSet rs = null;
 		try {
 			connection = UserDataSource.getConnection();
-			String requete = "INSERT INTO user(nom, prenom, email, password, date_naissance)" + " VALUES(?,?,?,?,?)";
+			String requete = "INSERT INTO user(lastname, firstname, email, password, birthdate)" + " VALUES(?,?,?,?,?)";
 			PreparedStatement ps = connection.prepareStatement(requete, Statement.RETURN_GENERATED_KEYS);
 			ps.setString(1, user.getNom());
 			ps.setString(2, user.getPrenom());
@@ -79,11 +79,11 @@ public final class UserDao implements IUserDao {
 			if (rs != null && rs.next()) {
 				User user = new User();
 				user.setId(rs.getInt("id"));
-				user.setNom(rs.getString("nom"));
-				user.setPrenom(rs.getString("prenom"));
+				user.setNom(rs.getString("lastname"));
+				user.setPrenom(rs.getString("firstname"));
 				user.setEmail(rs.getString("email"));
 				user.setPassword(rs.getString("password"));
-				user.setDateNaissance(Dates.convertDateSqlToDateUtil(rs.getDate("date_naissance")));
+				user.setDateNaissance(Dates.convertDateSqlToDateUtil(rs.getDate("birthdate")));
 			}
 		} finally {
 			if (connection != null && !connection.isClosed()) {
@@ -199,11 +199,11 @@ public final class UserDao implements IUserDao {
 			if (rs != null && rs.next()) {
 				User user = new User();
 				user.setId(rs.getInt("id"));
-				user.setNom(rs.getString("nom"));
-				user.setPrenom(rs.getString("prenom"));
+				user.setNom(rs.getString("lastname"));
+				user.setPrenom(rs.getString("firstname"));
 				user.setEmail(rs.getString("email"));
 				user.setPassword(rs.getString("password"));
-				user.setDateNaissance(Dates.convertDateSqlToDateUtil(rs.getDate("date_naissance")));
+				user.setDateNaissance(Dates.convertDateSqlToDateUtil(rs.getDate("birthdate")));
 				
 				System.out.println("Utilisateur trouvé : " + user.getEmail());
 	            return user;  // Retourner l'objet User trouvé
@@ -267,11 +267,11 @@ public final class UserDao implements IUserDao {
 			if (rs != null && rs.next()) {
 				User user = new User();
 				user.setId(rs.getInt("id"));
-				user.setNom(rs.getString("nom"));
-				user.setPrenom(rs.getString("prenom"));
+				user.setNom(rs.getString("lastname"));
+				user.setPrenom(rs.getString("firstname"));
 				user.setEmail(rs.getString("email"));
 				
-				user.setDateNaissance(Dates.convertDateSqlToDateUtil(rs.getDate("date_naissance")));
+				user.setDateNaissance(Dates.convertDateSqlToDateUtil(rs.getDate("birthdate")));
 				
 				// Vérifier le mot de passe haché
 	            String hashedPasswordFromDatabase = rs.getString("password");
