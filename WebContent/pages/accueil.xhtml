@@ -18,11 +18,15 @@
 		<h:form>
 			<p>Réservez vos clubs de golf en ligne !</p>
 			
-			<h:panelGroup>
-				<h:commandButton id = "btnConnection" styleClass="btnConnection" value = "Connexion" action="connexion"/>
+			<h:panelGroup rendered="#{empty userbean.connectedUser}">
+				<h:commandButton id = "btnLogin" styleClass="btnConnection" value = "Connexion" action="connexion"/>
 			</h:panelGroup>
 			
-			<h:panelGroup>
+			<h:panelGroup rendered="#{not empty userbean.connectedUser}">
+				<h:commandButton id = "btnLogout" styleClass="btnLogout" value = "Déconnexion" action="#{userbean.seDeconnecter}"/>
+			</h:panelGroup>
+			
+			<h:panelGroup rendered="#{empty userbean.connectedUser}">
 				<h:commandButton id = "btnInscription" styleClass="btnInscription" value = "Créer un compte" action="inscription"/>
 			</h:panelGroup>
 		</h:form>

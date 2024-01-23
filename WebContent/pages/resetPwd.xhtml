@@ -28,7 +28,7 @@
 							validatorMessage="Le mot de passe doit obligatoirement contenir 8 caractères (1 majuscule/minuscule et au moins un cractère spécial)">
 						<!-- <f:validateLength minimum="8" maximum="30" /> -->
 						<f:validateRegex 
-						pattern="^(?=.*[A-Za-zÀ-ÖØ-öø-ÿ])(?=.*\d)(?=.*[@$!%*?&amp;#])[A-Za-zÀ-ÖØ-öø-ÿ\d@$!%*?&amp;#]{8,}$"/>
+						pattern="^(?=.*[A-Za-zÀ-ÖØ-öø-ÿ])(?=.*\d)(?=.*[@$!%*?&amp;#])[A-Za-zÀ-ÖØ-öø-ÿ\d@$!%*?&amp;#]{12,}$"/>
 					</h:inputSecret>
 					<h:message for="password"></h:message>
 					
@@ -38,7 +38,7 @@
 						validator="#{userbean.validatePasswordConfirmation}">
 					<!-- <f:validateLength minimum="8" maximum="30" /> -->
 					<f:validateRegex 
-					pattern="^(?=.*[A-Za-zÀ-ÖØ-öø-ÿ])(?=.*\d)(?=.*[@$!%*?&amp;#])[A-Za-zÀ-ÖØ-öø-ÿ\d@$!%*?&amp;#]{8,}$"/>
+					pattern="^(?=.*[A-Za-zÀ-ÖØ-öø-ÿ])(?=.*\d)(?=.*[@$!%*?&amp;#])[A-Za-zÀ-ÖØ-öø-ÿ\d@$!%*?&amp;#]{12,}$"/>
 					</h:inputSecret>
 					<h:message for="pwdConfirm"></h:message>
 				</h:panelGrid>

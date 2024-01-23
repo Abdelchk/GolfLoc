@@ -20,14 +20,19 @@ public class UserMetier {
 			// Ajouter une vérification de l'email
 			// si un utilisateur existe déjà avec l'email alors ne pas insérer sinon insérer
 			
-			Integer createUser = userDao.addUser(user);
+			User userExiste = userDao.getUserByEmail(user.getEmail());
 			
-			if (createUser != null) {
-				return createUser;
+			if (userExiste != null) {
+				Integer createUser = userDao.addUser(user);
+				
+				if (createUser != null) {
+					return createUser;
+				}
+				else {
+					System.out.println("Une erreur est survenue lors de la création du compte !");
+				}
 			}
-			else {
-				System.out.println("Une erreur est survenue lors de la création du compte !");
-			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("Une erreur s'est produite dans UserMetier.CreerUtilisateur : " + e.getMessage());
@@ -59,7 +64,7 @@ public class UserMetier {
     
     public boolean reinitialiserMdp(String newPassword, int id) {
     	if (newPassword.length() < 8) {
-            System.out.println("Le mot de passe doit avoir au moins 8 caractères.");
+            System.out.println("Le mot de passe doit avoir au moins 12 caractères.");
         }
     	try {
 			userDao = new UserDao();
