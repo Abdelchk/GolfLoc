@@ -12,6 +12,7 @@ import javax.faces.component.UIInput;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
+import fr.ensitech.golfloc.entity.Cart;
 import fr.ensitech.golfloc.entity.User;
 import fr.ensitech.golfloc.metier.UserMetier;
 import fr.ensitech.golfloc.utils.ResetRequestDetails;
@@ -29,6 +30,9 @@ public class UserBean implements Serializable {
 	private String password;
 	private String pwdConfirm;
 	private Date dateNaissance;
+	private String isActive;
+	private String profile;
+	private String phoneNumber;
 	private UserMetier userMetier;
 	private User connectedUser;
 	
@@ -91,6 +95,30 @@ public class UserBean implements Serializable {
 		this.dateNaissance = dateNaissance;
 	}
 	
+	public String isActive() {
+		return isActive;
+	}
+
+	public void setActive(String isActive) {
+		this.isActive = isActive;
+	}
+
+	public String getProfile() {
+		return profile;
+	}
+
+	public void setProfile(String profile) {
+		this.profile = profile;
+	}
+
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+
 	public User getConnectedUser() {
 		return connectedUser;
 	}
@@ -98,6 +126,7 @@ public class UserBean implements Serializable {
 	public void setConnectedUser(User connectUser) {
 		this.connectedUser = connectUser;
 	}
+	
 	
 	// Méthodes de validations
 	
@@ -247,4 +276,5 @@ public class UserBean implements Serializable {
 		}
 		return null;
 	}
+
 }
