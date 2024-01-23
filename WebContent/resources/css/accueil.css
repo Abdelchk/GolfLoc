@@ -25,6 +25,18 @@ p {
 	text-decoration: none;
 }
 
+.btnLogout {
+	background-color: #f44336;
+	margin: 0 10px;
+	padding: 10px 20px;
+	font-size: 16px;
+	color: #fff;
+	border: none;
+	cursor: pointer;
+	border-radius: 5px;
+	text-decoration: none;
+}
+
 .btnInscription {
 	background-color: #3498db;
 	margin: 0 10px;
