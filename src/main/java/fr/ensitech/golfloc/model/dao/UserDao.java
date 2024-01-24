@@ -30,7 +30,8 @@ public final class UserDao implements IUserDao {
 				|| user.getPrenom().trim().isEmpty() || user.getEmail() == null 
 				|| user.getEmail().trim().isEmpty() || user.getPassword() == null 
 				|| user.getPassword().trim().isEmpty() || user.getDateNaissance() == null
-				|| Dates.convertDateToString(user.getDateNaissance()).trim().isEmpty()) 
+				|| Dates.convertDateToString(user.getDateNaissance()).trim().isEmpty()
+				|| user.getPhoneNumber() == null || user.getPhoneNumber().trim().isEmpty()) 
 		{
 			throw new IllegalArgumentException("Tous les paramètres sont obligatoires !");
 		}
@@ -38,13 +39,14 @@ public final class UserDao implements IUserDao {
 		ResultSet rs = null;
 		try {
 			connection = UserDataSource.getConnection();
-			String requete = "INSERT INTO user(nom, prenom, email, password, date_naissance)" + " VALUES(?,?,?,?,?)";
+			String requete = "INSERT INTO user(lastname, firstname, email, password, birthdate, phone_number)" + " VALUES(?,?,?,?,?,?)";
 			PreparedStatement ps = connection.prepareStatement(requete, Statement.RETURN_GENERATED_KEYS);
 			ps.setString(1, user.getNom());
 			ps.setString(2, user.getPrenom());
 			ps.setString(3, user.getEmail());
 			ps.setString(4, BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()) );
 			ps.setDate(5, Dates.convertDateUtilToDateSql(user.getDateNaissance()));
+			ps.setString(6, user.getPhoneNumber());
 
 			ps.executeUpdate();
 			rs = ps.getGeneratedKeys();
@@ -79,11 +81,11 @@ public final class UserDao implements IUserDao {
 			if (rs != null && rs.next()) {
 				User user = new User();
 				user.setId(rs.getInt("id"));
-				user.setNom(rs.getString("nom"));
-				user.setPrenom(rs.getString("prenom"));
+				user.setNom(rs.getString("lastname"));
+				user.setPrenom(rs.getString("firstname"));
 				user.setEmail(rs.getString("email"));
 				user.setPassword(rs.getString("password"));
-				user.setDateNaissance(Dates.convertDateSqlToDateUtil(rs.getDate("date_naissance")));
+				user.setDateNaissance(Dates.convertDateSqlToDateUtil(rs.getDate("birthdate")));
 			}
 		} finally {
 			if (connection != null && !connection.isClosed()) {
@@ -199,12 +201,12 @@ public final class UserDao implements IUserDao {
 			if (rs != null && rs.next()) {
 				User user = new User();
 				user.setId(rs.getInt("id"));
-				user.setNom(rs.getString("nom"));
-				user.setPrenom(rs.getString("prenom"));
+				user.setNom(rs.getString("lastname"));
+				user.setPrenom(rs.getString("firstname"));
 				user.setEmail(rs.getString("email"));
 				user.setPassword(rs.getString("password"));
-				user.setDateNaissance(Dates.convertDateSqlToDateUtil(rs.getDate("date_naissance")));
-				
+				user.setDateNaissance(Dates.convertDateSqlToDateUtil(rs.getDate("birthdate")));
+				user.setPhoneNumber(rs.getString("phone_number"));
 				System.out.println("Utilisateur trouvé : " + user.getEmail());
 	            return user;  // Retourner l'objet User trouvé
 			}else {
@@ -267,11 +269,11 @@ public final class UserDao implements IUserDao {
 			if (rs != null && rs.next()) {
 				User user = new User();
 				user.setId(rs.getInt("id"));
-				user.setNom(rs.getString("nom"));
-				user.setPrenom(rs.getString("prenom"));
+				user.setNom(rs.getString("lastname"));
+				user.setPrenom(rs.getString("firstname"));
 				user.setEmail(rs.getString("email"));
 				
-				user.setDateNaissance(Dates.convertDateSqlToDateUtil(rs.getDate("date_naissance")));
+				user.setDateNaissance(Dates.convertDateSqlToDateUtil(rs.getDate("birthdate")));
 				
 				// Vérifier le mot de passe haché
 	            String hashedPasswordFromDatabase = rs.getString("password");

@@ -10,18 +10,26 @@ public class User {
 	private String email;
 	private String password;
 	private Date dateNaissance;
+	private String isActive;
+	private String profile;
+	private String phoneNumber;
 	
 	public User() {
 	}
 
-	public User(String nom, String prenom, String email, String password, Date dateNaissance) {
+	public User(Integer id, String nom, String prenom, String email, String password, Date dateNaissance, String isActive,
+			String profile, String phoneNumber) {
+		this.id = id;
 		this.nom = nom;
 		this.prenom = prenom;
 		this.email = email;
 		this.password = password;
 		this.dateNaissance = dateNaissance;
+		this.isActive = isActive;
+		this.profile = profile;
+		this.phoneNumber = phoneNumber;
 	}
-
+	
 	public Integer getId() {
 		return id;
 	}
@@ -69,4 +77,29 @@ public class User {
 	public void setDateNaissance(Date dateNaissance) {
 		this.dateNaissance = dateNaissance;
 	}
+
+	public String isActive() {
+		return isActive;
+	}
+
+	public void setActive(String isActive) {
+		this.isActive = isActive;
+	}
+
+	public String getProfile() {
+		return profile;
+	}
+
+	public void setProfile(String profile) {
+		this.profile = profile;
+	}
+
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+
 }

@@ -20,18 +20,29 @@ public class UserMetier {
 			// Ajouter une vérification de l'email
 			// si un utilisateur existe déjà avec l'email alors ne pas insérer sinon insérer
 			
-			User userExiste = userDao.getUserByEmail(user.getEmail());
+			Integer createUser = userDao.addUser(user);
 			
-			if (userExiste != null) {
-				Integer createUser = userDao.addUser(user);
-				
-				if (createUser != null) {
-					return createUser;
-				}
-				else {
-					System.out.println("Une erreur est survenue lors de la création du compte !");
-				}
+			if (createUser != null) {
+				return createUser;
 			}
+			else {
+				System.out.println("Une erreur est survenue lors de l'inscritpion de l'utilisateur.");
+				return null;
+			}
+			
+//			User userExiste = userDao.getUserByEmail(user.getEmail());
+			
+//			if (userExiste == null) {
+//				Integer createUser = userDao.addUser(user);
+//				
+//				if (createUser != null) {
+//					return createUser;
+//				}
+//				else {
+//					System.out.println("L'adresse email est déjà utilisée !");
+//					return null;
+//				}
+//			}
 			
 		} catch (Exception e) {
 			e.printStackTrace();

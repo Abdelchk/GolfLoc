@@ -38,20 +38,23 @@
 					</h:inputText>
 					<h:message for="prenom"></h:message>
 					
-					<!-- <h:outputText value = "Date de naissance :"/>
+					<h:outputText value = "Date de naissance :"/>
 					<h:inputText id="dateNaissance" styleClass="inputText" size="20" required="true"
 						value="#{userbean.dateNaissance}" requiredMessage="La date de naissance est obligatoire !"
 						validatorMessage="La date de naissance doit être au format suivant : JJ/MM/YYYY">
 						<f:convertDateTime pattern="dd/MM/yyyy" />
 					</h:inputText>
-					<h:message for="dateNaissance"></h:message> -->
+					<h:message for="dateNaissance"></h:message>
 					
-					<h:outputText value="Date de naissance:" />
-					<p:calendar id="dateNaissance" styleClass="inputText" required="true"
-					            value="#{userbean.dateNaissance}"
-					            requiredMessage="La date de naissance est obligatoire !"
-					            pattern="dd/MM/yyyy" />
-					<h:message for="dateNaissance" />
+					
+					<h:outputText value = "N° de téléphone :"/>
+					<h:inputText id="phoneNumber" styleClass="inputText" size="20" required="true"
+						value="#{userbean.phoneNumber}" requiredMessage="Le numéro de téléphone est obligatoire !"
+						validatorMessage="Le numéro ne doit pas contenir de caractères spéciaux ou de lettres et doit faire au moins 10 caractères.">
+						<f:validateLength  maximum="20" />
+						<f:validateRegex pattern="^(0|\\+33|0033)[1-9][0-9]{8}" />
+					</h:inputText>
+					<h:message for="phoneNumber"></h:message>
 					
 					<h:outputText value = "Email :"/>
 					<h:inputText id="email" styleClass="inputText" size="20" required="true"
@@ -88,8 +91,16 @@
 				<h:commandButton id = "btnAddUser" styleClass="commandButton" value = "S'inscrire" action="#{userbean.creerUtilisateur}"/>
 			</h:panelGroup>
 			<p></p>
-			<h:messages id="messages" styleClass="messages" globalOnly="true" />
+			<h:messages id="messages" styleClass="messages" showDetail="true" globalOnly="true" />
 		</h:form>
 	</f:view>
 </body>
 </html>
+
+<!-- <h:outputText value="Date de naissance:" />
+					<p:calendar id="dateNaissance" styleClass="inputText" required="true"
+					            value="#{userbean.dateNaissance}"
+					            requiredMessage="La date de naissance est obligatoire !"
+					            pattern="dd/MM/yyyy" />
+					<h:message for="dateNaissance" /> -->
+					
