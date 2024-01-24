@@ -9,6 +9,7 @@ import javax.faces.context.FacesContext;
 
 import fr.ensitech.golfloc.entity.Category;
 import fr.ensitech.golfloc.metier.CategoryMetier;
+import fr.ensitech.golfloc.enums.Type;
 
 import javax.faces.application.FacesMessage;
 
@@ -19,7 +20,7 @@ public class CategoryBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private Integer id;
-	private String name;
+	private Type name;
 	private int discount;
 	private String isCumulative;
 	private Category category;
@@ -36,11 +37,11 @@ public class CategoryBean implements Serializable {
 		this.id = id;
 	}
 
-	public String getName() {
+	public Type getName() {
 		return name;
 	}
 
-	public void setName(String name) {
+	public void setName(Type name) {
 		this.name = name;
 	}
 
@@ -67,6 +68,15 @@ public class CategoryBean implements Serializable {
 	public void setCategory(Category category) {
 		this.category = category;
 	}
+	
+	
+	// Méthodes d'affichage des types de catégories
+	
+	public Type[] getTypes() {
+		return Type.values();
+	}
+	
+	
 	
 	// Méthodes de Gestion
 	
@@ -96,20 +106,6 @@ public class CategoryBean implements Serializable {
 		try {
 			
 			categoryMetier.removeCategory(id);
-			return "magasinier.xhtml";
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-	
-	public String updateDiscountCategory() {
-		
-		categoryMetier = new CategoryMetier();
-		
-		try {
-			
-			categoryMetier.updateDiscountCategory(id, discount);
 			return "magasinier.xhtml";
 		} catch (Exception e) {
 			e.printStackTrace();

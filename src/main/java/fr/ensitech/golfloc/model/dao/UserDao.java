@@ -272,8 +272,10 @@ public final class UserDao implements IUserDao {
 				user.setNom(rs.getString("lastname"));
 				user.setPrenom(rs.getString("firstname"));
 				user.setEmail(rs.getString("email"));
-				
 				user.setDateNaissance(Dates.convertDateSqlToDateUtil(rs.getDate("birthdate")));
+				user.setIsActive(rs.getString("is_active"));
+				user.setProfile(rs.getString("profile"));
+				user.setPhoneNumber(rs.getString("phone_number"));
 				
 				// Vérifier le mot de passe haché
 	            String hashedPasswordFromDatabase = rs.getString("password");

@@ -13,6 +13,40 @@
 	<f:view>
 		<ui:include src="/resources/templates/header.xhtml" />
 		<h2>Page d'administration des produits</h2>
+		
+		<h:form>
+			<h:panelGroup>
+				<h3>Catégorie</h3>
+				<h:panelGrid id = "panelFieldsUser" columns = "3" cellpadding = "0" cellspacing = "2">
+					<h:outputText value = "Nom :"/>
+					<h:selectOneMenu id="nom" value="#{categorybean.name}">
+    					<f:selectItems value="#{categorybean.types}" var="t" itemValue="#{t}" itemLabel="#{t}" />
+					</h:selectOneMenu>
+					<h:message for="nom"></h:message>
+					
+					<h:outputText value = "Remise (en %) :"/>
+					<h:inputText id="discount" styleClass="inputText" size="20" required="true"
+						value="#{categorybean.discount}" requiredMessage="La remise est obligatoire !"
+						validatorMessage="Ce champ ne doit pas contenir autre chose qu'un nombre allant de 0 à 99.">
+						<f:validateLength minimum="1" maximum="2" />
+						<f:convertNumber />
+					</h:inputText>
+					<h:message for="discount"></h:message>
+					
+					<h:outputText value = "Remise cumulative :"/>
+					<h:selectOneRadio id="radioButtons" styleClass="buttonRadio" required="true" value="#{categorybean.isCumulative}">
+					    <f:selectItem itemValue="Y" itemLabel="Oui"/>
+					    <f:selectItem itemValue="N" itemLabel="Non"/>
+					</h:selectOneRadio>
+				</h:panelGrid>
+			</h:panelGroup>
+			<p></p>
+			<h:panelGroup>
+				<h:commandButton id = "btnAddCategory" styleClass="commandButton" value = "Ajouter" action="#{categorybean.createCategory}"/>
+			</h:panelGroup>
+			<p></p>
+			<h:messages id="messages" styleClass="messages" showDetail="true" globalOnly="true" />
+		</h:form>
 	</f:view>
 </body>
 </html>

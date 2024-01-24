@@ -9,7 +9,6 @@ public interface ICategoryDao {
 	Integer addCategory(Category category) throws Exception;
 	void removeCategory(int id) throws Exception;
 	void updateCategory(Category category) throws Exception;
-	void updateDiscountCategory(int id, int discount) throws Exception;
 	Category getCategoryById(int id) throws Exception;
 	List<Category> getCategories() throws Exception;
 }

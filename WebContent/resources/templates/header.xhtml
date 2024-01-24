@@ -13,10 +13,10 @@
 		<div id="navbar">
 			<h:form>
 				<h:commandLink value="GolfLoc" styleClass="golfloc" action="accueil" />
-				<h:panelGroup rendered="#{userbean.connectedUser.profile == 'admin'}">
+				<h:panelGroup rendered="#{userbean.connectedUser.getProfile() == 'admin'}">
 					<h:commandLink value="Admin" styleClass="commandlink" action="admin" />
 				</h:panelGroup>
-				<h:panelGroup rendered="#{userbean.connectedUser.profile == 'magasinier'}">
+				<h:panelGroup rendered="#{userbean.connectedUser.getProfile() == 'magasinier'}">
 					<h:commandLink value="Magasinier" styleClass="commandlink" action="magasinier" />
 				</h:panelGroup>
 				<h:commandLink value="Achats" styleClass="commandlink" action="achats" />

@@ -44,18 +44,6 @@ public class CategoryMetier {
 			}
 		}
 		
-		public void updateDiscountCategory(int id, int discount) {
-			
-			try {
-				categoryDao = new CategoryDao();
-				categoryDao.updateDiscountCategory(id, discount);
-				
-			} catch (Exception e) {
-				e.printStackTrace();
-				System.out.println("Une erreur s'est produite dans CategoryMetier.updateDiscountCategory : " + e.getMessage());
-			}
-		}
-		
 		public void updateCategory(Category category) {
 			
 			try {

@@ -95,11 +95,11 @@ public class UserBean implements Serializable {
 		this.dateNaissance = dateNaissance;
 	}
 	
-	public String isActive() {
+	public String getIsActive() {
 		return isActive;
 	}
 
-	public void setActive(String isActive) {
+	public void setIsActive(String isActive) {
 		this.isActive = isActive;
 	}
 
@@ -132,7 +132,7 @@ public class UserBean implements Serializable {
 	
 	public void validatePasswordConfirmation(FacesContext context, UIComponent component, Object value) {
 		
-		String confirmPassword = (String) value;
+		pwdConfirm = (String) value;
 		
 	    // Rechercher les composants password et pwdConfirm dans le formulaire
 	    UIInput inputPassword = (UIInput) component.findComponent("password");
@@ -143,7 +143,7 @@ public class UserBean implements Serializable {
 	    
 
 	    // Vérifier l'égalité des mots de passe
-	    if (!passwordValue.equals(confirmPassword)) {
+	    if (!passwordValue.equals(pwdConfirm)) {
 	        FacesMessage msg = new FacesMessage("Les mots de passe ne correspondent pas.");
 	        msg.setSeverity(FacesMessage.SEVERITY_ERROR);
 	        context.addMessage(component.getClientId(), msg);

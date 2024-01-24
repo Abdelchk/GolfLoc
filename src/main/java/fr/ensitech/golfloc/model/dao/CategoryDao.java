@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 import fr.ensitech.golfloc.entity.Category;
 import fr.ensitech.golfloc.model.connection.UserDataSource;
+import fr.ensitech.golfloc.enums.Type;
 
 public class CategoryDao implements ICategoryDao {
 	
@@ -22,9 +23,8 @@ public class CategoryDao implements ICategoryDao {
 		if (category == null) {
 			throw new NullPointerException("Le user à créer ne doit pas être NULL !");
 		}
-		if (category.getName() == null || category.getName().trim().isEmpty()
-			|| category.getDiscount() < 0 || Integer.toString(category.getDiscount()).trim().isEmpty()
-			|| category.getIsCumulative() == null || category.getIsCumulative().trim().isEmpty()) 
+		if (category.getName() == null || category.getDiscount() < 0 || category.getIsCumulative() == null
+			|| category.getIsCumulative().trim().isEmpty()) 
 		{
 			throw new IllegalArgumentException("Tous les paramètres sont obligatoires !");
 		}
@@ -35,7 +35,7 @@ public class CategoryDao implements ICategoryDao {
 			connection = UserDataSource.getConnection();
 			String requete = "INSERT INTO category(name, discount, is_cumulative)" + " VALUES(?,?,?)";
 			PreparedStatement ps = connection.prepareStatement(requete, Statement.RETURN_GENERATED_KEYS);
-			ps.setString(1, category.getName());
+			ps.setString(1, category.getName().name());
 			ps.setInt(2, category.getDiscount());
 			ps.setString(3, category.getIsCumulative());
 			
@@ -79,9 +79,8 @@ public class CategoryDao implements ICategoryDao {
 		if (category == null) {
 			throw new NullPointerException("La catégorie à modifier ne doit pas être NULL !");
 		}
-		if (category.getName() == null || category.getName().trim().isEmpty()
-			|| category.getDiscount() < 0 || Integer.toString(category.getDiscount()).trim().isEmpty()
-			|| category.getIsCumulative() == null || category.getIsCumulative().trim().isEmpty()) 
+		if (category.getName() == null || category.getDiscount() < 0 || category.getIsCumulative() == null
+			|| category.getIsCumulative().trim().isEmpty()) 
 		{
 			throw new IllegalArgumentException("Tous les paramètres sont obligatoires !");
 		}
@@ -90,30 +89,10 @@ public class CategoryDao implements ICategoryDao {
 			connection = UserDataSource.getConnection();
 			String requete = "Update category Set name = ?, discount = ? , is_cumulative = ? Where id = ?";
 			PreparedStatement ps = connection.prepareStatement(requete);
-			ps.setString(1, category.getName());
+			ps.setString(1, category.getName().name());
 			ps.setInt(2, category.getDiscount());
 			ps.setString(3, category.getIsCumulative());
 			ps.setInt(4, category.getId());
-			ps.executeUpdate();
-		} finally {
-			if (connection != null && !connection.isClosed()) {
-				connection.close();
-			}
-		}
-	}
-
-	@Override
-	public void updateDiscountCategory(int id, int discount) throws Exception {
-		if (id < 0 || discount < 0 || Integer.toString(discount).trim().isEmpty()) {
-			throw new IllegalArgumentException("Le nom de la catégorie et la remise est obligatoire !");
-		}
-		Connection connection = null;
-		try {
-			connection = UserDataSource.getConnection();
-			String requete = "Update category Set discount = ? Where id = ?";
-			PreparedStatement ps = connection.prepareStatement(requete);
-			ps.setInt(1, discount);
-			ps.setInt(2, id);
 			ps.executeUpdate();
 		} finally {
 			if (connection != null && !connection.isClosed()) {
@@ -137,7 +116,11 @@ public class CategoryDao implements ICategoryDao {
 			rs = ps.executeQuery();
 			if (rs != null && rs.next()) {
 				Category category = new Category();
-				category.setName(rs.getString("name"));
+				
+				String typeNameFromDB = rs.getString("name"); // Récupération depuis la base de données
+				Type type = Type.valueOf(typeNameFromDB);
+				
+				category.setName(type);
 				category.setDiscount(rs.getInt("discount"));
 				category.setIsCumulative(rs.getString("is_cumulative"));
 				return category;
@@ -166,7 +149,11 @@ public class CategoryDao implements ICategoryDao {
 				List<Category> categories = new ArrayList<Category>();
 				while (rs.next()) {
 					Category category = new Category();
-					category.setName(rs.getString("name"));
+					
+					String typeNameFromDB = rs.getString("name"); // Récupération depuis la base de données
+					Type type = Type.valueOf(typeNameFromDB);
+					
+					category.setName(type);
 					category.setDiscount(rs.getInt("discount"));
 					category.setIsCumulative(rs.getString("is_cumulative"));
 					categories.add(category);

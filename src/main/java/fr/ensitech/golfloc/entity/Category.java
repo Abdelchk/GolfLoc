@@ -1,15 +1,17 @@
 package fr.ensitech.golfloc.entity;
 
+import fr.ensitech.golfloc.enums.Type;
+
 public class Category {
 	private Integer id;
-	private String name;
+	private Type name;
 	private int discount;
 	private String isCumulative;
 	
 	public Category() {
 	}
 
-	public Category(Integer id, String name, int discount, String isCumulative) {
+	public Category(Integer id, Type name, int discount, String isCumulative) {
 		this.id = id;
 		this.name = name;
 		this.discount = discount;
@@ -24,11 +26,11 @@ public class Category {
 		this.id = id;
 	}
 
-	public String getName() {
+	public Type getName() {
 		return name;
 	}
 
-	public void setName(String name) {
+	public void setName(Type name) {
 		this.name = name;
 	}
 
