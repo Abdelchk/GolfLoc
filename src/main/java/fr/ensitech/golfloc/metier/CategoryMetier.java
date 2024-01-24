@@ -32,11 +32,11 @@ public class CategoryMetier {
 			
 		}
 		
-		public void removeCategory(String name) {
+		public void removeCategory(int id) {
 			
 			try {
 				categoryDao = new CategoryDao();
-				categoryDao.removeCategory(name);
+				categoryDao.removeCategory(id);
 				
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -44,11 +44,11 @@ public class CategoryMetier {
 			}
 		}
 		
-		public void updateDiscountCategory(String name, int discount) {
+		public void updateDiscountCategory(int id, int discount) {
 			
 			try {
 				categoryDao = new CategoryDao();
-				categoryDao.updateDiscountCategory(name, discount);
+				categoryDao.updateDiscountCategory(id, discount);
 				
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -69,11 +69,11 @@ public class CategoryMetier {
 			}
 		}
 		
-		public Category getCategoryByName(String name) {
+		public Category getCategoryById(int id) {
 			
 			try {
 				categoryDao = new CategoryDao();
-				return categoryDao.getCategoryByName(name);
+				return categoryDao.getCategoryById(id);
 				
 			} catch (Exception e) {
 				e.printStackTrace();

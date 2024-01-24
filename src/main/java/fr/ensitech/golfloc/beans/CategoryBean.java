@@ -95,7 +95,7 @@ public class CategoryBean implements Serializable {
 		
 		try {
 			
-			categoryMetier.removeCategory(name);
+			categoryMetier.removeCategory(id);
 			return "magasinier.xhtml";
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -109,7 +109,7 @@ public class CategoryBean implements Serializable {
 		
 		try {
 			
-			categoryMetier.updateDiscountCategory(name, discount);
+			categoryMetier.updateDiscountCategory(id, discount);
 			return "magasinier.xhtml";
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -134,13 +134,13 @@ public class CategoryBean implements Serializable {
 		}
 	}
 	
-	public String getCategoryByName() {
+	public String getCategoryById() {
 		
 		categoryMetier = new CategoryMetier();
 		
 		try {
 			
-			categoryMetier.getCategoryByName(name);
+			categoryMetier.getCategoryById(id);
 			
 			return "magasinier.xhtml";
 		} catch (Exception e) {

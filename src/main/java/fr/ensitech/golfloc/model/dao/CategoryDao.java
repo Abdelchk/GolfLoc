@@ -23,7 +23,7 @@ public class CategoryDao implements ICategoryDao {
 			throw new NullPointerException("Le user à créer ne doit pas être NULL !");
 		}
 		if (category.getName() == null || category.getName().trim().isEmpty()
-			|| Integer.toString(category.getDiscount()).trim().isEmpty()
+			|| category.getDiscount() < 0 || Integer.toString(category.getDiscount()).trim().isEmpty()
 			|| category.getIsCumulative() == null || category.getIsCumulative().trim().isEmpty()) 
 		{
 			throw new IllegalArgumentException("Tous les paramètres sont obligatoires !");
@@ -56,16 +56,16 @@ public class CategoryDao implements ICategoryDao {
 	}
 
 	@Override
-	public void removeCategory(String name) throws Exception {
-		if (name == null || name.trim().isEmpty()) {
-			throw new IllegalArgumentException("Le nom de la catégorie est obligatoire !");
+	public void removeCategory(int id) throws Exception {
+		if (id < 0) {
+			throw new IllegalArgumentException("L'id de la catégorie doit être positif !");
 		}
 		Connection connection = null;
 		try {
 			connection = UserDataSource.getConnection();
-			String requete = "Delete from category Where name = ?";
+			String requete = "Delete from category Where id = ?";
 			PreparedStatement ps = connection.prepareStatement(requete);
-			ps.setString(1, name);
+			ps.setInt(1, id);
 			ps.executeUpdate();
 		} finally {
 			if (connection != null && !connection.isClosed()) {
@@ -80,7 +80,7 @@ public class CategoryDao implements ICategoryDao {
 			throw new NullPointerException("La catégorie à modifier ne doit pas être NULL !");
 		}
 		if (category.getName() == null || category.getName().trim().isEmpty()
-			|| Integer.toString(category.getDiscount()).trim().isEmpty()
+			|| category.getDiscount() < 0 || Integer.toString(category.getDiscount()).trim().isEmpty()
 			|| category.getIsCumulative() == null || category.getIsCumulative().trim().isEmpty()) 
 		{
 			throw new IllegalArgumentException("Tous les paramètres sont obligatoires !");
@@ -88,12 +88,12 @@ public class CategoryDao implements ICategoryDao {
 		Connection connection = null;
 		try {
 			connection = UserDataSource.getConnection();
-			String requete = "Update category Set name = '?', discount = ? , is_cumulative = '?' Where name = '?'";
+			String requete = "Update category Set name = ?, discount = ? , is_cumulative = ? Where id = ?";
 			PreparedStatement ps = connection.prepareStatement(requete);
 			ps.setString(1, category.getName());
 			ps.setInt(2, category.getDiscount());
 			ps.setString(3, category.getIsCumulative());
-			ps.setString(4, category.getName());
+			ps.setInt(4, category.getId());
 			ps.executeUpdate();
 		} finally {
 			if (connection != null && !connection.isClosed()) {
@@ -103,17 +103,17 @@ public class CategoryDao implements ICategoryDao {
 	}
 
 	@Override
-	public void updateDiscountCategory(String name, int discount) throws Exception {
-		if (name == null || name.trim().isEmpty() || Integer.toString(discount).trim().isEmpty()) {
+	public void updateDiscountCategory(int id, int discount) throws Exception {
+		if (id < 0 || discount < 0 || Integer.toString(discount).trim().isEmpty()) {
 			throw new IllegalArgumentException("Le nom de la catégorie et la remise est obligatoire !");
 		}
 		Connection connection = null;
 		try {
 			connection = UserDataSource.getConnection();
-			String requete = "Update category Set discount = ? Where name = ?";
+			String requete = "Update category Set discount = ? Where id = ?";
 			PreparedStatement ps = connection.prepareStatement(requete);
 			ps.setInt(1, discount);
-			ps.setString(2, name);
+			ps.setInt(2, id);
 			ps.executeUpdate();
 		} finally {
 			if (connection != null && !connection.isClosed()) {
@@ -123,9 +123,9 @@ public class CategoryDao implements ICategoryDao {
 	}
 
 	@Override
-	public Category getCategoryByName(String name) throws Exception {
-		if (name == null || name.trim().isEmpty()) {
-			throw new IllegalArgumentException("Le nom de la catégorie est obligatoire !");
+	public Category getCategoryById(int id) throws Exception {
+		if (id < 0) {
+			throw new IllegalArgumentException("L'id de la catégorie doit être positif !");
 		}
 		Connection connection = null;
 		ResultSet rs = null;
@@ -133,7 +133,7 @@ public class CategoryDao implements ICategoryDao {
 			connection = UserDataSource.getConnection();
 			String requete = "Select * from category Where name = ?";
 			PreparedStatement ps = connection.prepareStatement(requete);
-			ps.setString(1, name);
+			ps.setInt(1, id);
 			rs = ps.executeQuery();
 			if (rs != null && rs.next()) {
 				Category category = new Category();
