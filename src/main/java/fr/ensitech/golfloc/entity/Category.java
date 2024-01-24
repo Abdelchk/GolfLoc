@@ -40,11 +40,11 @@ public class Category {
 		this.discount = discount;
 	}
 
-	public String isCumulative() {
+	public String getIsCumulative() {
 		return isCumulative;
 	}
 
-	public void setCumulative(String isCumulative) {
+	public void setIsCumulative(String isCumulative) {
 		this.isCumulative = isCumulative;
 	}
 	
