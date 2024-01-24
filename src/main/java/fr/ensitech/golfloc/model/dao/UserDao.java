@@ -30,7 +30,8 @@ public final class UserDao implements IUserDao {
 				|| user.getPrenom().trim().isEmpty() || user.getEmail() == null 
 				|| user.getEmail().trim().isEmpty() || user.getPassword() == null 
 				|| user.getPassword().trim().isEmpty() || user.getDateNaissance() == null
-				|| Dates.convertDateToString(user.getDateNaissance()).trim().isEmpty()) 
+				|| Dates.convertDateToString(user.getDateNaissance()).trim().isEmpty()
+				|| user.getPhoneNumber() == null || user.getPhoneNumber().trim().isEmpty()) 
 		{
 			throw new IllegalArgumentException("Tous les paramètres sont obligatoires !");
 		}
@@ -38,13 +39,14 @@ public final class UserDao implements IUserDao {
 		ResultSet rs = null;
 		try {
 			connection = UserDataSource.getConnection();
-			String requete = "INSERT INTO user(lastname, firstname, email, password, birthdate)" + " VALUES(?,?,?,?,?)";
+			String requete = "INSERT INTO user(lastname, firstname, email, password, birthdate, phone_number)" + " VALUES(?,?,?,?,?,?)";
 			PreparedStatement ps = connection.prepareStatement(requete, Statement.RETURN_GENERATED_KEYS);
 			ps.setString(1, user.getNom());
 			ps.setString(2, user.getPrenom());
 			ps.setString(3, user.getEmail());
 			ps.setString(4, BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()) );
 			ps.setDate(5, Dates.convertDateUtilToDateSql(user.getDateNaissance()));
+			ps.setString(6, user.getPhoneNumber());
 
 			ps.executeUpdate();
 			rs = ps.getGeneratedKeys();
@@ -204,7 +206,7 @@ public final class UserDao implements IUserDao {
 				user.setEmail(rs.getString("email"));
 				user.setPassword(rs.getString("password"));
 				user.setDateNaissance(Dates.convertDateSqlToDateUtil(rs.getDate("birthdate")));
-				
+				user.setPhoneNumber(rs.getString("phone_number"));
 				System.out.println("Utilisateur trouvé : " + user.getEmail());
 	            return user;  // Retourner l'objet User trouvé
 			}else {
