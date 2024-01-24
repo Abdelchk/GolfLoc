@@ -51,7 +51,7 @@
 					<h:inputText id="phoneNumber" styleClass="inputText" size="20" required="true"
 						value="#{userbean.phoneNumber}" requiredMessage="Le numéro de téléphone est obligatoire !"
 						validatorMessage="Le numéro ne doit pas contenir de caractères spéciaux ou de lettres et doit faire au moins 10 caractères.">
-						<f:validateLength minimum="2" maximum="20" />
+						<f:validateLength  maximum="20" />
 						<f:validateRegex pattern="^(0|\\+33|0033)[1-9][0-9]{8}" />
 					</h:inputText>
 					<h:message for="phoneNumber"></h:message>

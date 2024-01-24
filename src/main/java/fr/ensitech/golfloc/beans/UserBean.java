@@ -169,6 +169,7 @@ public class UserBean implements Serializable {
 			user.setDateNaissance(dateNaissance);
 			user.setEmail(email);
 			user.setPassword(password);
+			user.setPhoneNumber(phoneNumber);
 			
 			userMetier.creerUtilisateur(user);
 			connectedUser = user;
