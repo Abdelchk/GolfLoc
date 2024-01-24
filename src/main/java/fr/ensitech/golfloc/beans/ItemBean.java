@@ -3,9 +3,9 @@ package fr.ensitech.golfloc.beans;
 import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
-import javax.faces.application.FacesMessage;
+
+import fr.ensitech.golfloc.entity.Item;
+import fr.ensitech.golfloc.metier.ItemMetier;
 
 @ManagedBean(name = "itembean")
 @SessionScoped
@@ -25,6 +25,8 @@ public class ItemBean implements Serializable {
 	private int stock;
 	private Integer categoryId;
 	private String isSellable;
+	private Item item;
+	private ItemMetier itemMetier;
 	
 	public ItemBean() {
 	}
@@ -124,30 +126,70 @@ public class ItemBean implements Serializable {
 	public void setIsSellable(String isSellable) {
 		this.isSellable = isSellable;
 	}
+	
+	public Item getItem() {
+		return item;
+	}
 
+	public void setItem(Item item) {
+		this.item = item;
+	}
+	
 	// Méthodes de Gestion 
-	
-	public String CreateItem() {
-		return null;
-	}
-	
-	public String removeItem(String isSellable) {
-		return null;
-	}
-	
-	public String updateDiscountItem() {
-		return null;
+
+	public String createItem() {
+		itemMetier = new ItemMetier();
+		try {
+			item = new Item();
+			item.setName(name);
+			item.setBrand(brand);
+			item.setGender(gender);
+			item.setMainHand(mainHand);
+			item.setFlexibility(flexibility);
+			item.setDescription(description);
+			item.setPrice(price);
+			item.setDiscount(discount);
+			item.setCategoryId(categoryId);
+			item.setIsSellable(true);
+			itemMetier.createItem(item);
+			return "magasinier.xhtml";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 	
 	public String updateItem() {
-		return null;
+		itemMetier = new ItemMetier();
+		try {
+			item = new Item();
+			itemMetier.updateItem(item);
+			return "magasinier.xhtml";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 	
 	public String getItemByName() {
-		return null;
+		itemMetier = new ItemMetier();
+		try {
+			itemMetier.getItemByName(name);
+			return "magasinier.xhtml";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 	
 	public String getItems() {
-		return null;
+		itemMetier = new ItemMetier();
+		try {
+			itemMetier.getItems();
+			return "magasinier.xhtml";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 }

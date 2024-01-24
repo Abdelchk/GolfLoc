@@ -176,7 +176,7 @@ public final class UserDao implements IUserDao {
 		} finally {
 			if (connection != null && !connection.isClosed()) {
 				connection.close();
-			}
+			}  
 			if (rs != null && !rs.isClosed()) {
 				rs.close();
 			}

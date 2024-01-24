@@ -121,11 +121,11 @@ public class Item {
 		this.categoryId = categoryId;
 	}
 
-	public boolean isSellable() {
+	public boolean getIsSellable() {
 		return isSellable;
 	}
 
-	public void setSellable(boolean isSellable) {
+	public void setIsSellable(boolean isSellable) {
 		this.isSellable = isSellable;
 	}
 	
