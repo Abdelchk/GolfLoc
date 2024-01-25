@@ -20,7 +20,7 @@
 				<h:panelGrid id = "panelFieldsUser" columns = "3" cellpadding = "0" cellspacing = "2">
 					<h:outputText value = "Nom :"/>
 					<h:selectOneMenu id="nom" value="#{categorybean.name}">
-    					<f:selectItems value="#{categorybean.types}" />
+    					<f:selectItems value="#{categorybean.types}" var="t" itemValue="#{t}" itemLabel="#{t}" />
 					</h:selectOneMenu>
 					<h:message for="nom"></h:message>
 					
