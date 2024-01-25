@@ -29,7 +29,8 @@ public class ItemDao implements IItemDao {
 				Float.toString(item.getPrice()) == null || Float.toString(item.getPrice()).trim().isEmpty() ||
 				Integer.toString(item.getDiscount()) == null || Integer.toString(item.getDiscount()).trim().isEmpty() ||
 				Integer.toString(item.getStock()) == null || Integer.toString(item.getStock()).trim().isEmpty() ||
-				Integer.toString(item.getCategoryId()) == null || Integer.toString(item.getCategoryId()).trim().isEmpty())
+				Integer.toString(item.getCategoryId()) == null || Integer.toString(item.getCategoryId()).trim().isEmpty() ||
+				item.getIsSellable() == null || item.getIsSellable().trim().isEmpty())
 		{
 			throw new IllegalArgumentException("Tous les paramètres sont obligatoires !");
 		}
@@ -49,6 +50,7 @@ public class ItemDao implements IItemDao {
 			ps.setInt(8, item.getDiscount());
 			ps.setInt(9, item.getStock());
 			ps.setInt(10, item.getCategoryId());
+			ps.setString(11, item.getIsSellable());
 			ps.executeUpdate();
 			rs = ps.getGeneratedKeys();
 			if (rs != null && rs.next()) {
@@ -79,14 +81,15 @@ public class ItemDao implements IItemDao {
 				Float.toString(item.getPrice()) == null || Float.toString(item.getPrice()).trim().isEmpty() ||
 				Integer.toString(item.getDiscount()) == null || Integer.toString(item.getDiscount()).trim().isEmpty() ||
 				Integer.toString(item.getStock()) == null || Integer.toString(item.getStock()).trim().isEmpty() ||
-				Integer.toString(item.getCategoryId()) == null || Integer.toString(item.getCategoryId()).trim().isEmpty())
+				Integer.toString(item.getCategoryId()) == null || Integer.toString(item.getCategoryId()).trim().isEmpty() ||
+				item.getIsSellable() == null || item.getIsSellable().trim().isEmpty())
 		{
 			throw new IllegalArgumentException("Tous les paramètres sont obligatoires !");
 		}
 		Connection connection = null;
 		try {
 			connection = UserDataSource.getConnection();
-			String requete = "Update item Set name = '?', brand = '?', gender = '?', main_hand = '?', flexibility = '?', description = '?', price = ?, discount = ?, stock = ?, is_sellable = ? Where id = ?";
+			String requete = "Update item Set name = '?', brand = '?', gender = '?', main_hand = '?', flexibility = '?', description = '?', price = ?, discount = ?, stock = ?, category_id = ?, is_sellable = ? Where id = ?";
 			PreparedStatement ps = connection.prepareStatement(requete);
 			ps.setString(1, item.getName());
 			ps.setString(2, item.getBrand());
@@ -98,7 +101,7 @@ public class ItemDao implements IItemDao {
 			ps.setInt(8, item.getDiscount());
 			ps.setInt(9, item.getStock());
 			ps.setInt(10, item.getCategoryId());
-			ps.setBoolean(11, item.getIsSellable());
+			ps.setString(11, item.getIsSellable());
 			ps.setInt(12, item.getId());
 			ps.executeUpdate();
 		} finally {
@@ -135,7 +138,7 @@ public class ItemDao implements IItemDao {
 				item.setDiscount(rs.getInt("discount"));
 				item.setStock(rs.getInt("stock"));
 				item.setCategoryId(rs.getInt("category_id"));
-				item.setIsSellable(rs.getBoolean("is_sellable"));
+				item.setIsSellable(rs.getString("is_sellable"));
 				return item;
 			} else {
 				System.out.println("Aucun article trouvé pour ce nom : " + name);
@@ -176,7 +179,7 @@ public class ItemDao implements IItemDao {
 					item.setDiscount(rs.getInt("discount"));
 					item.setStock(rs.getInt("stock"));
 					item.setCategoryId(rs.getInt("category_id"));
-					item.setIsSellable(rs.getBoolean("is_sellable"));
+					item.setIsSellable(rs.getString("is_sellable"));;
 					items.add(item);
 				}
 				return items;

@@ -47,6 +47,52 @@
 			<p></p>
 			<h:messages id="messages" styleClass="messages" showDetail="true" globalOnly="true" />
 		</h:form>
+		
+		<p></p>
+		
+		<h:form>
+			<h:panelGroup>
+				<h3>Gestionnaire d'articles</h3>
+				
+				<h:panelGrid id = "panelFieldArticle" columns = "3" cellpadding = "0" cellspacing = "2">
+					<h:outputText value = "Nom :"/>
+					<h:inputText id="name" styleClass="inputText" size="50" required="true"
+						value="#{itembean.name}" requiredMessage="Le nom du club est obligatoire !"
+						validatorMessage="Ce champ doit contenir au moins 10 charactères.">
+						<f:validateLength minimum="10" />
+						<f:convertNumber />
+					</h:inputText>
+					<h:message for="nom"></h:message>
+					
+					<h:outputText value = "Marque :"/>
+					<h:inputText id="name" styleClass="inputText" size="50" required="true"
+						value="#{itembean.name}" requiredMessage="Le nom du club est obligatoire !"
+						validatorMessage="Ce champ doit contenir au moins 10 charactères.">
+						<f:validateLength minimum="10" />
+						<f:convertNumber />
+					</h:inputText>
+					<h:message for="nom"></h:message>
+					
+					<h:outputText value = " :"/>
+					<h:inputText id="name" styleClass="inputText" size="50" required="true"
+						value="#{itembean.name}" requiredMessage="Le nom du club est obligatoire !"
+						validatorMessage="Ce champ doit contenir au moins 10 charactères.">
+						<f:validateLength minimum="10" />
+						<f:convertNumber />
+					</h:inputText>
+					<h:message for="nom"></h:message>
+					
+					<h:outputText value = "Nom :"/>
+					<h:inputText id="name" styleClass="inputText" size="50" required="true"
+						value="#{itembean.name}" requiredMessage="Le nom du club est obligatoire !"
+						validatorMessage="Ce champ doit contenir au moins 10 charactères.">
+						<f:validateLength minimum="10" />
+						<f:convertNumber />
+					</h:inputText>
+					<h:message for="nom"></h:message>
+				</h:panelGrid>
+			</h:panelGroup>
+		</h:form>
 	</f:view>
 </body>
 </html>

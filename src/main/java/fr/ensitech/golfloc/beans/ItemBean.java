@@ -150,7 +150,7 @@ public class ItemBean implements Serializable {
 			item.setPrice(price);
 			item.setDiscount(discount);
 			item.setCategoryId(categoryId);
-			item.setIsSellable(true);
+			item.setIsSellable(isSellable);
 			itemMetier.createItem(item);
 			return "magasinier.xhtml";
 		} catch (Exception e) {

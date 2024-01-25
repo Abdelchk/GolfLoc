@@ -12,13 +12,13 @@ public class Item {
 	private int discount;
 	private int stock;
 	private Integer categoryId;
-	private boolean isSellable;
+	private String isSellable;
 	
 	public Item() {
 	}
 
 	public Item(Integer id, String name, String brand, String gender, String mainHand, String flexibility,
-			String description, Float price, int discount, int stock, Integer categoryId, boolean isSellable) {
+			String description, Float price, int discount, int stock, Integer categoryId, String isSellable) {
 		this.id = id;
 		this.name = name;
 		this.brand = brand;
@@ -121,11 +121,11 @@ public class Item {
 		this.categoryId = categoryId;
 	}
 
-	public boolean getIsSellable() {
+	public String getIsSellable() {
 		return isSellable;
 	}
 
-	public void setIsSellable(boolean isSellable) {
+	public void setIsSellable(String isSellable) {
 		this.isSellable = isSellable;
 	}
 	
