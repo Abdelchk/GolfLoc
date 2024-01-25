@@ -5,6 +5,9 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
 import fr.ensitech.golfloc.entity.Item;
+import fr.ensitech.golfloc.enums.Flexibility;
+import fr.ensitech.golfloc.enums.Gender;
+import fr.ensitech.golfloc.enums.MainHand;
 import fr.ensitech.golfloc.metier.ItemMetier;
 
 @ManagedBean(name = "itembean")
@@ -16,9 +19,9 @@ public class ItemBean implements Serializable {
 	private Integer id;
 	private String name;
 	private String brand;
-	private String gender;
-	private String mainHand;
-	private String flexibility;
+	private Gender gender;
+	private MainHand mainHand;
+	private Flexibility flexibility;
 	private String description;
 	private Float price;
 	private int discount;
@@ -55,27 +58,27 @@ public class ItemBean implements Serializable {
 		this.brand = brand;
 	}
 
-	public String getGender() {
+	public Gender getGender() {
 		return gender;
 	}
 
-	public void setGender(String gender) {
+	public void setGender(Gender gender) {
 		this.gender = gender;
 	}
 
-	public String getMainHand() {
+	public MainHand getMainHand() {
 		return mainHand;
 	}
 
-	public void setMainHand(String mainHand) {
+	public void setMainHand(MainHand mainHand) {
 		this.mainHand = mainHand;
 	}
 
-	public String getFlexibility() {
+	public Flexibility getFlexibility() {
 		return flexibility;
 	}
 
-	public void setFlexibility(String flexibility) {
+	public void setFlexibility(Flexibility flexibility) {
 		this.flexibility = flexibility;
 	}
 
@@ -133,6 +136,20 @@ public class ItemBean implements Serializable {
 
 	public void setItem(Item item) {
 		this.item = item;
+	}
+	
+	// Méthode pour récupérer les enums
+	
+	public Gender[] getGenders() {
+		return Gender.values();
+	}
+	
+	public MainHand[] getMainHands() {
+		return MainHand.values();
+	}
+	
+	public Flexibility[] getFlexibilities() {
+		return Flexibility.values();
 	}
 	
 	// Méthodes de Gestion 

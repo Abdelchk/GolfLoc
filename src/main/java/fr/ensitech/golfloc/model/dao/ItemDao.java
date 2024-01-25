@@ -8,6 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.ensitech.golfloc.entity.Item;
+import fr.ensitech.golfloc.enums.Flexibility;
+import fr.ensitech.golfloc.enums.Gender;
+import fr.ensitech.golfloc.enums.MainHand;
 import fr.ensitech.golfloc.model.connection.UserDataSource;
 
 public class ItemDao implements IItemDao {
@@ -22,9 +25,9 @@ public class ItemDao implements IItemDao {
 		}
 		if (item.getName() == null || item.getName().trim().isEmpty() ||
 				item.getBrand() == null || item.getBrand().trim().isEmpty() ||
-				item.getGender() == null || item.getGender().trim().isEmpty() ||
-				item.getMainHand() == null || item.getMainHand().trim().isEmpty() ||
-				item.getFlexibility() == null || item.getFlexibility().trim().isEmpty() ||
+				item.getGender() == null || item.getGender().name().trim().isEmpty() ||
+				item.getMainHand() == null || item.getMainHand().name().trim().isEmpty() ||
+				item.getFlexibility() == null || item.getFlexibility().name().trim().isEmpty() ||
 				item.getDescription() == null || item.getDescription().trim().isEmpty() ||
 				Float.toString(item.getPrice()) == null || Float.toString(item.getPrice()).trim().isEmpty() ||
 				Integer.toString(item.getDiscount()) == null || Integer.toString(item.getDiscount()).trim().isEmpty() ||
@@ -42,9 +45,9 @@ public class ItemDao implements IItemDao {
 			PreparedStatement ps = connection.prepareStatement(requete, Statement.RETURN_GENERATED_KEYS);
 			ps.setString(1, item.getName());
 			ps.setString(2, item.getBrand());
-			ps.setString(3, item.getGender());
-			ps.setString(4, item.getMainHand());
-			ps.setString(5, item.getFlexibility());
+			ps.setString(3, item.getGender().name());
+			ps.setString(4, item.getMainHand().name());
+			ps.setString(5, item.getFlexibility().name());
 			ps.setString(6, item.getDescription());
 			ps.setFloat(7, item.getPrice());
 			ps.setInt(8, item.getDiscount());
@@ -74,9 +77,9 @@ public class ItemDao implements IItemDao {
 		}
 		if (item.getName() == null || item.getName().trim().isEmpty() ||
 				item.getBrand() == null || item.getBrand().trim().isEmpty() ||
-				item.getGender() == null || item.getGender().trim().isEmpty() ||
-				item.getMainHand() == null || item.getMainHand().trim().isEmpty() ||
-				item.getFlexibility() == null || item.getFlexibility().trim().isEmpty() ||
+				item.getGender() == null || item.getGender().name().trim().isEmpty() ||
+				item.getMainHand() == null || item.getMainHand().name().trim().isEmpty() ||
+				item.getFlexibility() == null || item.getFlexibility().name().trim().isEmpty() ||
 				item.getDescription() == null || item.getDescription().trim().isEmpty() ||
 				Float.toString(item.getPrice()) == null || Float.toString(item.getPrice()).trim().isEmpty() ||
 				Integer.toString(item.getDiscount()) == null || Integer.toString(item.getDiscount()).trim().isEmpty() ||
@@ -93,9 +96,9 @@ public class ItemDao implements IItemDao {
 			PreparedStatement ps = connection.prepareStatement(requete);
 			ps.setString(1, item.getName());
 			ps.setString(2, item.getBrand());
-			ps.setString(3, item.getGender());
-			ps.setString(4, item.getMainHand());
-			ps.setString(5, item.getFlexibility());
+			ps.setString(3, item.getGender().name());
+			ps.setString(4, item.getMainHand().name());
+			ps.setString(5, item.getFlexibility().name());
 			ps.setString(6, item.getDescription());
 			ps.setFloat(7, item.getPrice());
 			ps.setInt(8, item.getDiscount());
@@ -130,9 +133,19 @@ public class ItemDao implements IItemDao {
 				item.setId(rs.getInt("id"));
 				item.setName(rs.getString("name"));
 				item.setBrand(rs.getString("brand"));
-				item.setGender(rs.getString("gender"));
-				item.setMainHand(rs.getString("main_hand"));
-				item.setFlexibility(rs.getString("flexibility"));
+				
+				String enumGender = rs.getString("gender");
+				Gender gender = Gender.valueOf(enumGender);
+				item.setGender(gender);
+				
+				String enumMainHand = rs.getString("main_hand");
+				MainHand mainHand = MainHand.valueOf(enumMainHand);
+				item.setMainHand(mainHand);
+				
+				String enumFlexibility = rs.getString("flexibility");
+				Flexibility flexibility = Flexibility.valueOf(enumFlexibility);
+				item.setFlexibility(flexibility);
+				
 				item.setDescription(rs.getString("description"));
 				item.setPrice(rs.getFloat("price"));
 				item.setDiscount(rs.getInt("discount"));
@@ -171,9 +184,19 @@ public class ItemDao implements IItemDao {
 					item.setId(rs.getInt("id"));
 					item.setName(rs.getString("name"));
 					item.setBrand(rs.getString("brand"));
-					item.setGender(rs.getString("gender"));
-					item.setMainHand(rs.getString("main_hand"));
-					item.setFlexibility(rs.getString("flexibility"));
+					
+					String enumGender = rs.getString("gender");
+					Gender gender = Gender.valueOf(enumGender);
+					item.setGender(gender);
+					
+					String enumMainHand = rs.getString("main_hand");
+					MainHand mainHand = MainHand.valueOf(enumMainHand);
+					item.setMainHand(mainHand);
+					
+					String enumFlexibility = rs.getString("flexibility");
+					Flexibility flexibility = Flexibility.valueOf(enumFlexibility);
+					item.setFlexibility(flexibility);
+					
 					item.setDescription(rs.getString("description"));
 					item.setPrice(rs.getFloat("price"));
 					item.setDiscount(rs.getInt("discount"));

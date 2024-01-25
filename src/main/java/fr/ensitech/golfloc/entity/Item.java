@@ -1,12 +1,16 @@
 package fr.ensitech.golfloc.entity;
 
+import fr.ensitech.golfloc.enums.Flexibility;
+import fr.ensitech.golfloc.enums.Gender;
+import fr.ensitech.golfloc.enums.MainHand;
+
 public class Item {
 	private Integer id;
 	private String name;
 	private String brand;
-	private String gender;
-	private String mainHand;
-	private String flexibility;
+	private Gender gender;
+	private MainHand mainHand;
+	private Flexibility flexibility;
 	private String description;
 	private Float price;
 	private int discount;
@@ -17,7 +21,7 @@ public class Item {
 	public Item() {
 	}
 
-	public Item(Integer id, String name, String brand, String gender, String mainHand, String flexibility,
+	public Item(Integer id, String name, String brand, Gender gender, MainHand mainHand, Flexibility flexibility,
 			String description, Float price, int discount, int stock, Integer categoryId, String isSellable) {
 		this.id = id;
 		this.name = name;
@@ -57,27 +61,27 @@ public class Item {
 		this.brand = brand;
 	}
 
-	public String getGender() {
+	public Gender getGender() {
 		return gender;
 	}
 
-	public void setGender(String gender) {
+	public void setGender(Gender gender) {
 		this.gender = gender;
 	}
 
-	public String getMainHand() {
+	public MainHand getMainHand() {
 		return mainHand;
 	}
 
-	public void setMainHand(String mainHand) {
+	public void setMainHand(MainHand mainHand) {
 		this.mainHand = mainHand;
 	}
 
-	public String getFlexibility() {
+	public Flexibility getFlexibility() {
 		return flexibility;
 	}
 
-	public void setFlexibility(String flexibility) {
+	public void setFlexibility(Flexibility flexibility) {
 		this.flexibility = flexibility;
 	}
 
