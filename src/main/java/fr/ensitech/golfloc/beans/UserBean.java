@@ -12,7 +12,6 @@ import javax.faces.component.UIInput;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
-import fr.ensitech.golfloc.entity.Cart;
 import fr.ensitech.golfloc.entity.User;
 import fr.ensitech.golfloc.metier.UserMetier;
 import fr.ensitech.golfloc.utils.ResetRequestDetails;

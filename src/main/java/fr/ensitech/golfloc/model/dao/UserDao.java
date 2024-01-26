@@ -37,10 +37,11 @@ public final class UserDao implements IUserDao {
 		}
 		Connection connection = null;
 		ResultSet rs = null;
+		PreparedStatement ps = null;
 		try {
 			connection = UserDataSource.getConnection();
 			String requete = "INSERT INTO user(lastname, firstname, email, password, birthdate, phone_number)" + " VALUES(?,?,?,?,?,?)";
-			PreparedStatement ps = connection.prepareStatement(requete, Statement.RETURN_GENERATED_KEYS);
+			ps = connection.prepareStatement(requete, Statement.RETURN_GENERATED_KEYS);
 			ps.setString(1, user.getNom());
 			ps.setString(2, user.getPrenom());
 			ps.setString(3, user.getEmail());
@@ -56,6 +57,9 @@ public final class UserDao implements IUserDao {
 		} finally {
 			if (connection != null && !connection.isClosed()) {
 				connection.close();
+			}
+			if (ps != null && !ps.isClosed()) {
+				ps.close();
 			}
 			if (rs != null && !rs.isClosed()) {
 				rs.close();
@@ -164,11 +168,14 @@ public final class UserDao implements IUserDao {
 				while (rs.next()) {
 					User user = new User();
 					user.setId(rs.getInt("id"));
-					user.setNom(rs.getString("nom"));
-					user.setPrenom(rs.getString("prenom"));
+					user.setNom(rs.getString("lastname"));
+					user.setPrenom(rs.getString("firstname"));
 					user.setEmail(rs.getString("email"));
 					user.setPassword(rs.getString("password"));
-					user.setDateNaissance(Dates.convertDateSqlToDateUtil(rs.getDate("date_naissance")));
+					user.setDateNaissance(Dates.convertDateSqlToDateUtil(rs.getDate("birthdate")));
+					user.setProfile(rs.getString("profile"));
+					user.setIsActive(rs.getString("is_active"));
+					user.setPhoneNumber(rs.getString("phone_number"));
 					users.add(user);
 				}
 				return users;
@@ -191,10 +198,11 @@ public final class UserDao implements IUserDao {
 		}
 		Connection connection = null;
 		ResultSet rs = null;
+		PreparedStatement ps = null;
 		try {
 			connection = UserDataSource.getConnection();
 			String requete = "SELECT * FROM user WHERE email = ?";
-			PreparedStatement ps = connection.prepareStatement(requete);
+			ps = connection.prepareStatement(requete);
 			ps.setString(1, email);
 			ps.execute();
 			rs = ps.getResultSet();
@@ -217,6 +225,9 @@ public final class UserDao implements IUserDao {
 			if (connection != null && !connection.isClosed()) {
 				connection.close();
 			}
+			if (ps != null && !ps.isClosed()) {
+				ps.close();
+			}
 			if (rs != null && !rs.isClosed()) {
 				rs.close();
 			}
@@ -230,10 +241,11 @@ public final class UserDao implements IUserDao {
 		}
 	    Connection connection = null;
 	    ResultSet rs = null;
+	    PreparedStatement ps = null;
 	    try {
 	        connection = UserDataSource.getConnection();
 	        String requete = "SELECT password FROM user WHERE id = ?";
-	        PreparedStatement ps = connection.prepareStatement(requete);
+	        ps = connection.prepareStatement(requete);
 	        ps.setInt(1, userId);
 	        ps.execute();
 			rs = ps.getResultSet();
@@ -243,6 +255,9 @@ public final class UserDao implements IUserDao {
 	    } finally {
 	        if (connection != null && !connection.isClosed()) {
 	            connection.close();
+	        }
+	        if (ps != null && !ps.isClosed()) {
+	            ps.close();
 	        }
 	        if (rs != null && !rs.isClosed()) {
 	            rs.close();
@@ -258,10 +273,11 @@ public final class UserDao implements IUserDao {
 		}
 		Connection connection = null;
 		ResultSet rs = null;
+		PreparedStatement ps = null;
 		try {
 			connection = UserDataSource.getConnection();
 			String requete = "SELECT * FROM user WHERE email = ?";
-			PreparedStatement ps = connection.prepareStatement(requete);
+			ps = connection.prepareStatement(requete);
 			ps.setString(1, email.trim().toLowerCase());
 			ps.execute();
 			rs = ps.getResultSet();
@@ -317,10 +333,11 @@ public final class UserDao implements IUserDao {
 			throw new IllegalArgumentException("Le mot de passe ne doit pas être NULL et l'id doit être > à 0 !");
 		}
 		Connection connection = null;
+		PreparedStatement ps = null;
 		try {
 			connection = UserDataSource.getConnection();
 			String requete = "UPDATE user SET password = ? WHERE id = ?";
-			PreparedStatement ps = connection.prepareStatement(requete);
+			ps = connection.prepareStatement(requete);
 			ps.setString(1, BCrypt.hashpw(password, BCrypt.gensalt()));
 			ps.setInt(2, id);
 
@@ -329,16 +346,20 @@ public final class UserDao implements IUserDao {
 			if (connection != null && !connection.isClosed()) {
 				connection.close();
 			}
+			if (ps != null && !ps.isClosed()) {
+				ps.close();
+			}
 		}
 	}
 	
 	// Méthode pour insérer une nouvelle demande de réinitialisation
 	public void insertResetRequest(int userId, String resetToken, Timestamp expirationTime) throws Exception {
 	    Connection connection = null;
+	    PreparedStatement ps = null;
 	    try {
 	        connection = UserDataSource.getConnection();
 	        String requete = "INSERT INTO password_reset_requests (user_id, reset_token, expiration_time) VALUES (?, ?, ?)";
-	        PreparedStatement ps = connection.prepareStatement(requete);
+	        ps = connection.prepareStatement(requete);
 	        ps.setInt(1, userId);
 	        ps.setString(2, resetToken);
 	        ps.setTimestamp(3, expirationTime);
@@ -348,17 +369,25 @@ public final class UserDao implements IUserDao {
 	        if (connection != null && !connection.isClosed()) {
 	            connection.close();
 	        }
+	        if (ps != null && !ps.isClosed()) {
+	            ps.close();
+	        }
 	    }
 	}
 
 	// Méthode pour récupérer les détails de la demande de réinitialisation par token
 	public ResetRequestDetails getResetRequestDetails(String resetToken) throws Exception {
+		if (resetToken == null || resetToken.trim().isEmpty()) {
+	        throw new IllegalArgumentException("Le token de réinitialisation ne doit pas être NULL !");
+	    }
+		
 	    Connection connection = null;
 	    ResultSet rs = null;
+	    PreparedStatement ps = null;
 	    try {
 	        connection = UserDataSource.getConnection();
 	        String requete = "SELECT * FROM password_reset_requests WHERE reset_token = ?";
-	        PreparedStatement ps = connection.prepareStatement(requete);
+	        ps = connection.prepareStatement(requete);
 	        ps.setString(1, resetToken);
 	        ps.execute();
 	        rs = ps.getResultSet();
@@ -373,6 +402,9 @@ public final class UserDao implements IUserDao {
 	    } finally {
 	        if (connection != null && !connection.isClosed()) {
 	            connection.close();
+	        }
+	        if (ps != null && !ps.isClosed()) {
+	            ps.close();
 	        }
 	        if (rs != null && !rs.isClosed()) {
 	            rs.close();

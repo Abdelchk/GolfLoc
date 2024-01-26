@@ -4,6 +4,7 @@ body {
 	font-family: 'Arial', sans-serif;
 	background-color: #f4f4f4;
 	margin: 0;
+	margin-top: 100px;
 	padding: 0;
 	text-align: center;
 }
@@ -21,8 +22,9 @@ p {
 	color: #fff;
 	border: none;
 	cursor: pointer;
-	border-radius: 5px;
+	border-radius: 30px;
 	text-decoration: none;
+	width: 160px;
 }
 
 .btnLogout {
@@ -33,8 +35,9 @@ p {
 	color: #fff;
 	border: none;
 	cursor: pointer;
-	border-radius: 5px;
+	border-radius: 30px;
 	text-decoration: none;
+	width: 140px;
 }
 
 .btnInscription {
@@ -45,6 +48,7 @@ p {
 	color: #fff;
 	border: none;
 	cursor: pointer;
-	border-radius: 5px;
+	border-radius: 30px;
 	text-decoration: none;
+	width: 160px;
 }

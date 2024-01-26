@@ -15,14 +15,15 @@ public class Item {
 	private Float price;
 	private int discount;
 	private int stock;
-	private Integer categoryId;
+	private int categoryId;
 	private String isSellable;
+	private String categoryName;
 	
 	public Item() {
 	}
 
 	public Item(Integer id, String name, String brand, Gender gender, MainHand mainHand, Flexibility flexibility,
-			String description, Float price, int discount, int stock, Integer categoryId, String isSellable) {
+			String description, Float price, int discount, int stock, int categoryId, String isSellable, String categoryName) {
 		this.id = id;
 		this.name = name;
 		this.brand = brand;
@@ -35,6 +36,7 @@ public class Item {
 		this.stock = stock;
 		this.categoryId = categoryId;
 		this.isSellable = isSellable;
+		this.categoryName = categoryName;
 	}
 
 	public Integer getId() {
@@ -117,11 +119,11 @@ public class Item {
 		this.stock = stock;
 	}
 
-	public Integer getCategoryId() {
+	public int getCategoryId() {
 		return categoryId;
 	}
 
-	public void setCategoryId(Integer categoryId) {
+	public void setCategoryId(int categoryId) {
 		this.categoryId = categoryId;
 	}
 
@@ -131,6 +133,22 @@ public class Item {
 
 	public void setIsSellable(String isSellable) {
 		this.isSellable = isSellable;
+	}
+	
+	public String getCategoryName() {
+		return categoryName;
+	}
+
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
+	}
+
+	@Override
+	public String toString() {
+		return "Item [name=" + name + ", brand=" + brand + ", gender=" + gender + ", mainHand="
+				+ mainHand + ", flexibility=" + flexibility + ", description=" + description + ", price=" + price
+				+ ", discount=" + discount + ", stock=" + stock + ", categoryId=" + categoryId + ", isSellable="
+				+ isSellable + "Catégorie : " + categoryName +  "]";
 	}
 	
 	

@@ -1,5 +1,6 @@
 package fr.ensitech.golfloc.metier;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import fr.ensitech.golfloc.entity.Item;
@@ -58,4 +59,20 @@ public class ItemMetier {
 				return null;
 			}
 		}
+		
+		public List<Item> getFilteredItems(String selectedCategory) {
+	        try {
+	        	itemDao = new ItemDao();
+	            if (selectedCategory == null || selectedCategory.isEmpty()) {
+	                return itemDao.getItems();
+	            }
+	            else {
+	                return itemDao.getFilteredItems(selectedCategory);
+	            }
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	            System.out.println("Une erreur est survenue dans ItemMetier.GetFilteredItems : " + e.getMessage());
+	            return new ArrayList<>();
+	        }
+	    }
 }

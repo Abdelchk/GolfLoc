@@ -20,8 +20,8 @@
 		<h2>Réinitialisation du mot de passe</h2>
 		
 		<h:form>
-			<h:panelGroup id = "panelFieldsUser" columns = "2" cellpadding = "0" cellspacing = "2">
-				<h:panelGrid>
+			<h:panelGroup>
+				<h:panelGrid id = "panelFieldsUser" styleClass="panelFieldsUser" columns = "3" cellpadding = "5" cellspacing = "2">
 					<h:outputText value="Mot de passe :" />
 					<h:inputSecret id="password" styleClass="inputSecret" size="20" required="true"
 							value="#{userbean.password}" requiredMessage="Veuillez entrer un mot de passe !"
@@ -30,7 +30,7 @@
 						<f:validateRegex 
 						pattern="^(?=.*[A-Za-zÀ-ÖØ-öø-ÿ])(?=.*\d)(?=.*[@$!%*?&amp;#])[A-Za-zÀ-ÖØ-öø-ÿ\d@$!%*?&amp;#]{12,}$"/>
 					</h:inputSecret>
-					<h:message for="password"></h:message>
+					<h:message for="password" styleClass="messages"></h:message>
 					
 					<h:outputText value="Confirmer mot de passe :" />
 					<h:inputSecret id="pwdConfirm" styleClass="inputSecret" size="20" required="true"
@@ -40,7 +40,7 @@
 					<f:validateRegex 
 					pattern="^(?=.*[A-Za-zÀ-ÖØ-öø-ÿ])(?=.*\d)(?=.*[@$!%*?&amp;#])[A-Za-zÀ-ÖØ-öø-ÿ\d@$!%*?&amp;#]{12,}$"/>
 					</h:inputSecret>
-					<h:message for="pwdConfirm"></h:message>
+					<h:message for="pwdConfirm" styleClass="messages"></h:message>
 				</h:panelGrid>
 			</h:panelGroup>
 			<p></p>

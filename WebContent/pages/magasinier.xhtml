@@ -4,142 +4,26 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html">
+	
 <h:head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 <h:outputStylesheet name="common-style.css" library="css" />
-<title>Administration articles</title>
+<h:outputStylesheet name="magasinier.css" library="css" />
+<title>Magasinier</title>
 </h:head>
-<body>
+<h:body>
 	<f:view>
 		<ui:include src="/resources/templates/header.xhtml" />
-		<h2>Page d'administration des produits</h2>
+		<h2>Page de magasinier</h2>
+		<h:outputText value="Bonjour #{userbean.connectedUser.prenom} !" />
+		
+		<p>Que voulez-vous gérer ?</p>
 		
 		<h:form>
-			<h:panelGroup>
-				<h3>Gestionnaire de catégories</h3>
-				<h:panelGrid id = "panelFieldsUser" columns = "3" cellpadding = "0" cellspacing = "2">
-					<h:outputText value = "Nom :"/>
-					<h:selectOneMenu id="nom" value="#{categorybean.name}">
-    					<f:selectItems value="#{categorybean.types}" />
-					</h:selectOneMenu>
-					<h:message for="nom"></h:message>
-					
-					<h:outputText value = "Remise (en %) :"/>
-					<h:inputText id="discountCat" styleClass="inputText" size="2" required="true"
-						value="#{categorybean.discount}" requiredMessage="La remise est obligatoire !"
-						validatorMessage="Ce champ ne doit pas contenir autre chose qu'un nombre allant de 0 à 50.">
-						<f:validateLength minimum="1" maximum="2" />
-						<f:convertNumber/>
-					</h:inputText>
-					<h:message for="discountCat"></h:message>
-					
-					<h:outputText value = "Remise cumulative :"/>
-					<h:selectOneRadio id="isCumulative" styleClass="buttonRadio" required="true" value="#{categorybean.isCumulative}"
-						requiredMessage="Vous devez sélectionner si la remise de la catégorie peut se cumuler ou non avec celle des articles.">
-					    <f:selectItem itemValue="Y" itemLabel="Oui"/>
-					    <f:selectItem itemValue="N" itemLabel="Non"/>
-					</h:selectOneRadio>
-					<h:message for="isCumulative"></h:message>
-				</h:panelGrid>
-			</h:panelGroup>
-			<p></p>
-			<h:panelGroup>
-				<h:commandButton id = "btnAddCategory" styleClass="commandButton" value = "Ajouter" action="#{categorybean.createCategory}"/>
-			</h:panelGroup>
-			<p></p>
-			<h:messages id="messages" styleClass="messages" showDetail="true" globalOnly="true" />
-		</h:form>
+			<h:commandButton value="Catégories" styleClass="commandButton" action="categories" />
 		
-		<p></p>
-		
-		<h:form>
-			<h:panelGroup>
-				<h3>Gestionnaire d'articles</h3>
-				
-				<h:panelGrid id = "panelFieldArticle" columns = "3" cellpadding = "0" cellspacing = "2">
-				
-					<h:outputText value = "Nom :"/>
-					<h:inputText id="name" styleClass="inputText" size="50" required="true"
-						value="#{itembean.name}" requiredMessage="Le nom du club est obligatoire !"
-						validatorMessage="Ce champ doit contenir au moins 10 charactères.">
-					</h:inputText>
-					<h:message for="nom"></h:message>
-					
-					<h:outputText value = "Marque :"/>
-					<h:inputText id="brand" styleClass="inputText" size="50" required="true"
-						value="#{itembean.brand}" requiredMessage="Le nom du club est obligatoire !"
-						validatorMessage="Ce champ doit contenir au moins 10 charactères.">
-					</h:inputText>
-					<h:message for="brand"></h:message>
-					
-					<h:outputText value = "Taille :"/>
-					<h:selectOneRadio id="gender" styleClass="buttonRadio" required="true" value="#{itembean.gender}">
-						<f:selectItems value="#{itembean.genders}"/>						
-					</h:selectOneRadio>
-					<h:message for="gender"></h:message>
-					
-					<h:outputText value = "Main :"/>
-					<h:selectOneRadio id="mainhand" styleClass="buttonRadio" required="true" value="#{itembean.mainHand}">
-						<f:selectItems value="#{itembean.mainHands}"/>						
-					</h:selectOneRadio>
-					<h:message for="mainhand"></h:message>
-					
-					<h:outputText value = "Flexibilité :"/>
-					<h:selectOneMenu id="flexibility" required="true" value="#{itembean.flexibility}">
-						<f:selectItems value="#{itembean.flexibilities}"/>						
-					</h:selectOneMenu>
-					<h:message for="flexibility"></h:message>
-					
-					<h:outputText value = "Description :"/>
-					<h:inputTextarea id="description" styleClass="inputText" size="20" value="#{itembean.name}">
-					</h:inputTextarea>
-					<h:message for="description"></h:message>
-						
-					<h:outputText value = "Prix :"/>
-					<h:inputText id="price" styleClass="inputText" size="20" required="true"
-						value="#{itembean.price}" requiredMessage="La remise est obligatoire !"
-						validatorMessage="Ce champ ne doit pas contenir autre chose qu'un nombre allant de 0 à 99.">
-						<f:validateLength minimum="1" maximum="5" />
-						<f:convertNumber/>
-					</h:inputText>
-					<h:message for="price"></h:message>
-					
-					<h:outputText value = "Discount :"/>
-					<h:inputText id="discountArt" styleClass="inputText" size="2" required="true"
-						value="#{itembean.discount}" requiredMessage="La remise est obligatoire !"
-						validatorMessage="Ce champ ne doit pas contenir autre chose qu'un nombre allant de 0 à 50.">
-						<f:validateLength minimum="1" maximum="2" />
-						<f:convertNumber/>
-					</h:inputText>
-					<h:message for="discountArt"></h:message>
-					
-					<h:outputText value = "Stock :"/>
-					<h:inputText id="stock" styleClass="inputText" size="2" required="true"
-						value="#{itembean.stock}" requiredMessage="La remise est obligatoire !"
-						validatorMessage="Ce champ ne doit pas contenir autre chose qu'un nombre allant de 0 à 50.">
-						<f:validateLength minimum="1" maximum="2" />
-						<f:convertNumber/>
-					</h:inputText>
-					<h:message for="stock"></h:message>
-					
-					<h:outputText value = "Catégorie :"/>
-					<h:selectOneMenu id="category" required="true" value="#{itembean.flexibility}">
-						<f:selectItems value="#{itembean.flexibilities}"/>		
-					</h:selectOneMenu>
-					<h:message for="category"></h:message>
-					
-					<h:outputText value = "Vendable :"/>
-					<h:selectOneRadio id="isSellable" styleClass="buttonRadio" required="true" value="#{itembean.isSellable}"
-						requiredMessage="Vous devez sélectionner si la remise de la catégorie peut se cumuler ou non avec celle des articles.">
-					    <f:selectItem itemValue="Y" itemLabel="Oui"/>
-					    <f:selectItem itemValue="N" itemLabel="Non"/>
-					</h:selectOneRadio>
-					<h:message for="isSellable"></h:message>
-					
-					
-				</h:panelGrid>
-			</h:panelGroup>
+			<h:commandButton value="Articles" styleClass="commandButton" action="items" />
 		</h:form>
 	</f:view>
-</body>
+</h:body>
 </html>

@@ -18,16 +18,16 @@
 		<h2>Demande de réinitialisation</h2>
 		
 		<h:form>
-			<h:panelGroup id = "panelFieldsUser" columns = "2" cellpadding = "0" cellspacing = "2">
-				<h:panelGrid>
-				<h:outputText value="Email associé à votre compte :" />
-				<h:inputText id="email" styleClass="inputText" size="20" required="true"
+			<h:panelGroup>
+				<h:panelGrid id = "panelFieldsUser" styleClass="panelFieldsUser" columns = "2" cellpadding = "5" cellspacing = "2">
+					<h:outputText value="Email associé à votre compte :" />
+					<h:inputText id="email" styleClass="inputText" size="20" required="true"
 						value="#{userbean.email}" requiredMessage="L'email est obligatoire !"
 						validatorMessage="Veuillez entrer une adresse email conforme.">
-					<f:validateLength maximum="35" />
-					<f:validateRegex pattern="\b[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+\.[A-Z|a-z]{2,}\b"/>
-				</h:inputText>
-					<h:message for="email" style="color: red"></h:message>
+						<f:validateLength maximum="35" />
+						<f:validateRegex pattern="\b[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+\.[A-Z|a-z]{2,}\b"/>
+					</h:inputText>
+					<h:message for="email" styleClass="messages"></h:message>
 				</h:panelGrid>
 			</h:panelGroup>
 			<p></p>

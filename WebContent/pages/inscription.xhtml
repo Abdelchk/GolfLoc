@@ -8,7 +8,7 @@
 	xmlns:p="http://primefaces.org/ui">
 <h:head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-<!-- <h:outputStylesheet name="inscription.css" library="css" /> -->
+<h:outputStylesheet name="inscription.css" library="css" />
 <h:outputStylesheet name="common-style.css" library="css" />
 <title>Créer un compte</title>
 </h:head>
@@ -19,7 +19,7 @@
 		
 		<h:form>
 			<h:panelGroup>
-				<h:panelGrid id = "panelFieldsUser" columns = "3" cellpadding = "0" cellspacing = "2">
+				<h:panelGrid id = "panelFieldsUser" styleClass="panelFieldsUser" columns = "3" cellpadding = "5" cellspacing = "2">
 					<h:outputText value = "Nom :"/>
 					<h:inputText id="nom" styleClass="inputText" size="20" required="true"
 						value="#{userbean.nom}" requiredMessage="Le nom est obligatoire !"
@@ -27,7 +27,7 @@
 						<f:validateLength minimum="2" maximum="20" />
 						<f:validateRegex pattern="^[A-Za-zÀ-ÖØ-öø-ÿ '-]+$" />
 					</h:inputText>
-					<h:message for="nom"></h:message>
+					<h:message for="nom" styleClass="messages"></h:message>
 					
 					<h:outputText value = "Prenom :"/>
 					<h:inputText id="prenom" styleClass="inputText" size="20" required="true"
@@ -36,7 +36,7 @@
 						<f:validateLength minimum="2" maximum="20" />
 						<f:validateRegex pattern="^[A-Za-zÀ-ÖØ-öø-ÿ '-]+$" />
 					</h:inputText>
-					<h:message for="prenom"></h:message>
+					<h:message for="prenom" styleClass="messages"></h:message>
 					
 					<h:outputText value = "Date de naissance :"/>
 					<h:inputText id="dateNaissance" styleClass="inputText" size="20" required="true"
@@ -44,7 +44,7 @@
 						validatorMessage="La date de naissance doit être au format suivant : JJ/MM/YYYY">
 						<f:convertDateTime pattern="dd/MM/yyyy" />
 					</h:inputText>
-					<h:message for="dateNaissance"></h:message>
+					<h:message for="dateNaissance" styleClass="messages"></h:message>
 					
 					
 					<h:outputText value = "N° de téléphone :"/>
@@ -54,7 +54,7 @@
 						<f:validateLength  maximum="20" />
 						<f:validateRegex pattern="^(0|\\+33|0033)[1-9][0-9]{8}" />
 					</h:inputText>
-					<h:message for="phoneNumber"></h:message>
+					<h:message for="phoneNumber" styleClass="messages"></h:message>
 					
 					<h:outputText value = "Email :"/>
 					<h:inputText id="email" styleClass="inputText" size="20" required="true"
@@ -63,7 +63,7 @@
 						<f:validateLength maximum="35" />
 						<f:validateRegex pattern="\b[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+\.[A-Z|a-z]{2,}\b" />
 					</h:inputText>
-					<h:message for="email"></h:message>
+					<h:message for="email" styleClass="messages"></h:message>
 					
 					<h:outputText value = "Mot de passe :"/>
 					<h:inputSecret id="password" styleClass="inputSecret" size="20" required="true"
@@ -73,7 +73,7 @@
 						<f:validateRegex 
 						pattern="^(?=.*[A-Za-zÀ-ÖØ-öø-ÿ])(?=.*\d)(?=.*[@$!%*?&amp;#])[A-Za-zÀ-ÖØ-öø-ÿ\d@$!%*?&amp;#]{12,}$" />
 					</h:inputSecret>
-					<h:message for="password"></h:message>
+					<h:message for="password" styleClass="messages"></h:message>
 					
 					<h:outputText value="Confirmer mot de passe :" />
 					<h:inputSecret id="pwdConfirm" styleClass="inputSecret" size="20" required="true"
@@ -83,7 +83,7 @@
 					<f:validateRegex 
 					pattern="^(?=.*[A-Za-zÀ-ÖØ-öø-ÿ])(?=.*\d)(?=.*[@$!%*?&amp;#])[A-Za-zÀ-ÖØ-öø-ÿ\d@$!%*?&amp;#]{12,}$"/>
 					</h:inputSecret>
-					<h:message for="pwdConfirm"></h:message>
+					<h:message for="pwdConfirm" styleClass="messages"></h:message>
 				</h:panelGrid>
 			</h:panelGroup>
 			<p></p>

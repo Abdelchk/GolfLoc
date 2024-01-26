@@ -2,7 +2,9 @@ package fr.ensitech.golfloc.metier;
 
 import java.util.List;
 
+import fr.ensitech.golfloc.entity.User;
 import fr.ensitech.golfloc.entity.Category;
+import fr.ensitech.golfloc.model.dao.UserDao;
 import fr.ensitech.golfloc.model.dao.CategoryDao;
 
 public class CategoryMetier {
@@ -74,7 +76,9 @@ public class CategoryMetier {
 			
 			try {
 				categoryDao = new CategoryDao();
-				return categoryDao.getCategories();
+				List <Category> categories = categoryDao.getCategories();
+				
+				return categories;
 			} catch (Exception e) {
 				e.printStackTrace();
 				System.out.println("Une erreur s'est produite dans CategoryMetier.getCategories : " + e.getMessage());

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<h:outputStylesheet name="common-style.css" library="css" />
+<h:outputStylesheet name="categories.css" library="css" />
+<title>Gestionnaire de catégories</title>
+</h:head>
+<body>
+	<f:view>
+		<ui:include src="/resources/templates/header.xhtml" />
+		
+		<div class="container">
+			<div class="left">
+			<h2>Gestionnaire de catégories</h2>
+				<h:form>
+					<h:panelGroup>
+						<h:panelGrid id ="panelFieldsCategory" styleClass="panelFieldsCategory" columns = "3" cellpadding = "4" cellspacing = "2">
+							<h:outputText value = "Nom :"/>
+							<h:selectOneMenu id="nom" value="#{categorybean.name}" styleClass="selectMenu" required="true" requiredMessage="Vous devez sélectionner un nom !">
+							    <f:selectItem itemValue="#{null}" itemLabel="--sélectionner--" />
+		    					<f:selectItems value="#{categorybean.types}" />
+							</h:selectOneMenu>
+							<h:message for="nom" styleClass="messages"></h:message>
+							
+							<h:outputText value = "Remise (en %) :"/>
+							<h:inputText id="discountCat" styleClass="inputText" size="2" required="true"
+								value="#{categorybean.discount}" requiredMessage="La remise est obligatoire !"
+								validatorMessage="Ce champ ne doit pas contenir autre chose qu'un nombre allant de 0 à 50.">
+								<f:validateLength minimum="1" maximum="2" />
+								<f:convertNumber/>
+							</h:inputText>
+							<h:message for="discountCat" styleClass="messages"></h:message>
+							
+							<h:outputText value = "Remise cumulative :"/>
+							<h:selectOneRadio id="isCumulative" styleClass="buttonRadio" required="true" value="#{categorybean.isCumulative}"
+								requiredMessage="Vous devez sélectionner si la remise de la catégorie peut se cumuler ou non avec celle des articles.">
+							    <f:selectItem itemValue="Y" itemLabel="Oui"/>
+							    <f:selectItem itemValue="N" itemLabel="Non"/>
+							</h:selectOneRadio>
+							<h:message for="isCumulative" styleClass="messages"></h:message>
+						</h:panelGrid>
+					</h:panelGroup>
+					<p></p>
+					<h:panelGroup>
+						<h:commandButton id = "btnAddCategory" styleClass="commandButton" value = "Ajouter" action="#{categorybean.createCategory}"/>
+					</h:panelGroup>
+					<p></p>
+					<h:messages id="messages" styleClass="messages" showDetail="true" globalOnly="true" />
+				</h:form>
+			</div>
+			
+			<div class="right">
+				<h2>Liste des catégories</h2>
+				<p:dataTable value="#{categorybean.categories}" var="category">
+				    <p:column headerText="Nom">
+				        <h:outputText value="#{category.name}" />
+				    </p:column>
+				    <p:column headerText="Remise (en %)">
+				        <h:outputText value="#{categorybean.discount == 0 ? 'Pas de remise' : categorybean.discount}" />
+				    </p:column>
+				    <p:column headerText="Cumulative">
+				        <h:outputText value="#{category.isCumulative == 'Y' ? 'Oui' : 'Non'}" />
+				    </p:column>
+				</p:dataTable>
+			</div>
+		</div>
+	</f:view>
+</body>
+</html>

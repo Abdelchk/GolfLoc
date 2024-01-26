@@ -10,4 +10,5 @@ public interface IItemDao {
 	void updateItem(Item item) throws Exception;
 	Item getItemByName(String name) throws Exception;
 	List<Item> getItems() throws Exception;
+	List<Item> getFilteredItems(String selectedCategory) throws Exception;
 }

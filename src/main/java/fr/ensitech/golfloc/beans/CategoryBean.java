@@ -1,9 +1,13 @@
 package fr.ensitech.golfloc.beans;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 
 import fr.ensitech.golfloc.entity.Category;
 import fr.ensitech.golfloc.metier.CategoryMetier;
@@ -89,7 +93,7 @@ public class CategoryBean implements Serializable {
 			
 			categoryMetier.createCategory(category);
 			
-			return "magasinier.xhtml";
+			return "categories.xhtml?faces-redirect=true";
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
@@ -102,7 +106,7 @@ public class CategoryBean implements Serializable {
 		try {
 			
 			categoryMetier.removeCategory(id);
-			return "magasinier.xhtml";
+			return "categories.xhtml";
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
@@ -119,7 +123,7 @@ public class CategoryBean implements Serializable {
 			
 			categoryMetier.updateCategory(category);
 			
-			return "magasinier.xhtml";
+			return "categories.xhtml";
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
@@ -134,22 +138,21 @@ public class CategoryBean implements Serializable {
 			
 			categoryMetier.getCategoryById(id);
 			
-			return "magasinier.xhtml";
+			return "categories.xhtml";
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
 	}
 	
-	public String getCategories() {
+	public List<Category> getCategories() {
 		
 		categoryMetier = new CategoryMetier();
 		
 		try {
+			List <Category> categories = categoryMetier.getCategories();
 			
-			categoryMetier.getCategories();
-			
-			return "magasinier.xhtml";
+			return categories;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;

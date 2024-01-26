@@ -6,15 +6,15 @@ body {
     margin: 0;
     margin-top: 100px;
     padding: 0;
-    text-align: center; 
 }
 
 h2 {
 	color: #333;
 	margin-bottom: 10px;
+	text-align: center;
 }
 
-.panelFieldsUser {
+.panelFieldsItem {
     width: 35%;
     background-color: #fff;
     border: 1px solid #ddd;
@@ -27,62 +27,64 @@ h2 {
     align-items: center;
 }
 
-.inputText,
-.inputSecret {
+.inputText {
     width: 100%;
     padding: 5px;
 }
 
-.btnInscription {
-	background-color: #3498db;
-    color: #fff;
-    border: none;
-	padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-	margin: 0 10px;
-    cursor: pointer;
-    border-radius: 30px;
-    width: 160px;
+.selectMenu {
+	width: 100%;
+    height: 30px;
 }
 
-.btnConnection {
+.commandButton {
     background-color: #4caf50;
     color: #fff;
     border: none;
-	padding: 10px 20px;
+    padding: 10px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
-	margin: 0 10px;
+    margin: 4px 2px;
     cursor: pointer;
     border-radius: 30px;
-    width: 160px;
+    width: 130px;
+    margin-bottom: 70px;
 }
 
-.pwdReset {
-    color: blue;
-    display: block;
-    text-align: center;
+.left {
+	text-align: center;
+}
+
+.form {
+	text-align: center;
 }
 
 .messages {
     color: red;
     list-style-type: none;
-    
 }
 
-.deconnexion {
-	background-color: red;
-    color: #fff;
-    border: none;
-    padding: 10px;
-    text-decoration: none;
-    font-size: 16px;
-    margin: 4px 2px;
+/* Cacher le bouton radio par défaut */
+input[type="radio"] {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 2px solid #ccc;
+    outline: none;
+}
+
+/* Style des boutons radio sélectionnés */
+input[type="radio"]:checked {
+    background-color: rgb(128, 255, 128);
+}
+
+/* Style du label du bouton radio */
+input[type="radio"] + label {
+    margin-left: 5px;
     cursor: pointer;
-    border-radius: 5px;
 }

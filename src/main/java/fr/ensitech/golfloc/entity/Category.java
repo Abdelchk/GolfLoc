@@ -49,5 +49,11 @@ public class Category {
 	public void setIsCumulative(String isCumulative) {
 		this.isCumulative = isCumulative;
 	}
+
+	@Override
+	public String toString() {
+		return "Categorie : Id = " + id + " Nom = " + name + " Remise = " + discount + " Remise cumulative = " + isCumulative;
+	}
+	
 	
 }

@@ -30,11 +30,12 @@ public class CategoryDao implements ICategoryDao {
 		}
 		Connection connection = null;
 		ResultSet rs = null;
+		PreparedStatement ps = null;
 		
 		try {
 			connection = UserDataSource.getConnection();
 			String requete = "INSERT INTO category(name, discount, is_cumulative)" + " VALUES(?,?,?)";
-			PreparedStatement ps = connection.prepareStatement(requete, Statement.RETURN_GENERATED_KEYS);
+			ps = connection.prepareStatement(requete, Statement.RETURN_GENERATED_KEYS);
 			ps.setString(1, category.getName().name());
 			ps.setInt(2, category.getDiscount());
 			ps.setString(3, category.getIsCumulative());
@@ -47,6 +48,9 @@ public class CategoryDao implements ICategoryDao {
 		} finally {
 			if (connection != null && !connection.isClosed()) {
 				connection.close();
+			}
+			if (ps != null && !ps.isClosed()) {
+				ps.close();
 			}
 			if (rs != null && !rs.isClosed()) {
 				rs.close();
@@ -61,15 +65,19 @@ public class CategoryDao implements ICategoryDao {
 			throw new IllegalArgumentException("L'id de la catégorie doit être positif !");
 		}
 		Connection connection = null;
+		PreparedStatement ps = null;
 		try {
 			connection = UserDataSource.getConnection();
 			String requete = "Delete from category Where id = ?";
-			PreparedStatement ps = connection.prepareStatement(requete);
+			ps = connection.prepareStatement(requete);
 			ps.setInt(1, id);
 			ps.executeUpdate();
 		} finally {
 			if (connection != null && !connection.isClosed()) {
 				connection.close();
+			}
+			if (ps != null && !ps.isClosed()) {
+				ps.close();
 			}
 		}
 	}
@@ -85,10 +93,11 @@ public class CategoryDao implements ICategoryDao {
 			throw new IllegalArgumentException("Tous les paramètres sont obligatoires !");
 		}
 		Connection connection = null;
+		PreparedStatement ps = null;
 		try {
 			connection = UserDataSource.getConnection();
 			String requete = "Update category Set name = ?, discount = ? , is_cumulative = ? Where id = ?";
-			PreparedStatement ps = connection.prepareStatement(requete);
+			ps = connection.prepareStatement(requete);
 			ps.setString(1, category.getName().name());
 			ps.setInt(2, category.getDiscount());
 			ps.setString(3, category.getIsCumulative());
@@ -97,6 +106,9 @@ public class CategoryDao implements ICategoryDao {
 		} finally {
 			if (connection != null && !connection.isClosed()) {
 				connection.close();
+			}
+			if (ps != null && !ps.isClosed()) {
+				ps.close();
 			}
 		}
 	}
@@ -108,10 +120,11 @@ public class CategoryDao implements ICategoryDao {
 		}
 		Connection connection = null;
 		ResultSet rs = null;
+		PreparedStatement ps = null;
 		try {
 			connection = UserDataSource.getConnection();
 			String requete = "Select * from category Where name = ?";
-			PreparedStatement ps = connection.prepareStatement(requete);
+			ps = connection.prepareStatement(requete);
 			ps.setInt(1, id);
 			rs = ps.executeQuery();
 			if (rs != null && rs.next()) {
@@ -129,6 +142,9 @@ public class CategoryDao implements ICategoryDao {
 			if (connection != null && !connection.isClosed()) {
 				connection.close();
 			}
+			if (ps != null && !ps.isClosed()) {
+				ps.close();
+			}
 			if (rs != null && !rs.isClosed()) {
 				rs.close();
 			}
@@ -140,16 +156,18 @@ public class CategoryDao implements ICategoryDao {
 	public List<Category> getCategories() throws Exception {
 		Connection connection = null;
 		ResultSet rs = null;
+		PreparedStatement ps = null;
 		try {
 			connection = UserDataSource.getConnection();
 			String requete = "Select * from category";
-			PreparedStatement ps = connection.prepareStatement(requete);
+			ps = connection.prepareStatement(requete);
 			rs = ps.executeQuery();
 			if (rs != null) {
 				List<Category> categories = new ArrayList<Category>();
 				while (rs.next()) {
 					Category category = new Category();
 					
+					category.setId(rs.getInt("id"));
 					String typeNameFromDB = rs.getString("name"); // Récupération depuis la base de données
 					Type type = Type.valueOf(typeNameFromDB);
 					
@@ -163,6 +181,9 @@ public class CategoryDao implements ICategoryDao {
 		} finally {
 			if (connection != null && !connection.isClosed()) {
 				connection.close();
+			}
+			if (ps != null && !ps.isClosed()) {
+				ps.close();
 			}
 			if (rs != null && !rs.isClosed()) {
 				rs.close();

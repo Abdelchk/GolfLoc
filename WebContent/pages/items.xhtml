@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+	
+<h:head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<h:outputStylesheet name="common-style.css" library="css" />
+<h:outputStylesheet name="items.css" library="css" />
+<title>Gestionnaire d'articles</title>
+</h:head>
+<body>
+	<f:view>
+	
+		<ui:include src="/resources/templates/header.xhtml" />
+		<h2>Gestionnaire d'articles</h2>
+		
+		<div class="container">
+			<div class="left">
+				<h:form>
+				<h:panelGroup>
+					
+					<h:panelGrid id = "panelFieldsItem" styleClass="panelFieldsItem" columns = "3" cellpadding = "4" cellspacing = "2">
+					
+						<h:outputText value = "Nom :"/>
+						<h:inputText id="name" styleClass="inputText" size="50" required="true"
+							value="#{itembean.name}" requiredMessage="Le nom du club est obligatoire !"
+							validatorMessage="Ce champ doit contenir au moins 10 charactères.">
+						</h:inputText>
+						<h:message for="name" styleClass="messages"></h:message>
+						
+						<h:outputText value = "Marque :"/>
+						<h:inputText id="brand" styleClass="inputText" size="50" required="true"
+							value="#{itembean.brand}" requiredMessage="La marque du club est obligatoire !"
+							validatorMessage="Ce champ doit contenir au moins 10 charactères.">
+						</h:inputText>
+						<h:message for="brand" styleClass="messages"></h:message>
+						
+						<h:outputText value = "Taille :"/>
+						<h:selectOneRadio id="gender" styleClass="buttonRadio" required="true" value="#{itembean.gender}"
+							requiredMessage="La taille est obligatoire !">
+							<f:selectItems value="#{itembean.genders}"/>						
+						</h:selectOneRadio>
+						<h:message for="gender" styleClass="messages"></h:message>
+						
+						<h:outputText value = "Main :"/>
+						<h:selectOneRadio id="mainhand" styleClass="buttonRadio" required="true" value="#{itembean.mainHand}"
+							requiredMessage="Veuillez choisir la main dominante correspondante !">
+							<f:selectItems value="#{itembean.mainHands}"/>						
+						</h:selectOneRadio>
+						<h:message for="mainhand" styleClass="messages"></h:message>
+						
+						<h:outputText value = "Flexibilité :"/>
+						<h:selectOneMenu id="flexibility" styleClass="selectMenu" required="true" value="#{itembean.flexibility}"
+							requiredMessage="Veuillez saisir la flexibilité du club !">
+							<f:selectItem itemValue="#{null}" itemLabel="--sélectionner--" />
+							<f:selectItems value="#{itembean.flexibilities}"/>						
+						</h:selectOneMenu>
+						<h:message for="flexibility" style="color: red"></h:message>
+						
+						<h:outputText value = "Description :"/>
+						<h:inputTextarea id="description" styleClass="inputText" size="250" value="#{itembean.description}">
+						</h:inputTextarea>
+						<h:message for="description" styleClass="messages"></h:message>
+							
+						<h:outputText value = "Prix :"/>
+						<h:inputText id="price" styleClass="inputText" size="20" required="true"
+							value="#{itembean.price}" requiredMessage="Le prix est obligatoire !"
+							validatorMessage="Ce champ ne doit pas contenir autre chose qu'un nombre.">
+							<f:validateLength minimum="1" maximum="6" />
+							<f:convertNumber/>
+						</h:inputText>
+						<h:message for="price" styleClass="messages"></h:message>
+						
+						<h:outputText value = "Remise (en %) :"/>
+						<h:inputText id="discountArt" styleClass="inputText" size="2" required="true"
+							value="#{itembean.discount}" requiredMessage="La remise est obligatoire !"
+							validatorMessage="Ce champ ne doit pas contenir autre chose qu'un nombre allant de 0 à 50.">
+							<f:validateLength minimum="1" maximum="2" />
+							<f:convertNumber/>
+						</h:inputText>
+						<h:message for="discountArt" styleClass="messages"></h:message>
+						
+						<h:outputText value = "Stock :"/>
+						<h:inputText id="stock" styleClass="inputText" size="2" required="true"
+							value="#{itembean.stock}" requiredMessage="Veuillez saisir le stock de l'article !"
+							validatorMessage="Ce champ ne doit pas contenir autre chose qu'un nombre allant de 0 à 50.">
+							<f:validateLength minimum="1" maximum="2" />
+							<f:convertNumber/>
+						</h:inputText>
+						<h:message for="stock" styleClass="messages"></h:message>
+						
+						<h:outputText value = "Catégorie :"/>
+						<h:selectOneMenu id="category" styleClass="selectMenu" required="true" value="#{itembean.categoryId}"
+							requiredMessage="Veuillez sélectionner une catégorie !">
+							<f:selectItem itemValue="#{null}" itemLabel="--sélectionner--" />
+							<f:selectItems value="#{categorybean.categories}" var="category" itemValue="#{category.id}" itemLabel="#{category.name}"/>		
+						</h:selectOneMenu>
+						<h:message for="category" styleClass="messages"></h:message>
+						
+						<h:outputText value = "Vendable :"/>
+						<h:selectOneRadio id="isSellable" styleClass="buttonRadio" required="true" value="#{itembean.isSellable}"
+							requiredMessage="Vous devez spécifier si l'article est vendable ou non !">
+						    <f:selectItem itemValue="Y" itemLabel="Oui"/>
+						    <f:selectItem itemValue="N" itemLabel="Non"/>
+						</h:selectOneRadio>
+						<h:message for="isSellable" styleClass="messages"></h:message>
+					</h:panelGrid>
+				</h:panelGroup>
+				<p></p>
+				<h:panelGroup>
+					<h:commandButton id = "btnAddItem" styleClass="commandButton" value = "Ajouter" action="#{itembean.createItem}"/>
+				</h:panelGroup>
+				<p></p>
+				<h:messages id="messages" styleClass="messages" showDetail="true" globalOnly="true" />
+				</h:form>
+			</div>
+			
+			
+			<div class="right">
+				<h2>Liste des articles</h2>
+				<h:form styleClass="form">
+					<p:selectOneMenu value="#{itembean.selectedCategory}" >
+			            <f:selectItem itemValue="#{null}" itemLabel="Tous" />
+			            <!-- <f:selectItem itemValue="0" itemLabel="Autre" /> -->
+			            <f:selectItems value="#{categorybean.categories}" var="category" itemValue="#{category.name}" itemLabel="#{category.name}" />
+			            <p:ajax update="itemTable" />
+		        	</p:selectOneMenu>
+				</h:form>
+				<p:dataTable cellpadding="10" id="itemTable" value="#{itembean.filteredItems}" var="item">
+					<p:column headerText="Catégorie">
+				        <h:outputText value="#{item.categoryId == 0 ? 'Autre' : item.categoryName}" />
+				    </p:column>
+				    <p:column headerText="Nom">
+				        <h:outputText value="#{item.name}" />
+				    </p:column>
+				    <p:column headerText="Marque">
+				        <h:outputText value="#{item.brand}" />
+				    </p:column>
+				    <p:column headerText="Taille">
+				        <h:outputText value="#{item.gender}" />
+				    </p:column>
+				    <p:column headerText="Main dominante">
+				        <h:outputText value="#{item.mainHand}" />
+				    </p:column>
+				    <p:column headerText="Flexibilité">
+				        <h:outputText value="#{item.flexibility}" />
+				    </p:column>
+				    <p:column headerText="Description">
+				        <h:outputText value="#{item.description == '' ? 'Pas de description' : item.description}" />
+				    </p:column>
+				    <p:column headerText="Prix">
+				        <h:outputText value="#{item.price}" />
+				    </p:column>
+				    <p:column headerText="Remise (en %)">
+				        <h:outputText value="#{item.discount == 0 ? 'Pas de remise' : item.discount}" />
+				    </p:column>
+				    <p:column headerText="Stock">
+				        <h:outputText value="#{item.stock == 0 ? 'En rupture' : item.stock}" />
+				    </p:column>
+				    <p:column headerText="Vendable">
+				        <h:outputText value="#{item.isSellable == 'Y' ? 'Oui' : 'Non'}" />
+				    </p:column>
+				</p:dataTable>
+			</div>
+		</div>
+	</f:view>
+</body>
+</html>

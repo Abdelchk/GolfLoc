@@ -20,9 +20,9 @@
 	    <h:panelGroup rendered="#{not empty userbean.connectedUser}">
 	        <!-- Contenu à afficher uniquement si l'utilisateur est connecté -->
 	        <h:outputText value="Bienvenue sur la page des achats #{userbean.connectedUser.prenom}" />
-	        <h:form>
+	        <!-- <h:form>
 	            
-	        </h:form>
+	        </h:form> -->
 	    </h:panelGroup>
 	    <h:panelGroup rendered="#{empty userbean.connectedUser}">
 	        <!-- Contenu à afficher lorsque l'utilisateur n'est pas connecté -->

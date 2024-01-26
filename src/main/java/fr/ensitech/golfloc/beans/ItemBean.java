@@ -1,6 +1,9 @@
 package fr.ensitech.golfloc.beans;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
@@ -26,9 +29,11 @@ public class ItemBean implements Serializable {
 	private Float price;
 	private int discount;
 	private int stock;
-	private Integer categoryId;
+	private int categoryId;
 	private String isSellable;
+	private String categoryName;
 	private Item item;
+	private String selectedCategory;
 	private ItemMetier itemMetier;
 	
 	public ItemBean() {
@@ -114,11 +119,11 @@ public class ItemBean implements Serializable {
 		this.stock = stock;
 	}
 
-	public Integer getCategoryId() {
+	public int getCategoryId() {
 		return categoryId;
 	}
 
-	public void setCategoryId(Integer categoryId) {
+	public void setCategoryId(int categoryId) {
 		this.categoryId = categoryId;
 	}
 
@@ -130,6 +135,14 @@ public class ItemBean implements Serializable {
 		this.isSellable = isSellable;
 	}
 	
+	public String getCategoryName() {
+		return categoryName;
+	}
+
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
+	}
+
 	public Item getItem() {
 		return item;
 	}
@@ -138,8 +151,18 @@ public class ItemBean implements Serializable {
 		this.item = item;
 	}
 	
+	public String getSelectedCategory() {
+		return selectedCategory;
+	}
+
+	public void setSelectedCategory(String selectedCategory) {
+		this.selectedCategory = selectedCategory;
+	}
+
+	
 	// Méthode pour récupérer les enums
 	
+
 	public Gender[] getGenders() {
 		return Gender.values();
 	}
@@ -166,10 +189,12 @@ public class ItemBean implements Serializable {
 			item.setDescription(description);
 			item.setPrice(price);
 			item.setDiscount(discount);
+			item.setStock(stock);
 			item.setCategoryId(categoryId);
 			item.setIsSellable(isSellable);
 			itemMetier.createItem(item);
-			return "magasinier.xhtml";
+			
+			return "items.xhtml";
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
@@ -181,7 +206,7 @@ public class ItemBean implements Serializable {
 		try {
 			item = new Item();
 			itemMetier.updateItem(item);
-			return "magasinier.xhtml";
+			return "items.xhtml";
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
@@ -192,21 +217,36 @@ public class ItemBean implements Serializable {
 		itemMetier = new ItemMetier();
 		try {
 			itemMetier.getItemByName(name);
-			return "magasinier.xhtml";
+			return "items.xhtml";
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
 	}
 	
-	public String getItems() {
+	public List<Item> getItems() {
 		itemMetier = new ItemMetier();
 		try {
-			itemMetier.getItems();
-			return "magasinier.xhtml";
+			List<Item> items = itemMetier.getItems();
+			
+			return items;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
 	}
+	
+	 public List<Item> getFilteredItems() {
+	        itemMetier = new ItemMetier();
+	        try {
+	            if (selectedCategory == null || selectedCategory.isEmpty()) {
+	                return itemMetier.getItems();
+	            } else {
+	                return itemMetier.getFilteredItems(selectedCategory);
+	            }
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	            return new ArrayList<>();
+	        }
+	    }
 }
