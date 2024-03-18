@@ -9,9 +9,9 @@ public final class UserDataSource {
 	}
 	
 	public final static Connection getConnection() throws Exception {
-		String user = "u679132166_ACGB";
+		String user = "u206027959_ACGB";
 		String password = "5Xj&d@9xS]";
-		String url = "jdbc:mysql://89.117.169.52/u679132166_golfloc";
+		String url = "jdbc:mysql://193.203.168.57/u206027959_golfloc";
 		String driver = "com.mysql.cj.jdbc.Driver";
 		Class.forName(driver);
 		

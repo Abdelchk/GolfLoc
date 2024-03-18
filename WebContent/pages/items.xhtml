@@ -29,6 +29,9 @@
 						<h:inputText id="name" styleClass="inputText" size="50" required="true"
 							value="#{itembean.name}" requiredMessage="Le nom du club est obligatoire !"
 							validatorMessage="Ce champ doit contenir au moins 10 charactères.">
+							<f:validateLength minimum="10" />
+							<f:validateRegex pattern="" />
+							<!-- To have a full protction = validate in front and put CSrF token or validate into the front and validate into the back + ajouter captcha pendant la création de compte  -->
 						</h:inputText>
 						<h:message for="name" styleClass="messages"></h:message>
 						
