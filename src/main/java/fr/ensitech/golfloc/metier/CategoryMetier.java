@@ -2,9 +2,7 @@ package fr.ensitech.golfloc.metier;
 
 import java.util.List;
 
-import fr.ensitech.golfloc.entity.User;
 import fr.ensitech.golfloc.entity.Category;
-import fr.ensitech.golfloc.model.dao.UserDao;
 import fr.ensitech.golfloc.model.dao.CategoryDao;
 
 public class CategoryMetier {
