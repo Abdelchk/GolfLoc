@@ -29,7 +29,7 @@ public class UserBean implements Serializable {
 	private String password;
 	private String pwdConfirm;
 	private Date dateNaissance;
-	private String isActive;
+	private boolean isActive;
 	private String profile;
 	private String phoneNumber;
 	private UserMetier userMetier;
@@ -94,11 +94,11 @@ public class UserBean implements Serializable {
 		this.dateNaissance = dateNaissance;
 	}
 	
-	public String getIsActive() {
+	public boolean getIsActive() {
 		return isActive;
 	}
 
-	public void setIsActive(String isActive) {
+	public void setIsActive(boolean isActive) {
 		this.isActive = isActive;
 	}
 

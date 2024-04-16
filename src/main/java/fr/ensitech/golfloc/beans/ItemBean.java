@@ -7,6 +7,7 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
+import fr.ensitech.golfloc.entity.Category;
 import fr.ensitech.golfloc.entity.Item;
 import fr.ensitech.golfloc.enums.Flexibility;
 import fr.ensitech.golfloc.enums.Gender;
@@ -29,8 +30,8 @@ public class ItemBean implements Serializable {
 	private Float price;
 	private int discount;
 	private int stock;
-	private int categoryId;
-	private String isSellable;
+	private Category categoryId;
+	private boolean isSellable;
 	private String categoryName;
 	private Item item;
 	private String selectedCategory;
@@ -119,19 +120,19 @@ public class ItemBean implements Serializable {
 		this.stock = stock;
 	}
 
-	public int getCategoryId() {
+	public Category getCategoryId() {
 		return categoryId;
 	}
 
-	public void setCategoryId(int categoryId) {
+	public void setCategoryId(Category categoryId) {
 		this.categoryId = categoryId;
 	}
 
-	public String getIsSellable() {
+	public boolean getIsSellable() {
 		return isSellable;
 	}
 
-	public void setIsSellable(String isSellable) {
+	public void setIsSellable(boolean isSellable) {
 		this.isSellable = isSellable;
 	}
 	
@@ -190,7 +191,7 @@ public class ItemBean implements Serializable {
 			item.setPrice(price);
 			item.setDiscount(discount);
 			item.setStock(stock);
-			item.setCategoryId(categoryId);
+			item.setCategory(categoryId);
 			item.setIsSellable(isSellable);
 			itemMetier.createItem(item);
 			

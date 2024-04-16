@@ -1,29 +1,80 @@
 package fr.ensitech.golfloc.entity;
 
+import java.io.Serializable;
+import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Transient;
+import javax.xml.bind.annotation.XmlRootElement;
+
 import fr.ensitech.golfloc.enums.Flexibility;
 import fr.ensitech.golfloc.enums.Gender;
 import fr.ensitech.golfloc.enums.MainHand;
 
-public class Item {
+@Entity(name = "item")
+@XmlRootElement
+public class Item implements Serializable {
+	private static final long serialVersionUID = 1L;
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+	
+	@Column(name = "name", length = 45, nullable = false)
 	private String name;
+	
+	@Column(name = "brand", length = 45, nullable = false)
 	private String brand;
+	
+	@Column(name = "gender", nullable = false)
 	private Gender gender;
+	
+	@Column(name = "main_hand", nullable = false)
 	private MainHand mainHand;
+	
+	@Column(name = "flexibility", nullable = false)
 	private Flexibility flexibility;
+	
+	@Column(name = "description", nullable = true)
 	private String description;
+	
+	@Column(name = "price")
 	private Float price;
+	
+	@Column(name = "discount", columnDefinition = "0")
 	private int discount;
+	
+	@Column(name = "stock")
 	private int stock;
-	private int categoryId;
-	private String isSellable;
+	
+	@ManyToOne
+	@JoinColumn(name = "category_id", columnDefinition = "0")
+	private Category category;
+	
+	@Column(name = "is_sellable", nullable = false, columnDefinition = "boolean default true")
+	private boolean isSellable;
+	
+	@OneToMany(mappedBy = "item")
+    private List<Cart> carts;
+	
+	@OneToMany(mappedBy = "item")
+    private List<Comment> comments;
+	
+	@Transient
 	private String categoryName;
 	
 	public Item() {
 	}
 
 	public Item(Integer id, String name, String brand, Gender gender, MainHand mainHand, Flexibility flexibility,
-			String description, Float price, int discount, int stock, int categoryId, String isSellable, String categoryName) {
+			String description, Float price, int discount, int stock, Category category, boolean isSellable, String categoryName) {
 		this.id = id;
 		this.name = name;
 		this.brand = brand;
@@ -34,7 +85,7 @@ public class Item {
 		this.price = price;
 		this.discount = discount;
 		this.stock = stock;
-		this.categoryId = categoryId;
+		this.category = category;
 		this.isSellable = isSellable;
 		this.categoryName = categoryName;
 	}
@@ -119,19 +170,19 @@ public class Item {
 		this.stock = stock;
 	}
 
-	public int getCategoryId() {
-		return categoryId;
+	public Category getCategory() {
+		return category;
 	}
 
-	public void setCategoryId(int categoryId) {
-		this.categoryId = categoryId;
+	public void setCategory(Category category) {
+		this.category = category;
 	}
 
-	public String getIsSellable() {
+	public boolean getIsSellable() {
 		return isSellable;
 	}
 
-	public void setIsSellable(String isSellable) {
+	public void setIsSellable(boolean isSellable) {
 		this.isSellable = isSellable;
 	}
 	
@@ -147,7 +198,7 @@ public class Item {
 	public String toString() {
 		return "Item [name=" + name + ", brand=" + brand + ", gender=" + gender + ", mainHand="
 				+ mainHand + ", flexibility=" + flexibility + ", description=" + description + ", price=" + price
-				+ ", discount=" + discount + ", stock=" + stock + ", categoryId=" + categoryId + ", isSellable="
+				+ ", discount=" + discount + ", stock=" + stock + ", categoryId=" + category + ", isSellable="
 				+ isSellable + "Catégorie : " + categoryName +  "]";
 	}
 	

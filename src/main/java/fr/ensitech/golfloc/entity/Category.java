@@ -1,17 +1,45 @@
 package fr.ensitech.golfloc.entity;
 
+import java.io.Serializable;
+import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.xml.bind.annotation.XmlRootElement;
+
 import fr.ensitech.golfloc.enums.Type;
 
-public class Category {
+@Entity(name = "category")
+@XmlRootElement
+public class Category implements Serializable{
+	private static final long serialVersionUID = 1L;
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+	
+	@Column(name = "name", nullable = false)
 	private Type name;
+	
+	@Column(name = "discount", nullable = false)
 	private int discount;
-	private String isCumulative;
+	
+	@Column(name = "is_cumulative", nullable = false, columnDefinition = "boolean default false")
+	private boolean isCumulative;
+	
+	@OneToMany(mappedBy = "category", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<Item> item;
 	
 	public Category() {
 	}
 
-	public Category(Integer id, Type name, int discount, String isCumulative) {
+	public Category(Integer id, Type name, int discount, boolean isCumulative) {
 		this.id = id;
 		this.name = name;
 		this.discount = discount;
@@ -42,11 +70,11 @@ public class Category {
 		this.discount = discount;
 	}
 
-	public String getIsCumulative() {
+	public boolean getIsCumulative() {
 		return isCumulative;
 	}
 
-	public void setIsCumulative(String isCumulative) {
+	public void setIsCumulative(boolean isCumulative) {
 		this.isCumulative = isCumulative;
 	}
 

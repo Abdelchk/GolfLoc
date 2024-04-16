@@ -38,14 +38,12 @@
 					</h:inputText>
 					<h:message for="prenom" styleClass="messages"></h:message>
 					
-					<h:outputText value = "Date de naissance :"/>
-					<h:inputText id="dateNaissance" styleClass="inputText" size="20" required="true"
-						value="#{userbean.dateNaissance}" requiredMessage="La date de naissance est obligatoire !"
-						validatorMessage="La date de naissance doit être au format suivant : JJ/MM/YYYY">
-						<f:convertDateTime pattern="dd/MM/yyyy" />
-					</h:inputText>
-					<h:message for="dateNaissance" styleClass="messages"></h:message>
-					
+					<h:outputText value="Date de naissance:" />
+					<p:calendar id="dateNaissance" styleClass="inputText" required="true"
+					            value="#{userbean.dateNaissance}"
+					            requiredMessage="La date de naissance est obligatoire !"
+					            pattern="dd/MM/yyyy" />
+					<h:message for="dateNaissance" />
 					
 					<h:outputText value = "N° de téléphone :"/>
 					<h:inputText id="phoneNumber" styleClass="inputText" size="20" required="true"
@@ -64,6 +62,15 @@
 						<f:validateRegex pattern="\b[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+\.[A-Z|a-z]{2,}\b" />
 					</h:inputText>
 					<h:message for="email" styleClass="messages"></h:message>
+					
+					<h:outputText value = "Adresse  :"/>
+					<h:inputText id="nom" styleClass="inputText" size="20" required="true"
+						value="#{userbean.nom}" requiredMessage="Le nom est obligatoire !"
+						validatorMessage="Le nom ne doit pas contenir de caractères spéciaux ou de chiffres.">
+						<f:validateLength minimum="2" maximum="20" />
+						<f:validateRegex pattern="^[A-Za-zÀ-ÖØ-öø-ÿ '-]+$" />
+					</h:inputText>
+					<h:message for="nom" styleClass="messages"></h:message>
 					
 					<h:outputText value = "Mot de passe :"/>
 					<h:inputSecret id="password" styleClass="inputSecret" size="20" required="true"
@@ -87,9 +94,14 @@
 				</h:panelGrid>
 			</h:panelGroup>
 			<p></p>
-			<h:panelGroup>
-				<h:commandButton id = "btnAddUser" styleClass="commandButton" value = "S'inscrire" action="#{userbean.creerUtilisateur}"/>
-			</h:panelGroup>
+			 <h:form>
+
+		    <!-- Captcha -->
+		    <h:panelGroup id="captchaPanel">
+		        <h:graphicImage id="captchaImage" url="chemin_vers_image_captcha" alt="Captcha Image" />
+		        <h:commandButton id="captchaButton" image="chemin_vers_image_bouton" action="#{captchaBean.validerCaptcha}" />
+		    </h:panelGroup>
+
 			<p></p>
 			<h:messages id="messages" styleClass="messages" showDetail="true" globalOnly="true" />
 		</h:form>
@@ -97,10 +109,11 @@
 </body>
 </html>
 
-<!-- <h:outputText value="Date de naissance:" />
-					<p:calendar id="dateNaissance" styleClass="inputText" required="true"
-					            value="#{userbean.dateNaissance}"
-					            requiredMessage="La date de naissance est obligatoire !"
-					            pattern="dd/MM/yyyy" />
-					<h:message for="dateNaissance" /> -->
+<!-- <h:outputText value = "Date de naissance :"/>
+					<h:inputText id="dateNaissance" styleClass="inputText" size="20" required="true"
+						value="#{userbean.dateNaissance}" requiredMessage="La date de naissance est obligatoire !"
+						validatorMessage="La date de naissance doit être au format suivant : JJ/MM/YYYY">
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+					</h:inputText>
+					<h:message for="dateNaissance" styleClass="messages"></h:message> -->
 					

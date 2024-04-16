@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+		"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+		"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+    	<property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+    	<property name="hibernate.connection.url">jdbc:mysql://127.0.0.1:3306/hibernate_golfloc</property>
+    	<property name="hibernate.connection.username">root</property>
+    	<property name="hibernate.connection.password">MsTmMlidH99M4aS2IYrQ</property>
+    	<property name="hibernate.dialect">org.hibernate.dialect.MySQL8Dialect</property>
+    	<property name="current_session_context_class">thread</property>
+    	<property name="hibernate.hbm2ddl.auto">update</property>
+    	<property name="hibernate.charset">UTF-8</property>
+    	
+    	<mapping class="fr.ensitech.golfloc.entity.User" />
+    	<mapping class="fr.ensitech.golfloc.entity.Adresse" />
+    	<mapping class="fr.ensitech.golfloc.entity.PwdReset" />
+    	<mapping class="fr.ensitech.golfloc.entity.Category" />
+    	<mapping class="fr.ensitech.golfloc.entity.Item" />
+    	<mapping class="fr.ensitech.golfloc.entity.Cart" />
+    	<mapping class="fr.ensitech.golfloc.entity.Comment" />
+    </session-factory>
+</hibernate-configuration>

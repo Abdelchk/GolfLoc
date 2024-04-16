@@ -1,4 +1,4 @@
-package fr.ensitech.golfloc.beans;
+package fr.ensitech.golfloc.mains;
 
 import java.util.List;
 

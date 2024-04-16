@@ -19,7 +19,7 @@ public class CategoryBean implements Serializable {
 	private Integer id;
 	private Type name;
 	private int discount;
-	private String isCumulative;
+	private boolean isCumulative;
 	private Category category;
 	private CategoryMetier categoryMetier;
 	
@@ -50,11 +50,11 @@ public class CategoryBean implements Serializable {
 		this.discount = discount;
 	}
 
-	public String getIsCumulative() {
+	public boolean getIsCumulative() {
 		return isCumulative;
 	}
 
-	public void setIsCumulative(String isCumulative) {
+	public void setIsCumulative(boolean isCumulative) {
 		this.isCumulative = isCumulative;
 	}
 	
