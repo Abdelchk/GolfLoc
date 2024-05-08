@@ -3,7 +3,7 @@ package fr.ensitech.golfloc.beans;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 
-@ManagedBean
+@ManagedBean(name="captchabean")
 @RequestScoped
 public class CaptchaBean {
 

@@ -36,7 +36,7 @@ public class User implements Serializable {
 	@Column(name = "firstname", length = 45, nullable = false)
 	private String prenom;
 	
-	@Column(length = 45, nullable = false)
+	@Column(length = 45, nullable = false, unique = true)
 	private String email;
 	
 	@Lob
@@ -48,10 +48,10 @@ public class User implements Serializable {
 	private Date dateNaissance;
 	
 	@Column(name = "is_active", nullable = false, columnDefinition = "boolean default true")
-	private boolean isActive;
+	private boolean isActive = true;
 	
 	@Column(name = "profile", length = 45, nullable = false, columnDefinition = "varchar(45) default 'client'")
-	private String profile;
+	private String profile =  "client";
 	
 	@Column(name = "phone_number", length = 45, nullable = false)
 	private String phoneNumber;
@@ -69,10 +69,12 @@ public class User implements Serializable {
     private List<Comment> comments;
 	
 	public User() {
+		this.isActive = true;
+        this.profile = "client";
 	}
 
 	public User(Integer id, String nom, String prenom, String email, String password, Date dateNaissance, boolean isActive,
-			String profile, String phoneNumber) {
+			String profile, String phoneNumber, Adresse adresse) {
 		this.id = id;
 		this.nom = nom;
 		this.prenom = prenom;
@@ -82,6 +84,7 @@ public class User implements Serializable {
 		this.isActive = isActive;
 		this.profile = profile;
 		this.phoneNumber = phoneNumber;
+		this.adresse = adresse;
 	}
 	
 	public Integer getId() {
@@ -154,6 +157,14 @@ public class User implements Serializable {
 
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
+	}
+	
+	public Adresse getAdresse() {
+		return adresse;
+	}
+	
+	public void setAdresse(Adresse adresse) {
+		this.adresse = adresse;
 	}
 
 	@Override

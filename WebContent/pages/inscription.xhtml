@@ -14,13 +14,16 @@
 </h:head>
 <body>
 	<f:view>
-	<ui:include src="/resources/templates/header.xhtml" />
+		<f:metadata>
+			<f:param name="adresseBean" value="#{adressebean}" />
+		</f:metadata>
+		<ui:include src="/resources/templates/header.xhtml" />
 		<h2>Inscription</h2>
 		
 		<h:form>
 			<h:panelGroup>
 				<h:panelGrid id = "panelFieldsUser" styleClass="panelFieldsUser" columns = "3" cellpadding = "5" cellspacing = "2">
-					<h:outputText value = "Nom :"/>
+					<h:outputText styleClass="outputText" value = "Nom :"/>
 					<h:inputText id="nom" styleClass="inputText" size="20" required="true"
 						value="#{userbean.nom}" requiredMessage="Le nom est obligatoire !"
 						validatorMessage="Le nom ne doit pas contenir de caractères spéciaux ou de chiffres.">
@@ -29,7 +32,7 @@
 					</h:inputText>
 					<h:message for="nom" styleClass="messages"></h:message>
 					
-					<h:outputText value = "Prenom :"/>
+					<h:outputText styleClass="outputText" value = "Prenom :"/>
 					<h:inputText id="prenom" styleClass="inputText" size="20" required="true"
 						value="#{userbean.prenom}" requiredMessage="Le prénom est obligatoire !"
 						validatorMessage="Le prénom ne doit pas contenir de caractères spéciaux ou de chiffres.">
@@ -38,23 +41,23 @@
 					</h:inputText>
 					<h:message for="prenom" styleClass="messages"></h:message>
 					
-					<h:outputText value="Date de naissance:" />
-					<p:calendar id="dateNaissance" styleClass="inputText" required="true"
+					<h:outputText styleClass="outputText" value="Date de naissance :" />
+					<p:calendar mindate="1/1/1970" mode="inline" navigator="true" id="dateNaissance" required="true"
 					            value="#{userbean.dateNaissance}"
 					            requiredMessage="La date de naissance est obligatoire !"
 					            pattern="dd/MM/yyyy" />
-					<h:message for="dateNaissance" />
+					<h:message for="dateNaissance" styleClass="messages"/>
 					
-					<h:outputText value = "N° de téléphone :"/>
+					<h:outputText styleClass="outputText" value = "N° de téléphone :"/>
 					<h:inputText id="phoneNumber" styleClass="inputText" size="20" required="true"
 						value="#{userbean.phoneNumber}" requiredMessage="Le numéro de téléphone est obligatoire !"
 						validatorMessage="Le numéro ne doit pas contenir de caractères spéciaux ou de lettres et doit faire au moins 10 caractères.">
-						<f:validateLength  maximum="20" />
+						<f:validateLength minimum="10" maximum="20" />
 						<f:validateRegex pattern="^(0|\\+33|0033)[1-9][0-9]{8}" />
 					</h:inputText>
 					<h:message for="phoneNumber" styleClass="messages"></h:message>
 					
-					<h:outputText value = "Email :"/>
+					<h:outputText styleClass="outputText" value = "Email :"/>
 					<h:inputText id="email" styleClass="inputText" size="20" required="true"
 						value="#{userbean.email}" requiredMessage="L'email est obligatoire !"
 						validatorMessage="Veuillez entrer une adresse email conforme (xxxxx@xxxxx.xxx).">
@@ -63,16 +66,43 @@
 					</h:inputText>
 					<h:message for="email" styleClass="messages"></h:message>
 					
-					<h:outputText value = "Adresse  :"/>
-					<h:inputText id="nom" styleClass="inputText" size="20" required="true"
-						value="#{userbean.nom}" requiredMessage="Le nom est obligatoire !"
-						validatorMessage="Le nom ne doit pas contenir de caractères spéciaux ou de chiffres.">
-						<f:validateLength minimum="2" maximum="20" />
+					<h:outputText styleClass="outputText" value = "Adresse N°  :"/>
+					<h:inputText id="numero" styleClass="inputText" size="20" required="true"
+						value="#{adressebean.numero}" requiredMessage="Le numéro est obligatoire !"
+						validatorMessage="Le numéro ne doit pas contenir de caractères spéciaux.">
+						<f:validateLength minimum="2" maximum="4" />
+						<f:validateRegex pattern="^[0-9]{1,3}\s?(b|B|bis|Bis)?$" />
+					</h:inputText>
+					<h:message for="numero" styleClass="messages"></h:message>
+					
+					<h:outputText styleClass="outputText" value = "Rue  :"/>
+					<h:inputText id="rue" styleClass="inputText" size="20" required="true"
+						value="#{adressebean.rue}" requiredMessage="La rue est obligatoire !"
+						validatorMessage="La rue ne doit pas contenir de caractères spéciaux ou de chiffres.">
+						<f:validateLength minimum="5" maximum="40" />
 						<f:validateRegex pattern="^[A-Za-zÀ-ÖØ-öø-ÿ '-]+$" />
 					</h:inputText>
-					<h:message for="nom" styleClass="messages"></h:message>
+					<h:message for="rue" styleClass="messages"></h:message>
 					
-					<h:outputText value = "Mot de passe :"/>
+					<h:outputText styleClass="outputText" value = "Ville  :"/>
+					<h:inputText id="ville" styleClass="inputText" size="20" required="true"
+						value="#{adressebean.ville}" requiredMessage="La ville est obligatoire !"
+						validatorMessage="La ville ne doit pas contenir de caractères spéciaux ou de chiffres.">
+						<f:validateLength minimum="2" maximum="30" />
+						<f:validateRegex pattern="^[A-Za-zÀ-ÖØ-öø-ÿ '-]+$" />
+					</h:inputText>
+					<h:message for="ville" styleClass="messages"></h:message>
+					
+					<h:outputText styleClass="outputText" value = "Code Postal :"/>
+					<h:inputText id="code" styleClass="inputText" size="20" required="true"
+						value="#{adressebean.codePostal}" requiredMessage="Le code postal est obligatoire !"
+						validatorMessage="Le code postal doit faire minimum 5 chiffres et ne doit pas contenir de caractères spéciaux.">
+						<f:validateLength minimum="5" maximum="20" />
+						<f:validateRegex pattern="^\d{2}[0-9ABab]{3}$|^\d{5}$" />
+					</h:inputText>
+					<h:message for="code" styleClass="messages"></h:message>
+					
+					<h:outputText styleClass="outputText" value = "Mot de passe :"/>
 					<h:inputSecret id="password" styleClass="inputSecret" size="20" required="true"
 						value="#{userbean.password}" requiredMessage="Le mot de passe est obligatoire !"
 						validatorMessage="Le mot de passe doit obligatoirement contenir 12 caractères (1 majuscule/minuscule et au moins un cractère spécial)">
@@ -82,7 +112,7 @@
 					</h:inputSecret>
 					<h:message for="password" styleClass="messages"></h:message>
 					
-					<h:outputText value="Confirmer mot de passe :" />
+					<h:outputText styleClass="outputText" value="Confirmer mot de passe :" />
 					<h:inputSecret id="pwdConfirm" styleClass="inputSecret" size="20" required="true"
 						value="#{userbean.pwdConfirm}" requiredMessage="Veuillez confirmer le mot de passe !"
 						validator="#{userbean.validatePasswordConfirmation}">
@@ -94,26 +124,19 @@
 				</h:panelGrid>
 			</h:panelGroup>
 			<p></p>
-			 <h:form>
-
-		    <!-- Captcha -->
-		    <h:panelGroup id="captchaPanel">
-		        <h:graphicImage id="captchaImage" url="chemin_vers_image_captcha" alt="Captcha Image" />
-		        <h:commandButton id="captchaButton" image="chemin_vers_image_bouton" action="#{captchaBean.validerCaptcha}" />
-		    </h:panelGroup>
-
+				<h:commandButton id = "btnAddUser" styleClass="commandButton" value = "S'inscrire" action="#{userbean.creerUtilisateur}">
+					 <f:param name="adresseBean" value="#{adressebean}" />
+				</h:commandButton>	
 			<p></p>
+
 			<h:messages id="messages" styleClass="messages" showDetail="true" globalOnly="true" />
 		</h:form>
 	</f:view>
 </body>
 </html>
 
-<!-- <h:outputText value = "Date de naissance :"/>
-					<h:inputText id="dateNaissance" styleClass="inputText" size="20" required="true"
-						value="#{userbean.dateNaissance}" requiredMessage="La date de naissance est obligatoire !"
-						validatorMessage="La date de naissance doit être au format suivant : JJ/MM/YYYY">
-						<f:convertDateTime pattern="dd/MM/yyyy" />
-					</h:inputText>
-					<h:message for="dateNaissance" styleClass="messages"></h:message> -->
-					
+<!-- Captcha -->
+		   <!--  <h:panelGroup id="captchaPanel">
+		        <h:graphicImage id="captchaImage" library="img" name="login-no-captcha.png" alt="Captcha Image" />
+		        <h:commandButton id="captchaButton" image="chemin_vers_image_bouton" action="#{captchaBean.validerCaptcha}" />
+		    </h:panelGroup> -->

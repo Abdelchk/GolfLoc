@@ -6,12 +6,14 @@ import java.util.Map;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
+import fr.ensitech.golfloc.entity.Adresse;
 import fr.ensitech.golfloc.entity.User;
 import fr.ensitech.golfloc.metier.UserMetier;
 import fr.ensitech.golfloc.utils.ResetRequestDetails;
@@ -32,8 +34,11 @@ public class UserBean implements Serializable {
 	private boolean isActive;
 	private String profile;
 	private String phoneNumber;
+	private Adresse adresse;
 	private UserMetier userMetier;
 	private User connectedUser;
+	@ManagedProperty(value="#{adresseBean}")
+    private AdresseBean adresseBean;
 	
 	public UserBean() {
 	}
@@ -117,6 +122,14 @@ public class UserBean implements Serializable {
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
+	
+	public Adresse getAdresseId() {
+		return adresse;
+	}
+	
+	public void setAdresseId(Adresse adresseId) {
+		this.adresse = adresseId;
+	}
 
 	public User getConnectedUser() {
 		return connectedUser;
@@ -126,6 +139,9 @@ public class UserBean implements Serializable {
 		this.connectedUser = connectUser;
 	}
 	
+	public void setAdresseBean(AdresseBean adresseBean) {
+        this.adresseBean = adresseBean;
+    }
 	
 	// Méthodes de validations
 	
@@ -162,6 +178,9 @@ public class UserBean implements Serializable {
 		
 		try {
 			User user = new User();
+			Adresse adresse = new Adresse();
+			
+		    AdresseBean adresseBean = (AdresseBean) FacesContext.getCurrentInstance().getApplication().evaluateExpressionGet(FacesContext.getCurrentInstance(), "#{adressebean}", AdresseBean.class);
 			
 			user.setNom(nom);
 			user.setPrenom(prenom);
@@ -169,6 +188,14 @@ public class UserBean implements Serializable {
 			user.setEmail(email);
 			user.setPassword(password);
 			user.setPhoneNumber(phoneNumber);
+			
+			adresse.setUser(user);
+			adresse.setNumero(adresseBean.getNumero());
+			adresse.setRue(adresseBean.getRue());
+			adresse.setVille(adresseBean.getVille());
+			adresse.setCodePostal(adresseBean.getCodePostal());
+			
+			user.setAdresse(adresse);
 			
 			userMetier.creerUtilisateur(user);
 			connectedUser = user;
@@ -182,6 +209,7 @@ public class UserBean implements Serializable {
             }
 		} catch (Exception e) {
 			e.printStackTrace();
+			System.out.println("Une erreur s'est produite dans UserBean.CreerUtilisateur : " + e.getMessage());
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erreur :", "une erreur s'est produite lors de l'inscription"));
 			return null;
 		}

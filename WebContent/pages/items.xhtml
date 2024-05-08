@@ -128,7 +128,7 @@
 				<h:form styleClass="form">
 					<p:selectOneMenu value="#{itembean.selectedCategory}" >
 			            <f:selectItem itemValue="#{null}" itemLabel="Tous" />
-			            <!-- <f:selectItem itemValue="0" itemLabel="Autre" /> -->
+			            <f:selectItem itemValue="0" itemLabel="Autre" />
 			            <f:selectItems value="#{categorybean.categories}" var="category" itemValue="#{category.name}" itemLabel="#{category.name}" />
 			            <p:ajax update="itemTable" />
 		        	</p:selectOneMenu>

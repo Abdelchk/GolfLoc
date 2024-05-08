@@ -18,7 +18,7 @@
 		
 		<h:form>
 			<h:panelGroup>
-				<h:panelGrid id = "panelFieldsUser" styleClass="panelFieldsUser" columns = "3" cellpadding = "5" cellspacing = "2">
+				<h:panelGrid id = "panelFieldsUser" styleClass="panelFieldsUser" columns = "3" cellpadding = "5" cellspacing = "2" >
 				
 					<h:outputText value = "Email :"/>
 					<h:inputText id="email" styleClass="inputText" size="20" required="true"
@@ -27,7 +27,7 @@
 						<f:validateLength maximum="35" />
 						<f:validateRegex pattern="\b[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+\.[A-Z|a-z]{2,}\b" />
 					</h:inputText>
-					<h:message for="email" styleClass="messages"></h:message>
+					<h:message for="email" styleClass="messages" />
 					
 					<h:outputText value = "Mot de passe :"/>
 					<h:inputSecret id="password" styleClass="inputSecret" size="20" required="true"
@@ -35,10 +35,8 @@
 					</h:inputSecret>
 					<h:message for="password" styleClass="messages"></h:message>
 					
-					
-					<h:panelGroup>
-						<h:commandLink id="pwdReset" styleClass="pwdReset" value="Mot de passe oublié ?" action="envoiMail" immediate="true"/>	
-					</h:panelGroup>
+					<h:outputText value = ""/>
+					<h:commandLink id="pwdReset" styleClass="pwdReset" value="Mot de passe oublié ?" action="envoiMail" immediate="true"/>	
 					
 				</h:panelGrid>
 				

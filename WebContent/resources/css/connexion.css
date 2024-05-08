@@ -64,12 +64,13 @@ h2 {
 }
 
 .pwdReset {
-    color: blue;
+    color: #3498db;
     display: block;
     text-align: center;
 }
 
 .messages {
+	font-size: 12px;
     color: red;
     list-style-type: none;
     

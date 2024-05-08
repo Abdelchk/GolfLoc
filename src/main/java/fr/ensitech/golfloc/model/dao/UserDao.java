@@ -76,14 +76,32 @@ public final class UserDao implements IUserDao {
 	
 	 @Override
 	    public final Integer addUser(User user) throws Exception {
+		 
+		 if (user == null) {
+		        throw new NullPointerException("Le user à créer ne doit pas être NULL !");
+		    }
+		    if (user.getNom() == null || user.getNom().trim().isEmpty() || user.getPrenom() == null
+		            || user.getPrenom().trim().isEmpty() || user.getEmail() == null 
+		            || user.getEmail().trim().isEmpty() || user.getPassword() == null 
+		            || user.getPassword().trim().isEmpty() || user.getDateNaissance() == null
+		            || Dates.convertDateToString(user.getDateNaissance()).trim().isEmpty()
+		            || user.getPhoneNumber() == null || user.getPhoneNumber().trim().isEmpty()) 
+		    {
+		        throw new IllegalArgumentException("Tous les paramètres sont obligatoires !");
+		    }
 
 	        Session session = null;
 	        Transaction tx = null;
 	        try {
+	        	
+	        	// Cryptage du mot de passe avec BCrypt
+	            String hashedPassword = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
+	            user.setPassword(hashedPassword);
+	            
 	            session = HibernateConnector.getSession();
 	            tx = session.beginTransaction();
 	            session.save(user);
-//	            session.save(user.getAdresse());
+	            session.save(user.getAdresse());
 	            tx.commit();
 
 	        } catch (RollbackException e) {
@@ -473,16 +491,44 @@ public final class UserDao implements IUserDao {
 	
 	@Override
 	public User verifyUser(String email, String password) throws Exception {
+		if (email == null || email.trim().isEmpty() || password == null || password.trim().isEmpty()) {
+	        throw new IllegalArgumentException("L'email et le mot de passe doivent être renseignés !");
+	    }
 			
 			Session session = null;
 	        try {
 	            session = HibernateConnector.getSession();
 	            // Requête JPQL
-	            Query<User> query = session.createQuery("SELECT u from User u where u.email = :email", User.class);
+	            Query<User> query = session.createQuery("SELECT u from user u where u.email = :email", User.class);
 	            query.setParameter("email", email);
 				
 				// return query.getSingleResult();
-				return query.uniqueResult();
+				User user = query.uniqueResult();
+				
+				if (user != null) {
+		            // Récupérer le mot de passe haché stocké dans la base de données
+		            String hashedPasswordFromDatabase = user.getPassword();
+		            
+		            // Ajouter des journaux pour déboguer
+		            System.out.println("\nUtilisateur trouvé : " + user.getEmail());
+		            System.out.println("Mot de passe entré par l'utilisateur : " + password);
+		            System.out.println("Mot de passe stocké dans la BDD : " + hashedPasswordFromDatabase);
+
+		            // Vérifier si les mots de passe correspondent
+		            if (BCrypt.checkpw(password, hashedPasswordFromDatabase)) {
+		                // Si les mots de passe correspondent, retourner l'utilisateur
+		                return user;
+		            } else {
+		                // Si le mot de passe est incorrect, afficher un message de journal
+		                System.out.println("Mot de passe incorrect pour l'utilisateur avec l'email : " + email);
+		                return null;
+		            }
+		        } else {
+		            // Si aucun utilisateur n'est trouvé pour l'email donné, afficher un message de journal
+		            System.out.println("Aucun utilisateur trouvé pour l'email : " + email);
+		            return null;
+		        }
+	            
 	        } finally {
 	            if (session != null && session.isOpen()) {
 	                session.close();
