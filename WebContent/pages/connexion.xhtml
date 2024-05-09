@@ -4,7 +4,8 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-	xmlns:h="http://java.sun.com/jsf/html">
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
 <h:head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 <h:outputStylesheet name="connexion.css" library="css"/>
@@ -30,9 +31,9 @@
 					<h:message for="email" styleClass="messages" />
 					
 					<h:outputText value = "Mot de passe :"/>
-					<h:inputSecret id="password" styleClass="inputSecret" size="20" required="true"
-						value="#{userbean.password}" requiredMessage="Le mot de passe est obligatoire !">
-					</h:inputSecret>
+					<p:password id="password" styleClass="inputSecret" size="20" required="true"
+						value="#{userbean.password}" requiredMessage="Le mot de passe est obligatoire !"
+						toggleMask="true" redisplay="true" />
 					<h:message for="password" styleClass="messages"></h:message>
 					
 					<h:outputText value = ""/>

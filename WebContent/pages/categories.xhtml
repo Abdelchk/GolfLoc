@@ -29,12 +29,11 @@
 							<h:message for="nom" styleClass="messages"></h:message>
 							
 							<h:outputText value = "Remise (en %) :"/>
-							<h:inputText id="discountCat" styleClass="inputText" size="2" required="true"
+							<p:spinner id="discountCat" styleClass="inputText" size="2" required="true"
 								value="#{categorybean.discount}" requiredMessage="La remise est obligatoire !"
-								validatorMessage="Ce champ ne doit pas contenir autre chose qu'un nombre allant de 0 à 50.">
-								<f:validateLength minimum="1" maximum="2" />
-								<f:convertNumber/>
-							</h:inputText>
+								validatorMessage="Ce champ ne doit pas contenir autre chose qu'un nombre allant de 0 à 50."
+								min="0" max="50" suffix="%">
+							</p:spinner>
 							<h:message for="discountCat" styleClass="messages"></h:message>
 							
 							<h:outputText value = "Remise cumulative :"/>

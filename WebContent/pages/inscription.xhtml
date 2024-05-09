@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
@@ -10,7 +10,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 <h:outputStylesheet name="inscription.css" library="css" />
 <h:outputStylesheet name="common-style.css" library="css" />
-<title>Créer un compte</title>
+<title>CrÃ©er un compte</title>
 </h:head>
 <body>
 	<f:view>
@@ -21,41 +21,38 @@
 		<h2>Inscription</h2>
 		
 		<h:form>
+			<p:growl id="msgs" showDetail="true"/>
 			<h:panelGroup>
-				<h:panelGrid id = "panelFieldsUser" styleClass="panelFieldsUser" columns = "3" cellpadding = "5" cellspacing = "2">
+				<h:panelGrid id = "panelFieldsUser" styleClass="panelFieldsUser" columns = "2" cellpadding = "5" cellspacing = "2">
 					<h:outputText styleClass="outputText" value = "Nom :"/>
 					<h:inputText id="nom" styleClass="inputText" size="20" required="true"
 						value="#{userbean.nom}" requiredMessage="Le nom est obligatoire !"
-						validatorMessage="Le nom ne doit pas contenir de caractères spéciaux ou de chiffres.">
+						validatorMessage="Le nom ne doit pas contenir de caractÃ¨res spÃ©ciaux ou de chiffres.">
 						<f:validateLength minimum="2" maximum="20" />
-						<f:validateRegex pattern="^[A-Za-zÀ-ÖØ-öø-ÿ '-]+$" />
+						<f:validateRegex pattern="^[A-Za-zÃ€-Ã–Ã˜-Ã¶Ã¸-Ã¿ '-]+$" />
 					</h:inputText>
-					<h:message for="nom" styleClass="messages"></h:message>
 					
 					<h:outputText styleClass="outputText" value = "Prenom :"/>
 					<h:inputText id="prenom" styleClass="inputText" size="20" required="true"
-						value="#{userbean.prenom}" requiredMessage="Le prénom est obligatoire !"
-						validatorMessage="Le prénom ne doit pas contenir de caractères spéciaux ou de chiffres.">
+						value="#{userbean.prenom}" requiredMessage="Le prÃ©nom est obligatoire !"
+						validatorMessage="Le prÃ©nom ne doit pas contenir de caractÃ¨res spÃ©ciaux ou de chiffres.">
 						<f:validateLength minimum="2" maximum="20" />
-						<f:validateRegex pattern="^[A-Za-zÀ-ÖØ-öø-ÿ '-]+$" />
+						<f:validateRegex pattern="^[A-Za-zÃ€-Ã–Ã˜-Ã¶Ã¸-Ã¿ '-]+$" />
 					</h:inputText>
-					<h:message for="prenom" styleClass="messages"></h:message>
 					
 					<h:outputText styleClass="outputText" value="Date de naissance :" />
-					<p:calendar mindate="1/1/1970" mode="inline" navigator="true" id="dateNaissance" required="true"
+					<p:calendar mindate="1/1/1970" showOn="button" navigator="true" id="dateNaissance" required="true"
 					            value="#{userbean.dateNaissance}"
 					            requiredMessage="La date de naissance est obligatoire !"
 					            pattern="dd/MM/yyyy" />
-					<h:message for="dateNaissance" styleClass="messages"/>
 					
-					<h:outputText styleClass="outputText" value = "N° de téléphone :"/>
+					<h:outputText styleClass="outputText" value = "NÂ° de tÃ©lÃ©phone :"/>
 					<h:inputText id="phoneNumber" styleClass="inputText" size="20" required="true"
-						value="#{userbean.phoneNumber}" requiredMessage="Le numéro de téléphone est obligatoire !"
-						validatorMessage="Le numéro ne doit pas contenir de caractères spéciaux ou de lettres et doit faire au moins 10 caractères.">
+						value="#{userbean.phoneNumber}" requiredMessage="Le numÃ©ro de tÃ©lÃ©phone est obligatoire !"
+						validatorMessage="Le numÃ©ro ne doit pas contenir de caractÃ¨res spÃ©ciaux ou de lettres et doit faire au moins 10 caractÃ¨res.">
 						<f:validateLength minimum="10" maximum="20" />
 						<f:validateRegex pattern="^(0|\\+33|0033)[1-9][0-9]{8}" />
 					</h:inputText>
-					<h:message for="phoneNumber" styleClass="messages"></h:message>
 					
 					<h:outputText styleClass="outputText" value = "Email :"/>
 					<h:inputText id="email" styleClass="inputText" size="20" required="true"
@@ -64,64 +61,51 @@
 						<f:validateLength maximum="35" />
 						<f:validateRegex pattern="\b[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+\.[A-Z|a-z]{2,}\b" />
 					</h:inputText>
-					<h:message for="email" styleClass="messages"></h:message>
 					
-					<h:outputText styleClass="outputText" value = "Adresse N°  :"/>
+					<h:outputText styleClass="outputText" value = "Adresse NÂ°  :"/>
 					<h:inputText id="numero" styleClass="inputText" size="20" required="true"
-						value="#{adressebean.numero}" requiredMessage="Le numéro est obligatoire !"
-						validatorMessage="Le numéro ne doit pas contenir de caractères spéciaux.">
+						value="#{adressebean.numero}" requiredMessage="Le numÃ©ro est obligatoire !"
+						validatorMessage="Le numÃ©ro ne doit pas contenir de caractÃ¨res spÃ©ciaux.">
 						<f:validateLength minimum="2" maximum="4" />
 						<f:validateRegex pattern="^[0-9]{1,3}\s?(b|B|bis|Bis)?$" />
 					</h:inputText>
-					<h:message for="numero" styleClass="messages"></h:message>
 					
 					<h:outputText styleClass="outputText" value = "Rue  :"/>
 					<h:inputText id="rue" styleClass="inputText" size="20" required="true"
 						value="#{adressebean.rue}" requiredMessage="La rue est obligatoire !"
-						validatorMessage="La rue ne doit pas contenir de caractères spéciaux ou de chiffres.">
+						validatorMessage="La rue ne doit pas contenir de caractÃ¨res spÃ©ciaux ou de chiffres.">
 						<f:validateLength minimum="5" maximum="40" />
-						<f:validateRegex pattern="^[A-Za-zÀ-ÖØ-öø-ÿ '-]+$" />
+						<f:validateRegex pattern="^[A-Za-zÃ€-Ã–Ã˜-Ã¶Ã¸-Ã¿ '-]+$" />
 					</h:inputText>
-					<h:message for="rue" styleClass="messages"></h:message>
 					
 					<h:outputText styleClass="outputText" value = "Ville  :"/>
 					<h:inputText id="ville" styleClass="inputText" size="20" required="true"
 						value="#{adressebean.ville}" requiredMessage="La ville est obligatoire !"
-						validatorMessage="La ville ne doit pas contenir de caractères spéciaux ou de chiffres.">
+						validatorMessage="La ville ne doit pas contenir de caractÃ¨res spÃ©ciaux ou de chiffres.">
 						<f:validateLength minimum="2" maximum="30" />
-						<f:validateRegex pattern="^[A-Za-zÀ-ÖØ-öø-ÿ '-]+$" />
+						<f:validateRegex pattern="^[A-Za-zÃ€-Ã–Ã˜-Ã¶Ã¸-Ã¿ '-]+$" />
 					</h:inputText>
-					<h:message for="ville" styleClass="messages"></h:message>
 					
 					<h:outputText styleClass="outputText" value = "Code Postal :"/>
 					<h:inputText id="code" styleClass="inputText" size="20" required="true"
 						value="#{adressebean.codePostal}" requiredMessage="Le code postal est obligatoire !"
-						validatorMessage="Le code postal doit faire minimum 5 chiffres et ne doit pas contenir de caractères spéciaux.">
+						validatorMessage="Le code postal doit faire minimum 5 chiffres et ne doit pas contenir de caractÃ¨res spÃ©ciaux.">
 						<f:validateLength minimum="5" maximum="20" />
 						<f:validateRegex pattern="^\d{2}[0-9ABab]{3}$|^\d{5}$" />
 					</h:inputText>
-					<h:message for="code" styleClass="messages"></h:message>
 					
 					<h:outputText styleClass="outputText" value = "Mot de passe :"/>
-					<h:inputSecret id="password" styleClass="inputSecret" size="20" required="true"
-						value="#{userbean.password}" requiredMessage="Le mot de passe est obligatoire !"
-						validatorMessage="Le mot de passe doit obligatoirement contenir 12 caractères (1 majuscule/minuscule et au moins un cractère spécial)">
-						<!-- <f:validateLength minimum="8" maximum="30" /> -->
+					<p:password id="password" feedback="true" toggleMask="true" redisplay="true" styleClass="inputSecret" size="20"
+					 	required="true" value="#{userbean.password}" requiredMessage="Le mot de passe est obligatoire !"
+						validatorMessage="Le mot de passe doit obligatoirement contenir 12 caractÃ¨res (1 majuscule/minuscule et au moins un cractÃ¨re spÃ©cial)">
 						<f:validateRegex 
-						pattern="^(?=.*[A-Za-zÀ-ÖØ-öø-ÿ])(?=.*\d)(?=.*[@$!%*?&amp;#])[A-Za-zÀ-ÖØ-öø-ÿ\d@$!%*?&amp;#]{12,}$" />
-					</h:inputSecret>
-					<h:message for="password" styleClass="messages"></h:message>
+						pattern="^(?=.*[A-Za-zÃ€-Ã–Ã˜-Ã¶Ã¸-Ã¿])(?=.*\d)(?=.*[@$!%*?&amp;#])[A-Za-zÃ€-Ã–Ã˜-Ã¶Ã¸-Ã¿\d@$!%*?&amp;#]{12,}$" />
+					</p:password>
 					
 					<h:outputText styleClass="outputText" value="Confirmer mot de passe :" />
-					<p:password id="toggle" value="#{passwordView.password6}" toggleMask="true" redisplay="true"/>
-					<h:inputSecret id="pwdConfirm" styleClass="inputSecret" size="20" required="true"
+					<p:password id="pwdConfirm" feedback="true" toggleMask="true" redisplay="true" styleClass="inputSecret" size="20" required="true"
 						value="#{userbean.pwdConfirm}" requiredMessage="Veuillez confirmer le mot de passe !"
-						validator="#{userbean.validatePasswordConfirmation}">
-					<!-- <f:validateLength minimum="8" maximum="30" /> -->
-					<f:validateRegex 
-					pattern="^(?=.*[A-Za-zÀ-ÖØ-öø-ÿ])(?=.*\d)(?=.*[@$!%*?&amp;#])[A-Za-zÀ-ÖØ-öø-ÿ\d@$!%*?&amp;#]{12,}$"/>
-					</h:inputSecret>
-					<h:message for="pwdConfirm" styleClass="messages"></h:message>
+						validator="#{userbean.validatePasswordConfirmation}" />
 				</h:panelGrid>
 			</h:panelGroup>
 			<p></p>
@@ -137,7 +121,5 @@
 </html>
 
 <!-- Captcha -->
-		   <!--  <h:panelGroup id="captchaPanel">
-		        <h:graphicImage id="captchaImage" library="img" name="login-no-captcha.png" alt="Captcha Image" />
-		        <h:commandButton id="captchaButton" image="chemin_vers_image_bouton" action="#{captchaBean.validerCaptcha}" />
-		    </h:panelGroup> -->
+		   <!--  <p:messages showDetail="true"/>
+        	<p:captcha label="Captcha"/> -->

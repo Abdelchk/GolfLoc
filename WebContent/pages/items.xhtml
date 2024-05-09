@@ -23,7 +23,7 @@
 				<h:form>
 				<h:panelGroup>
 					
-					<h:panelGrid id = "panelFieldsItem" styleClass="panelFieldsItem" columns = "3" cellpadding = "4" cellspacing = "2">
+					<h:panelGrid id = "panelFieldsItem" styleClass="panelFieldsItem" columns = "2" cellpadding = "4" cellspacing = "2">
 					
 						<h:outputText value = "Nom :"/>
 						<h:inputText id="name" styleClass="inputText" size="50" required="true"
@@ -33,28 +33,24 @@
 							<f:validateRegex pattern="" />
 							<!-- To have a full protection = validate in front and put CSrF token or validate into the front and validate into the back + ajouter captcha pendant la création de compte  -->
 						</h:inputText>
-						<h:message for="name" styleClass="messages"></h:message>
 						
 						<h:outputText value = "Marque :"/>
 						<h:inputText id="brand" styleClass="inputText" size="50" required="true"
 							value="#{itembean.brand}" requiredMessage="La marque du club est obligatoire !"
 							validatorMessage="Ce champ doit contenir au moins 10 charactères.">
 						</h:inputText>
-						<h:message for="brand" styleClass="messages"></h:message>
 						
 						<h:outputText value = "Taille :"/>
 						<h:selectOneRadio id="gender" styleClass="buttonRadio" required="true" value="#{itembean.gender}"
 							requiredMessage="La taille est obligatoire !">
 							<f:selectItems value="#{itembean.genders}"/>						
 						</h:selectOneRadio>
-						<h:message for="gender" styleClass="messages"></h:message>
 						
 						<h:outputText value = "Main :"/>
 						<h:selectOneRadio id="mainhand" styleClass="buttonRadio" required="true" value="#{itembean.mainHand}"
 							requiredMessage="Veuillez choisir la main dominante correspondante !">
 							<f:selectItems value="#{itembean.mainHands}"/>						
 						</h:selectOneRadio>
-						<h:message for="mainhand" styleClass="messages"></h:message>
 						
 						<h:outputText value = "Flexibilité :"/>
 						<h:selectOneMenu id="flexibility" styleClass="selectMenu" required="true" value="#{itembean.flexibility}"
@@ -62,39 +58,31 @@
 							<f:selectItem itemValue="#{null}" itemLabel="--sélectionner--" />
 							<f:selectItems value="#{itembean.flexibilities}"/>						
 						</h:selectOneMenu>
-						<h:message for="flexibility" style="color: red"></h:message>
 						
 						<h:outputText value = "Description :"/>
 						<h:inputTextarea id="description" styleClass="inputText" size="250" value="#{itembean.description}">
 						</h:inputTextarea>
-						<h:message for="description" styleClass="messages"></h:message>
 							
 						<h:outputText value = "Prix :"/>
-						<h:inputText id="price" styleClass="inputText" size="20" required="true"
+						<p:spinner id="price" styleClass="inputText" size="20" required="true"
 							value="#{itembean.price}" requiredMessage="Le prix est obligatoire !"
-							validatorMessage="Ce champ ne doit pas contenir autre chose qu'un nombre.">
-							<f:validateLength minimum="1" maximum="6" />
+							validatorMessage="Ce champ ne doit pas contenir autre chose qu'un nombre."
+							stepFactor="0.25" suffix="€">
 							<f:convertNumber/>
-						</h:inputText>
-						<h:message for="price" styleClass="messages"></h:message>
+						</p:spinner>
 						
 						<h:outputText value = "Remise (en %) :"/>
-						<h:inputText id="discountArt" styleClass="inputText" size="2" required="true"
+						<p:spinner id="discountArt" styleClass="inputText" size="2" required="true"
 							value="#{itembean.discount}" requiredMessage="La remise est obligatoire !"
-							validatorMessage="Ce champ ne doit pas contenir autre chose qu'un nombre allant de 0 à 50.">
-							<f:validateLength minimum="1" maximum="2" />
-							<f:convertNumber/>
-						</h:inputText>
-						<h:message for="discountArt" styleClass="messages"></h:message>
+							validatorMessage="Ce champ ne doit pas contenir autre chose qu'un nombre allant de 0 à 50."
+							min="0" max="50" suffix="%">
+						</p:spinner>
 						
 						<h:outputText value = "Stock :"/>
-						<h:inputText id="stock" styleClass="inputText" size="2" required="true"
+						<p:spinner id="stock" styleClass="inputText" size="2" required="true"
 							value="#{itembean.stock}" requiredMessage="Veuillez saisir le stock de l'article !"
 							validatorMessage="Ce champ ne doit pas contenir autre chose qu'un nombre allant de 0 à 50.">
-							<f:validateLength minimum="1" maximum="2" />
-							<f:convertNumber/>
-						</h:inputText>
-						<h:message for="stock" styleClass="messages"></h:message>
+						</p:spinner>
 						
 						<h:outputText value = "Catégorie :"/>
 						<h:selectOneMenu id="category" styleClass="selectMenu" required="true" value="#{itembean.categoryId}"
@@ -102,7 +90,6 @@
 							<f:selectItem itemValue="#{null}" itemLabel="--sélectionner--" />
 							<f:selectItems value="#{categorybean.categories}" var="category" itemValue="#{category.id}" itemLabel="#{category.name}"/>		
 						</h:selectOneMenu>
-						<h:message for="category" styleClass="messages"></h:message>
 						
 						<h:outputText value = "Vendable :"/>
 						<h:selectOneRadio id="isSellable" styleClass="buttonRadio" required="true" value="#{itembean.isSellable}"
@@ -110,7 +97,6 @@
 						    <f:selectItem itemValue="Y" itemLabel="Oui"/>
 						    <f:selectItem itemValue="N" itemLabel="Non"/>
 						</h:selectOneRadio>
-						<h:message for="isSellable" styleClass="messages"></h:message>
 					</h:panelGrid>
 				</h:panelGroup>
 				<p></p>
