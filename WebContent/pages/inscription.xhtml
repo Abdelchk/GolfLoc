@@ -113,6 +113,7 @@
 					<h:message for="password" styleClass="messages"></h:message>
 					
 					<h:outputText styleClass="outputText" value="Confirmer mot de passe :" />
+					<p:password id="toggle" value="#{passwordView.password6}" toggleMask="true" redisplay="true"/>
 					<h:inputSecret id="pwdConfirm" styleClass="inputSecret" size="20" required="true"
 						value="#{userbean.pwdConfirm}" requiredMessage="Veuillez confirmer le mot de passe !"
 						validator="#{userbean.validatePasswordConfirmation}">

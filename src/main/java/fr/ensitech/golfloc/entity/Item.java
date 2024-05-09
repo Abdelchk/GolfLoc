@@ -34,13 +34,13 @@ public class Item implements Serializable {
 	private String brand;
 	
 	@Column(name = "gender", nullable = false)
-	private Gender gender;
+	private String gender;
 	
 	@Column(name = "main_hand", nullable = false)
-	private MainHand mainHand;
+	private String mainHand;
 	
 	@Column(name = "flexibility", nullable = false)
-	private Flexibility flexibility;
+	private String flexibility;
 	
 	@Column(name = "description", nullable = true)
 	private String description;
@@ -59,7 +59,7 @@ public class Item implements Serializable {
 	private Category category;
 	
 	@Column(name = "is_sellable", nullable = false, columnDefinition = "boolean default true")
-	private boolean isSellable;
+	private boolean isSellable = true;
 	
 	@OneToMany(mappedBy = "item")
     private List<Cart> carts;
@@ -67,14 +67,11 @@ public class Item implements Serializable {
 	@OneToMany(mappedBy = "item")
     private List<Comment> comments;
 	
-	@Transient
-	private String categoryName;
-	
 	public Item() {
 	}
 
-	public Item(Integer id, String name, String brand, Gender gender, MainHand mainHand, Flexibility flexibility,
-			String description, Float price, int discount, int stock, Category category, boolean isSellable, String categoryName) {
+	public Item(Integer id, String name, String brand, String gender, String mainHand, String flexibility,
+			String description, Float price, int discount, int stock, Category category, boolean isSellable) {
 		this.id = id;
 		this.name = name;
 		this.brand = brand;
@@ -87,7 +84,6 @@ public class Item implements Serializable {
 		this.stock = stock;
 		this.category = category;
 		this.isSellable = isSellable;
-		this.categoryName = categoryName;
 	}
 
 	public Integer getId() {
@@ -114,27 +110,27 @@ public class Item implements Serializable {
 		this.brand = brand;
 	}
 
-	public Gender getGender() {
+	public String getGender() {
 		return gender;
 	}
 
-	public void setGender(Gender gender) {
+	public void setGender(String gender) {
 		this.gender = gender;
 	}
 
-	public MainHand getMainHand() {
+	public String getMainHand() {
 		return mainHand;
 	}
 
-	public void setMainHand(MainHand mainHand) {
+	public void setMainHand(String mainHand) {
 		this.mainHand = mainHand;
 	}
 
-	public Flexibility getFlexibility() {
+	public String getFlexibility() {
 		return flexibility;
 	}
 
-	public void setFlexibility(Flexibility flexibility) {
+	public void setFlexibility(String flexibility) {
 		this.flexibility = flexibility;
 	}
 
@@ -186,20 +182,12 @@ public class Item implements Serializable {
 		this.isSellable = isSellable;
 	}
 	
-	public String getCategoryName() {
-		return categoryName;
-	}
-
-	public void setCategoryName(String categoryName) {
-		this.categoryName = categoryName;
-	}
-
 	@Override
 	public String toString() {
 		return "Item [name=" + name + ", brand=" + brand + ", gender=" + gender + ", mainHand="
 				+ mainHand + ", flexibility=" + flexibility + ", description=" + description + ", price=" + price
-				+ ", discount=" + discount + ", stock=" + stock + ", categoryId=" + category + ", isSellable="
-				+ isSellable + "Catégorie : " + categoryName +  "]";
+				+ ", discount=" + discount + ", stock=" + stock + ", isSellable="
+				+ isSellable + "Catégorie : " + category.getName() +  "]";
 	}
 	
 	

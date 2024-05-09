@@ -7,10 +7,21 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.query.Query;
+import javax.persistence.RollbackException;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.mindrot.jbcrypt.BCrypt;
+
 import fr.ensitech.golfloc.entity.Item;
 import fr.ensitech.golfloc.enums.Flexibility;
 import fr.ensitech.golfloc.enums.Gender;
 import fr.ensitech.golfloc.enums.MainHand;
+import fr.ensitech.golfloc.model.connection.HibernateConnector;
 import fr.ensitech.golfloc.model.connection.UserDataSource;
 
 public class ItemDao implements IItemDao {
@@ -20,7 +31,38 @@ public class ItemDao implements IItemDao {
 
 	@Override
 	public Integer addItem(Item item) throws Exception {
-		// TODO Auto-generated method stub
+		if (item == null) {
+			throw new NullPointerException("L'article à créer ne doit pas être NULL !");
+		}
+		if (item.getName() == null ||
+				item.getBrand() == null ||
+				item.getGender() == null ||
+				item.getMainHand() == null ||
+				item.getFlexibility() == null ||
+				item.getPrice() < 0f || 
+				item.getDiscount() < 0 ||
+				item.getStock() < 0 ||
+				item.getCategory() == null)
+		{
+			throw new IllegalArgumentException("Tous les paramètres sont obligatoires !");
+		}
+		
+		Session session = null;
+        Transaction tx = null;
+        try {
+            
+            session = HibernateConnector.getSession();
+            tx = session.beginTransaction();
+            session.save(item);
+            tx.commit();
+
+        } catch (RollbackException e) {
+            tx.rollback();
+        } finally {
+            if (session != null && session.isOpen()) {
+                session.close();
+            }
+        }
 		return null;
 	}
 
@@ -38,14 +80,42 @@ public class ItemDao implements IItemDao {
 
 	@Override
 	public List<Item> getItems() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		
+		Session session = null;
+        
+		try {
+			session = HibernateConnector.getSession();
+			
+			Query<Item> query = session.createQuery("Select i from item i", Item.class);
+			
+			return query.list();
+			
+		} finally {
+			if (session != null && session.isOpen()) {
+				session.close();
+			}
+		}
 	}
 
 	@Override
 	public List<Item> getFilteredItems(String selectedCategory) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		Session session = null;
+        
+		try {
+			session = HibernateConnector.getSession();
+			
+			CriteriaBuilder builder = session.getCriteriaBuilder();
+            CriteriaQuery<Item> query = builder.createQuery(Item.class);
+            Root<Item> item = query.from(Item.class);
+            query.select(item)
+                .where(builder.equal(item.get("category").get("name").as(String.class), selectedCategory));
+            return session.createQuery(query).list();
+			
+		} finally {
+			if (session != null && session.isOpen()) {
+				session.close();
+			}
+		}
 	}
 	
 //	@Override

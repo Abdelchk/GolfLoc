@@ -17,7 +17,7 @@ public class CategoryBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private Integer id;
-	private Type name;
+	private String name;
 	private int discount;
 	private boolean isCumulative;
 	private Category category;
@@ -34,11 +34,11 @@ public class CategoryBean implements Serializable {
 		this.id = id;
 	}
 
-	public Type getName() {
+	public String getName() {
 		return name;
 	}
 
-	public void setName(Type name) {
+	public void setName(String name) {
 		this.name = name;
 	}
 

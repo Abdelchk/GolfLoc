@@ -5,9 +5,9 @@
 <hibernate-configuration>
     <session-factory>
     	<property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
-    	<property name="hibernate.connection.url">jdbc:mysql://127.0.0.1:3306/hibernate_golfloc</property>
-    	<property name="hibernate.connection.username">root</property>
-    	<property name="hibernate.connection.password">MsTmMlidH99M4aS2IYrQ</property>
+    	<property name="hibernate.connection.url">jdbc:mysql://193.203.168.57:3306/u206027959_hibernate</property>
+    	<property name="hibernate.connection.username">u206027959_golfloc</property>
+    	<property name="hibernate.connection.password">4WizAAL0ABzF3WI2K1Xw</property>
     	<property name="hibernate.dialect">org.hibernate.dialect.MySQL8Dialect</property>
     	<property name="current_session_context_class">thread</property>
     	<property name="hibernate.hbm2ddl.auto">update</property>

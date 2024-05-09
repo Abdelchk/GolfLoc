@@ -23,16 +23,15 @@ public class ItemBean implements Serializable {
 	private Integer id;
 	private String name;
 	private String brand;
-	private Gender gender;
-	private MainHand mainHand;
-	private Flexibility flexibility;
+	private String gender;
+	private String mainHand;
+	private String flexibility;
 	private String description;
 	private Float price;
 	private int discount;
 	private int stock;
 	private Category categoryId;
 	private boolean isSellable;
-	private String categoryName;
 	private Item item;
 	private String selectedCategory;
 	private ItemMetier itemMetier;
@@ -64,27 +63,27 @@ public class ItemBean implements Serializable {
 		this.brand = brand;
 	}
 
-	public Gender getGender() {
+	public String getGender() {
 		return gender;
 	}
 
-	public void setGender(Gender gender) {
+	public void setGender(String gender) {
 		this.gender = gender;
 	}
 
-	public MainHand getMainHand() {
+	public String getMainHand() {
 		return mainHand;
 	}
 
-	public void setMainHand(MainHand mainHand) {
+	public void setMainHand(String mainHand) {
 		this.mainHand = mainHand;
 	}
 
-	public Flexibility getFlexibility() {
+	public String getFlexibility() {
 		return flexibility;
 	}
 
-	public void setFlexibility(Flexibility flexibility) {
+	public void setFlexibility(String flexibility) {
 		this.flexibility = flexibility;
 	}
 
@@ -134,14 +133,6 @@ public class ItemBean implements Serializable {
 
 	public void setIsSellable(boolean isSellable) {
 		this.isSellable = isSellable;
-	}
-	
-	public String getCategoryName() {
-		return categoryName;
-	}
-
-	public void setCategoryName(String categoryName) {
-		this.categoryName = categoryName;
 	}
 
 	public Item getItem() {
@@ -225,17 +216,17 @@ public class ItemBean implements Serializable {
 		}
 	}
 	
-	public List<Item> getItems() {
-		itemMetier = new ItemMetier();
-		try {
-			List<Item> items = itemMetier.getItems();
-			
-			return items;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
+//	public List<Item> getItems() {
+//		itemMetier = new ItemMetier();
+//		try {
+//			List<Item> items = itemMetier.getItems();
+//			
+//			return items;
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			return null;
+//		}
+//	}
 	
 	 public List<Item> getFilteredItems() {
 	        itemMetier = new ItemMetier();

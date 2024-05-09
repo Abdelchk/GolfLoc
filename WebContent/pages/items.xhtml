@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
@@ -28,17 +28,17 @@
 						<h:outputText value = "Nom :"/>
 						<h:inputText id="name" styleClass="inputText" size="50" required="true"
 							value="#{itembean.name}" requiredMessage="Le nom du club est obligatoire !"
-							validatorMessage="Ce champ doit contenir au moins 10 charactères.">
+							validatorMessage="Ce champ doit contenir au moins 10 charactÃ¨res.">
 							<f:validateLength minimum="10" />
 							<f:validateRegex pattern="" />
-							<!-- To have a full protction = validate in front and put CSrF token or validate into the front and validate into the back + ajouter captcha pendant la création de compte  -->
+							<!-- To have a full protection = validate in front and put CSrF token or validate into the front and validate into the back + ajouter captcha pendant la crÃ©ation de compte  -->
 						</h:inputText>
 						<h:message for="name" styleClass="messages"></h:message>
 						
 						<h:outputText value = "Marque :"/>
 						<h:inputText id="brand" styleClass="inputText" size="50" required="true"
 							value="#{itembean.brand}" requiredMessage="La marque du club est obligatoire !"
-							validatorMessage="Ce champ doit contenir au moins 10 charactères.">
+							validatorMessage="Ce champ doit contenir au moins 10 charactÃ¨res.">
 						</h:inputText>
 						<h:message for="brand" styleClass="messages"></h:message>
 						
@@ -56,10 +56,10 @@
 						</h:selectOneRadio>
 						<h:message for="mainhand" styleClass="messages"></h:message>
 						
-						<h:outputText value = "Flexibilité :"/>
+						<h:outputText value = "FlexibilitÃ© :"/>
 						<h:selectOneMenu id="flexibility" styleClass="selectMenu" required="true" value="#{itembean.flexibility}"
-							requiredMessage="Veuillez saisir la flexibilité du club !">
-							<f:selectItem itemValue="#{null}" itemLabel="--sélectionner--" />
+							requiredMessage="Veuillez saisir la flexibilitÃ© du club !">
+							<f:selectItem itemValue="#{null}" itemLabel="--sÃ©lectionner--" />
 							<f:selectItems value="#{itembean.flexibilities}"/>						
 						</h:selectOneMenu>
 						<h:message for="flexibility" style="color: red"></h:message>
@@ -81,7 +81,7 @@
 						<h:outputText value = "Remise (en %) :"/>
 						<h:inputText id="discountArt" styleClass="inputText" size="2" required="true"
 							value="#{itembean.discount}" requiredMessage="La remise est obligatoire !"
-							validatorMessage="Ce champ ne doit pas contenir autre chose qu'un nombre allant de 0 à 50.">
+							validatorMessage="Ce champ ne doit pas contenir autre chose qu'un nombre allant de 0 Ã  50.">
 							<f:validateLength minimum="1" maximum="2" />
 							<f:convertNumber/>
 						</h:inputText>
@@ -90,23 +90,23 @@
 						<h:outputText value = "Stock :"/>
 						<h:inputText id="stock" styleClass="inputText" size="2" required="true"
 							value="#{itembean.stock}" requiredMessage="Veuillez saisir le stock de l'article !"
-							validatorMessage="Ce champ ne doit pas contenir autre chose qu'un nombre allant de 0 à 50.">
+							validatorMessage="Ce champ ne doit pas contenir autre chose qu'un nombre allant de 0 Ã  50.">
 							<f:validateLength minimum="1" maximum="2" />
 							<f:convertNumber/>
 						</h:inputText>
 						<h:message for="stock" styleClass="messages"></h:message>
 						
-						<h:outputText value = "Catégorie :"/>
+						<h:outputText value = "CatÃ©gorie :"/>
 						<h:selectOneMenu id="category" styleClass="selectMenu" required="true" value="#{itembean.categoryId}"
-							requiredMessage="Veuillez sélectionner une catégorie !">
-							<f:selectItem itemValue="#{null}" itemLabel="--sélectionner--" />
+							requiredMessage="Veuillez sÃ©lectionner une catÃ©gorie !">
+							<f:selectItem itemValue="#{null}" itemLabel="--sÃ©lectionner--" />
 							<f:selectItems value="#{categorybean.categories}" var="category" itemValue="#{category.id}" itemLabel="#{category.name}"/>		
 						</h:selectOneMenu>
 						<h:message for="category" styleClass="messages"></h:message>
 						
 						<h:outputText value = "Vendable :"/>
 						<h:selectOneRadio id="isSellable" styleClass="buttonRadio" required="true" value="#{itembean.isSellable}"
-							requiredMessage="Vous devez spécifier si l'article est vendable ou non !">
+							requiredMessage="Vous devez spÃ©cifier si l'article est vendable ou non !">
 						    <f:selectItem itemValue="Y" itemLabel="Oui"/>
 						    <f:selectItem itemValue="N" itemLabel="Non"/>
 						</h:selectOneRadio>
@@ -124,7 +124,6 @@
 			
 			
 			<div class="right">
-				<h2>Liste des articles</h2>
 				<h:form styleClass="form">
 					<p:selectOneMenu value="#{itembean.selectedCategory}" >
 			            <f:selectItem itemValue="#{null}" itemLabel="Tous" />
@@ -133,9 +132,13 @@
 			            <p:ajax update="itemTable" />
 		        	</p:selectOneMenu>
 				</h:form>
+				<p:growl id="msgs" showDetail="true"/>
 				<p:dataTable cellpadding="10" id="itemTable" value="#{itembean.filteredItems}" var="item">
-					<p:column headerText="Catégorie">
-				        <h:outputText value="#{item.categoryId == 0 ? 'Autre' : item.categoryName}" />
+					<f:facet name="header">
+		                Liste des articles
+		            </f:facet>
+					<p:column headerText="CatÃ©gorie">
+				        <h:outputText value="#{item.category.id == 0 ? 'Autre' : item.category.name}" />
 				    </p:column>
 				    <p:column headerText="Nom">
 				        <h:outputText value="#{item.name}" />
@@ -149,23 +152,29 @@
 				    <p:column headerText="Main dominante">
 				        <h:outputText value="#{item.mainHand}" />
 				    </p:column>
-				    <p:column headerText="Flexibilité">
+				    <p:column headerText="FlexibilitÃ©">
 				        <h:outputText value="#{item.flexibility}" />
 				    </p:column>
-				    <p:column headerText="Description">
+				    <p:column width="300px" headerText="Description">
 				        <h:outputText value="#{item.description == '' ? 'Pas de description' : item.description}" />
 				    </p:column>
 				    <p:column headerText="Prix">
-				        <h:outputText value="#{item.price}" />
+				        <h:outputText value="#{item.price}" >
+				        	<f:convertNumber type="currency" currencySymbol="â‚¬"/>
+				        </h:outputText>
 				    </p:column>
-				    <p:column headerText="Remise (en %)">
-				        <h:outputText value="#{item.discount == 0 ? 'Pas de remise' : item.discount}" />
+				    <p:column headerText="Remise">
+				        <h:outputText value="#{item.discount == 0 ? 'Pas de remise' : item.discount}">
+				        	<f:convertNumber type="currency" currencySymbol="%"/>
+				        </h:outputText>
 				    </p:column>
 				    <p:column headerText="Stock">
-				        <h:outputText value="#{item.stock == 0 ? 'En rupture' : item.stock}" />
+				        <h:outputText value="#{item.stock == 0 ? 'En rupture' : item.stock}" >
+				        	<f:convertNumber type="currency" currencySymbol="unitÃ©(s)" />
+				        </h:outputText>
 				    </p:column>
 				    <p:column headerText="Vendable">
-				        <h:outputText value="#{item.isSellable == 'Y' ? 'Oui' : 'Non'}" />
+				        <h:outputText value="#{item.isSellable == true ? 'Oui' : 'Non'}" />
 				    </p:column>
 				</p:dataTable>
 			</div>

@@ -1,7 +1,9 @@
 package fr.ensitech.golfloc.beans;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import javax.faces.application.FacesMessage;
@@ -12,6 +14,8 @@ import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+
+import org.primefaces.event.RowEditEvent;
 
 import fr.ensitech.golfloc.entity.Adresse;
 import fr.ensitech.golfloc.entity.User;
@@ -143,6 +147,18 @@ public class UserBean implements Serializable {
         this.adresseBean = adresseBean;
     }
 	
+	// Méthodes qui gère l'edit du formulaire des utilisateurs
+	
+	 public void onRowEdit(RowEditEvent<User> event) {
+	        FacesMessage msg = new FacesMessage("Utilisateur", event.getObject().getNom().concat(" ".concat(event.getObject().getPrenom().concat(" modifié"))));
+	        FacesContext.getCurrentInstance().addMessage(null, msg);
+	    }
+
+	    public void onRowCancel(RowEditEvent<User> event) {
+	        FacesMessage msg = new FacesMessage("Modification annulée pour l'utilisateur", event.getObject().getNom().concat(" ".concat(event.getObject().getPrenom())));
+	        FacesContext.getCurrentInstance().addMessage(null, msg);
+	    }
+	
 	// Méthodes de validations
 	
 	public void validatePasswordConfirmation(FacesContext context, UIComponent component, Object value) {
@@ -216,6 +232,33 @@ public class UserBean implements Serializable {
 		
 	}
 	
+	public String updateUser(User user) {
+		userMetier = new UserMetier();
+		
+		try {
+			System.out.println("ID: " + user.getId());
+			System.out.println("Compte actif : " + user.getIsActive());
+			System.out.println("Profil : " + user.getProfile());
+
+			user = userMetier.getUserById(user.getId());
+			
+			user.setProfile(profile);
+			user.setIsActive(isActive);
+			
+			System.out.println("Profil après modif : " + user.getProfile());
+			System.out.println("Compte actif après modif : " + user.getIsActive());
+			
+			userMetier.updateUser(user);
+
+			return "admin.xhtml";
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("Une erreur s'est produite dans UserBean.UpdateUser : " + e.getMessage());
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erreur :", "une erreur s'est produite lors de la modification de l'utilisateur"));
+			return null;
+		}
+	}
+	
 	public String seConnecter() {
         // Instancier UserMetier
         userMetier = new UserMetier();
@@ -242,6 +285,17 @@ public class UserBean implements Serializable {
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("user");
 	    FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
 		return "connexion.xhtml";
+	}
+	
+	public List<User> getUsers() {
+		userMetier = new UserMetier();
+		try {
+			List<User> users = userMetier.getUsers();
+			return users;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ArrayList<>();
+		}
 	}
 	
 	public String demandeReinitialisation() {

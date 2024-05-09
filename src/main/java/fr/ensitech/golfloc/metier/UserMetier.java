@@ -1,6 +1,7 @@
 package fr.ensitech.golfloc.metier;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 import org.mindrot.jbcrypt.BCrypt;
 
@@ -50,6 +51,16 @@ public class UserMetier {
 		}
 		return null;
 	}
+	
+	public void updateUser(User user) {
+		try {
+			userDao = new UserDao();
+			userDao.updateUser(user);
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("Une erreur s'est produite dans UserMetier.UpdateUser : " + e.getMessage());
+		}
+	}
 
     public User seConnecter(String email, String password) {
         try {
@@ -72,6 +83,30 @@ public class UserMetier {
             return null;
         }
     }
+    
+    public User getUserById(int id) {
+		try {
+			userDao = new UserDao();
+			return userDao.getUserById(id);
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("Une erreur s'est produite dans UserMetier.getUserById : " + e.getMessage());
+			return null;
+		}
+	}
+    
+	public List<User> getUsers() {
+		try {
+			userDao = new UserDao();
+
+			return userDao.getUsers();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("Une erreur s'est produite dans UserMetier.getUtilisateurs : " + e.getMessage());
+			return null;
+		}
+	}
     
     public boolean reinitialiserMdp(String newPassword, int id) {
     	if (newPassword.length() < 8) {

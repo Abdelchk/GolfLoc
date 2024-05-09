@@ -5,10 +5,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.List;
 
+import org.hibernate.Session;
+import org.hibernate.query.Query;
+
 import java.sql.Statement;
 import java.util.ArrayList;
 
 import fr.ensitech.golfloc.entity.Category;
+import fr.ensitech.golfloc.model.connection.HibernateConnector;
 import fr.ensitech.golfloc.model.connection.UserDataSource;
 import fr.ensitech.golfloc.enums.Type;
 
@@ -96,14 +100,25 @@ public class CategoryDao implements ICategoryDao {
 
 	@Override
 	public Category getCategoryById(int id) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		 Session session = HibernateConnector.getSession();
+		    try {
+		        return session.get(Category.class, id);
+		    } finally {
+		        session.close();
+		    }
 	}
 
 	@Override
 	public List<Category> getCategories() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		
+		Session session = HibernateConnector.getSession();
+		try {
+			Query<Category> query = session.createQuery("SELECT c FROM category c", Category.class);
+			
+			return query.list();
+		} finally {
+			session.close();
+		}
 	}
 
 //	@Override

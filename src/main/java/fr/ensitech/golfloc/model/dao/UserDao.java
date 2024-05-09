@@ -303,7 +303,7 @@ public final class UserDao implements IUserDao {
             session = HibernateConnector.getSession();
 
             // Façon 1 : Requete JPQL
-             Query<User> query = session.createQuery("SELECT u FROM User u", User.class);
+             Query<User> query = session.createNativeQuery("SELECT * FROM user INNER JOIN adresse on user.id = adresse.user_id", User.class);
              //return query.getResultList();
              return query.list();
              

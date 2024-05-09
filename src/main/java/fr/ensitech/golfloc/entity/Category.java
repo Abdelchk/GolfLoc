@@ -25,7 +25,7 @@ public class Category implements Serializable{
 	private Integer id;
 	
 	@Column(name = "name", nullable = false)
-	private Type name;
+	private String name;
 	
 	@Column(name = "discount", nullable = false)
 	private int discount;
@@ -39,7 +39,7 @@ public class Category implements Serializable{
 	public Category() {
 	}
 
-	public Category(Integer id, Type name, int discount, boolean isCumulative) {
+	public Category(Integer id, String name, int discount, boolean isCumulative) {
 		this.id = id;
 		this.name = name;
 		this.discount = discount;
@@ -54,11 +54,11 @@ public class Category implements Serializable{
 		this.id = id;
 	}
 
-	public Type getName() {
+	public String getName() {
 		return name;
 	}
 
-	public void setName(Type name) {
+	public void setName(String name) {
 		this.name = name;
 	}
 

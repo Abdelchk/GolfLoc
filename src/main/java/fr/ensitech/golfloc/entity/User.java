@@ -69,8 +69,6 @@ public class User implements Serializable {
     private List<Comment> comments;
 	
 	public User() {
-		this.isActive = true;
-        this.profile = "client";
 	}
 
 	public User(Integer id, String nom, String prenom, String email, String password, Date dateNaissance, boolean isActive,
@@ -171,7 +169,7 @@ public class User implements Serializable {
 	public String toString() {
 		return "User [id=" + id + ", nom=" + nom + ", prenom=" + prenom + ", email=" + email + ", password=" + password
 				+ ", dateNaissance=" + dateNaissance + ", isActive=" + isActive + ", profile=" + profile
-				+ ", phoneNumber=" + phoneNumber + "]";
+				+ ", phoneNumber=" + phoneNumber + ", adresse=" + adresse + "]";
 	}
 
 	
