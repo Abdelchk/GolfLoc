@@ -7,6 +7,7 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui">
 <h:head>
+<script src="https://www.google.com/recaptcha/enterprise.js?render=6LfbCdcpAAAAALDOS_7AFN1qGCZBjo060mIIzj1C" />
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 <h:outputStylesheet name="inscription.css" library="css" />
 <h:outputStylesheet name="common-style.css" library="css" />
@@ -21,7 +22,7 @@
 		<h2>Inscription</h2>
 		
 		<h:form>
-			<p:growl id="msgs" showDetail="true"/>
+			<p:growl id="msgs" />
 			<h:panelGroup>
 				<h:panelGrid id = "panelFieldsUser" styleClass="panelFieldsUser" columns = "2" cellpadding = "5" cellspacing = "2">
 					<h:outputText styleClass="outputText" value = "Nom :"/>
@@ -64,7 +65,7 @@
 					
 					<h:outputText styleClass="outputText" value = "Adresse N°  :"/>
 					<h:inputText id="numero" styleClass="inputText" size="20" required="true"
-						value="#{adressebean.numero}" requiredMessage="Le numéro est obligatoire !"
+						value="#{adressebean.numero}" requiredMessage="Le numéro d'adresse est obligatoire !"
 						validatorMessage="Le numéro ne doit pas contenir de caractères spéciaux.">
 						<f:validateLength minimum="2" maximum="4" />
 						<f:validateRegex pattern="^[0-9]{1,3}\s?(b|B|bis|Bis)?$" />
@@ -106,10 +107,11 @@
 					<p:password id="pwdConfirm" feedback="true" toggleMask="true" redisplay="true" styleClass="inputSecret" size="20" required="true"
 						value="#{userbean.pwdConfirm}" requiredMessage="Veuillez confirmer le mot de passe !"
 						validator="#{userbean.validatePasswordConfirmation}" />
+						<p:captcha required="true" requiredMessage="Veuilez confirmer que vous n'êtes pas un robot" label="Captcha"/>
 				</h:panelGrid>
 			</h:panelGroup>
 			<p></p>
-				<h:commandButton id = "btnAddUser" styleClass="commandButton" value = "S'inscrire" action="#{userbean.creerUtilisateur}">
+				<h:commandButton styleClass="commandButton" id = "btnAddUser" value = "S'inscrire" action="#{userbean.creerUtilisateur}">
 					 <f:param name="adresseBean" value="#{adressebean}" />
 				</h:commandButton>	
 			<p></p>

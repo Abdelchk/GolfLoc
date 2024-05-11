@@ -1,13 +1,14 @@
-<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-	xmlns:h="http://java.sun.com/jsf/html">
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
 <h:head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-<h:outputStylesheet name="connexion.css" library="css"/>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<h:outputStylesheet name="achats.css" library="css"/>
 <h:outputStylesheet name="common-style.css" library="css" />
 <title>Articles</title>
 </h:head>
@@ -18,16 +19,77 @@
 		<h2>Articles</h2>
 		
 	    <h:panelGroup rendered="#{not empty userbean.connectedUser}">
-	        <!-- Contenu à afficher uniquement si l'utilisateur est connecté -->
+	        <!-- Contenu Ã  afficher uniquement si l'utilisateur est connectÃ© -->
 	        <h:outputText value="Bienvenue sur la page des achats #{userbean.connectedUser.prenom}" />
 	        <!-- <h:form>
 	            
 	        </h:form> -->
 	    </h:panelGroup>
 	    <h:panelGroup rendered="#{empty userbean.connectedUser}">
-	        <!-- Contenu à afficher lorsque l'utilisateur n'est pas connecté -->
+	        <!-- Contenu Ã  afficher lorsque l'utilisateur n'est pas connectÃ© -->
 	        <h:outputText value="Bienvenue sur la page des achats" />
 	    </h:panelGroup>
+	    
+	    <div class="card product">
+		    <h:form id="form">
+		        <p:dataView var="item" value="#{itembean.filteredItems}" rows="8" paginator="true"
+		                    paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+		                    gridIcon="pi pi-th-large" listIcon="pi pi-bars" layout="grid">
+		
+		            <p:dataViewGridItem>
+		                <div class="product-grid-item card border-1">
+		                    <div class="product-grid-item-top">
+		                        <div>
+		                            <i class="pi pi-tag product-category-icon"/>
+		                            <span class="product-category">#{item.category.name}</span>
+		                        </div>
+		                        <span class="product-badge status-#{item.stock} #{item.stock > 5 ? 'status-greater-than-5' : ''}">#{item.stock == 0 ? 'En rupture de stock' : item.stock += ' en stock'}</span>
+		                    </div>
+		                    <div class="product-grid-item-content">
+		                        <p:graphicImage name="ai-smoke-max-fast.jpg" library="img"/>
+		                        <div class="product-name">#{item.name}</div>
+		                        <div class="product-description">#{item.description == '' ? 'Pas de description' : item.description}</div>
+		                        <p:rating readonly="true" value="#{product.rating}"/>
+		                    </div>
+		                    <div class="product-grid-item-bottom">
+		                        <h:outputText  value="#{item.price}" styleClass="product-price">
+		                            <f:convertNumber currencySymbol="â‚¬" type="currency"/>
+		                        </h:outputText>
+		                        <p:commandButton styleClass="ui-button-raised ui-button-success" style="float: right" type="button"
+		                                            value="Ajouter au panier"
+		                                            icon="pi pi-shopping-cart"
+		                                            disabled="#{item.stock == 0}">
+		                        </p:commandButton>
+		                    </div>
+		                </div>
+		            </p:dataViewGridItem>
+		
+		            <p:dataViewListItem>
+		                <div class="product-list-item">
+		                    <p:graphicImage name="demo/images/product/#{product.image}"/>
+		                    <div class="product-list-detail">
+		                        <div class="product-name">#{item.name}</div>
+		                        <div class="product-description">#{item.description}</div>
+		                        <p:rating readonly="true" value="#{product.rating}"/>
+		                        <i class="pi pi-tag product-category-icon"/><span
+		                            class="product-category">#{item.category.name}</span>
+		                    </div>
+		                    <div class="product-list-action">
+		                        <h:outputText value="#{item.price}" styleClass="product-price">
+		                            <f:convertNumber currencySymbol="â‚¬" type="currency"/>
+		                        </h:outputText>
+		                        <p:commandButton type="button"
+		                                         value="Add To Cart"
+		                                         icon="pi pi-shopping-cart"
+		                                         disabled="#{item.stock == 0}">
+		                        </p:commandButton>
+		                        <span class="product-badge status-#{item.stock}">#{item.stock == 0 ? 'En rupture de stock' : item.stock += ' en stock'}</span>
+		                    </div>
+		                </div>
+		            </p:dataViewListItem>
+		        </p:dataView>
+		    </h:form>
+	    </div>
 	</f:view>
 
 </h:body>

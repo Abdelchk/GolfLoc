@@ -32,13 +32,13 @@ public class ItemDao implements IItemDao {
 	@Override
 	public Integer addItem(Item item) throws Exception {
 		if (item == null) {
-			throw new NullPointerException("L'article à créer ne doit pas être NULL !");
+			throw new NullPointerException("L'article à modifier ne doit pas être NULL !");
 		}
-		if (item.getName() == null ||
-				item.getBrand() == null ||
-				item.getGender() == null ||
-				item.getMainHand() == null ||
-				item.getFlexibility() == null ||
+		if (item.getName() == null || item.getName().trim().isEmpty() ||
+				item.getBrand() == null || item.getBrand().trim().isEmpty() ||
+				item.getGender() == null || item.getGender().trim().isEmpty() ||
+				item.getMainHand() == null || item.getMainHand().trim().isEmpty() ||
+				item.getFlexibility() == null || item.getFlexibility().trim().isEmpty() ||
 				item.getPrice() < 0f || 
 				item.getDiscount() < 0 ||
 				item.getStock() < 0 ||
@@ -68,8 +68,53 @@ public class ItemDao implements IItemDao {
 
 	@Override
 	public void updateItem(Item item) throws Exception {
-		// TODO Auto-generated method stub
+		if (item.getName() == null || item.getName().trim().isEmpty() ||
+				item.getBrand() == null || item.getBrand().trim().isEmpty() ||
+				item.getGender() == null || item.getGender().trim().isEmpty() ||
+				item.getMainHand() == null || item.getMainHand().trim().isEmpty() ||
+				item.getFlexibility() == null || item.getFlexibility().trim().isEmpty() ||
+				item.getPrice() < 0f || 
+				item.getDiscount() < 0 ||
+				item.getStock() < 0 ||
+				item.getCategory() == null)
+		{
+			throw new IllegalArgumentException("Tous les paramètres sont obligatoires !");
+		}
 		
+		Session session = null;
+        Transaction tx = null;
+        try {
+            session = HibernateConnector.getSession();
+            tx = session.beginTransaction();
+            session.update(item);
+            tx.commit();
+
+        } catch (RollbackException e) {
+            tx.rollback();
+        } finally {
+            if (session != null && session.isOpen()) {
+                session.close();
+            }
+        }
+		
+	}
+	
+	public void removeItem(Item item) throws Exception {
+		Session session = null;
+		Transaction tx = null;
+		try {
+			session = HibernateConnector.getSession();
+			tx = session.beginTransaction();
+			session.delete(item);
+			tx.commit();
+
+		} catch (RollbackException e) {
+			tx.rollback();
+		} finally {
+			if (session != null && session.isOpen()) {
+				session.close();
+			}
+		}
 	}
 
 	@Override
@@ -111,6 +156,20 @@ public class ItemDao implements IItemDao {
                 .where(builder.equal(item.get("category").get("name").as(String.class), selectedCategory));
             return session.createQuery(query).list();
 			
+		} finally {
+			if (session != null && session.isOpen()) {
+				session.close();
+			}
+		}
+	}
+
+	@Override
+	public Item getItemById(int id) throws Exception {
+		Session session = null;
+		
+		try {
+			session = HibernateConnector.getSession();
+			return session.get(Item.class, id);
 		} finally {
 			if (session != null && session.isOpen()) {
 				session.close();

@@ -4,14 +4,19 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
+
+import org.primefaces.event.RowEditEvent;
 
 import fr.ensitech.golfloc.entity.Category;
 import fr.ensitech.golfloc.entity.Item;
 import fr.ensitech.golfloc.enums.Flexibility;
 import fr.ensitech.golfloc.enums.Gender;
 import fr.ensitech.golfloc.enums.MainHand;
+import fr.ensitech.golfloc.metier.CategoryMetier;
 import fr.ensitech.golfloc.metier.ItemMetier;
 
 @ManagedBean(name = "itembean")
@@ -30,7 +35,7 @@ public class ItemBean implements Serializable {
 	private Float price;
 	private int discount;
 	private int stock;
-	private Category categoryId;
+	private int categoryId;
 	private boolean isSellable;
 	private Item item;
 	private String selectedCategory;
@@ -119,11 +124,11 @@ public class ItemBean implements Serializable {
 		this.stock = stock;
 	}
 
-	public Category getCategoryId() {
+	public int getCategoryId() {
 		return categoryId;
 	}
 
-	public void setCategoryId(Category categoryId) {
+	public void setCategoryId(int categoryId) {
 		this.categoryId = categoryId;
 	}
 
@@ -150,10 +155,8 @@ public class ItemBean implements Serializable {
 	public void setSelectedCategory(String selectedCategory) {
 		this.selectedCategory = selectedCategory;
 	}
-
 	
 	// Méthode pour récupérer les enums
-	
 
 	public Gender[] getGenders() {
 		return Gender.values();
@@ -167,10 +170,23 @@ public class ItemBean implements Serializable {
 		return Flexibility.values();
 	}
 	
+	// Méthodes qui gère l'edit du formulaire des articles
+	
+	public void onRowEdit(RowEditEvent<Item> event) {
+		FacesMessage msg = new FacesMessage("Article", event.getObject().getName().concat(" a bien été modifié"));
+	    FacesContext.getCurrentInstance().addMessage(null, msg);
+	    }
+
+    public void onRowCancel(RowEditEvent<Item> event) {
+        FacesMessage msg = new FacesMessage("Modification annulée pour l'article", event.getObject().getName());
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+	
 	// Méthodes de Gestion 
 
 	public String createItem() {
 		itemMetier = new ItemMetier();
+		CategoryMetier catMetier = new CategoryMetier();
 		try {
 			item = new Item();
 			item.setName(name);
@@ -182,7 +198,7 @@ public class ItemBean implements Serializable {
 			item.setPrice(price);
 			item.setDiscount(discount);
 			item.setStock(stock);
-			item.setCategory(categoryId);
+			item.setCategory(catMetier.getCategoryById(categoryId));
 			item.setIsSellable(isSellable);
 			itemMetier.createItem(item);
 			
@@ -193,11 +209,97 @@ public class ItemBean implements Serializable {
 		}
 	}
 	
-	public String updateItem() {
+	public String updateItem(Item item) {
+		itemMetier = new ItemMetier();
+		CategoryMetier catMetier = new CategoryMetier();
+		try {
+			
+			System.out.println("Item ID : " + item.getId());
+			System.out.println("Category ID : " + item.getCategory().getId());
+			System.out.println("New Category ID : " + categoryId);
+			System.out.println("Flexibility : " + flexibility);
+			System.out.println("Description de la vue : " + description);
+			System.out.println("Description de la BDD : " + item.getDescription());
+			
+			item = itemMetier.getItemById(item.getId());
+			
+			System.out.println(item);
+			
+			
+			if (item.getName() != name && name != null && name != "") {
+				item.setName(name);
+			}
+			
+			if (item.getBrand() != brand && brand != null && brand != "") {
+				item.setBrand(brand);
+			}
+			
+			if (item.getGender() != gender && gender != null && gender != "") {
+				item.setGender(gender);
+			}
+			
+			if (item.getMainHand() != mainHand && mainHand != null && mainHand != "") {
+				item.setMainHand(mainHand);
+			}
+			
+			if (item.getFlexibility() != flexibility && flexibility != null && flexibility != "") {
+				item.setFlexibility(flexibility);
+			}
+			
+			String currentDescription = item.getDescription();
+
+			switch (currentDescription) {
+			    case "":
+			        if (description != null && description != "") {
+                    	item.setDescription(description);
+                    }
+			        break;
+			    default:
+					if (description != null && description != "") {
+						item.setDescription(description);
+					} else {
+						item.setDescription(currentDescription);
+					}
+			        break;
+			}
+
+			if (item.getPrice() != price) {
+				item.setPrice(price);
+			}
+			
+			if (item.getDiscount() != discount) {
+				item.setDiscount(discount);
+			}
+			
+			if (item.getStock() != stock) {
+				item.setStock(stock);
+			}
+			
+			if (item.getCategory().getId() != categoryId && categoryId != 0) {
+				item.setCategory(catMetier.getCategoryById(categoryId));
+			}
+			
+			if (item.getIsSellable() != isSellable) {
+				item.setIsSellable(isSellable);
+			}
+			
+			System.out.println("Category ID modifié : " + item.getCategory().getId());
+			System.out.println("Flexibility modifié : " + item.getFlexibility());
+			System.out.println("Description modifié : " + item.getDescription());
+			
+			itemMetier.updateItem(item);
+			return "items.xhtml";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public String removeItem() {
 		itemMetier = new ItemMetier();
 		try {
-			item = new Item();
-			itemMetier.updateItem(item);
+			System.out.println(item);
+			itemMetier.removeItem(item);
 			return "items.xhtml";
 		} catch (Exception e) {
 			e.printStackTrace();

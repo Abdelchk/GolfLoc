@@ -18,152 +18,259 @@
 		<ui:include src="/resources/templates/header.xhtml" />
 		<h2>Gestionnaire d'articles</h2>
 		
-		<div class="container">
-			<div class="left">
-				<h:form>
-				<h:panelGroup>
+		<div class="left">
+			<h:form>
+			<h:panelGroup>
+				<p:growl id="items"/>
+				<h:panelGrid id = "panelFieldsItem" styleClass="panelFieldsItem" columns = "2" cellpadding = "4" cellspacing = "2">
+				
+					<h:outputText value = "Nom :"/>
+					<h:inputText id="name" styleClass="inputText" size="50" required="true"
+						value="#{itembean.name}" requiredMessage="Le nom du club est obligatoire !"
+						validatorMessage="Ce champ doit contenir au moins 10 charactères.">
+						<f:validateLength minimum="10" />
+						
+						<!-- To have a full protection = validate in front and put CSrF token or validate into the front and validate into the back + ajouter captcha pendant la création de compte  -->
+					</h:inputText>
 					
-					<h:panelGrid id = "panelFieldsItem" styleClass="panelFieldsItem" columns = "2" cellpadding = "4" cellspacing = "2">
+					<h:outputText value = "Marque :"/>
+					<h:inputText id="brand" styleClass="inputText" size="50" required="true"
+						value="#{itembean.brand}" requiredMessage="La marque du club est obligatoire !"
+						validatorMessage="La marque doit contenir au moins 10 caractères.">
+					</h:inputText>
 					
-						<h:outputText value = "Nom :"/>
-						<h:inputText id="name" styleClass="inputText" size="50" required="true"
-							value="#{itembean.name}" requiredMessage="Le nom du club est obligatoire !"
-							validatorMessage="Ce champ doit contenir au moins 10 charactères.">
-							<f:validateLength minimum="10" />
-							<f:validateRegex pattern="" />
-							<!-- To have a full protection = validate in front and put CSrF token or validate into the front and validate into the back + ajouter captcha pendant la création de compte  -->
-						</h:inputText>
+					<h:outputText value = "Taille :"/>
+					<h:selectOneRadio id="gender" styleClass="buttonRadio" required="true" value="#{itembean.gender}"
+						requiredMessage="La taille est obligatoire !">
+						<f:selectItems value="#{itembean.genders}"/>						
+					</h:selectOneRadio>
+					
+					<h:outputText value = "Main :"/>
+					<h:selectOneRadio id="mainhand" styleClass="buttonRadio" required="true" value="#{itembean.mainHand}"
+						requiredMessage="Veuillez choisir la main dominante correspondante !">
+						<f:selectItems value="#{itembean.mainHands}"/>						
+					</h:selectOneRadio>
+					
+					<h:outputText value = "Flexibilité :"/>
+					<h:selectOneMenu id="flexibility" styleClass="selectMenu" required="true" value="#{itembean.flexibility}"
+						requiredMessage="Veuillez saisir la flexibilité du club !">
+						<f:selectItem itemValue="#{null}" itemLabel="--sélectionner--" />
+						<f:selectItems value="#{itembean.flexibilities}"/>						
+					</h:selectOneMenu>
+					
+					<h:outputText value="Description"/>
+					<p:inputTextarea id="description" styleClass="inputText" rows="5" cols="30" maxlength="250"
+                         autoResize="false" value="#{itembean.description}"/>
 						
-						<h:outputText value = "Marque :"/>
-						<h:inputText id="brand" styleClass="inputText" size="50" required="true"
-							value="#{itembean.brand}" requiredMessage="La marque du club est obligatoire !"
-							validatorMessage="Ce champ doit contenir au moins 10 charactères.">
-						</h:inputText>
-						
-						<h:outputText value = "Taille :"/>
-						<h:selectOneRadio id="gender" styleClass="buttonRadio" required="true" value="#{itembean.gender}"
-							requiredMessage="La taille est obligatoire !">
-							<f:selectItems value="#{itembean.genders}"/>						
-						</h:selectOneRadio>
-						
-						<h:outputText value = "Main :"/>
-						<h:selectOneRadio id="mainhand" styleClass="buttonRadio" required="true" value="#{itembean.mainHand}"
-							requiredMessage="Veuillez choisir la main dominante correspondante !">
-							<f:selectItems value="#{itembean.mainHands}"/>						
-						</h:selectOneRadio>
-						
-						<h:outputText value = "Flexibilité :"/>
-						<h:selectOneMenu id="flexibility" styleClass="selectMenu" required="true" value="#{itembean.flexibility}"
-							requiredMessage="Veuillez saisir la flexibilité du club !">
-							<f:selectItem itemValue="#{null}" itemLabel="--sélectionner--" />
-							<f:selectItems value="#{itembean.flexibilities}"/>						
-						</h:selectOneMenu>
-						
-						<h:outputText value = "Description :"/>
-						<h:inputTextarea id="description" styleClass="inputText" size="250" value="#{itembean.description}">
-						</h:inputTextarea>
-							
-						<h:outputText value = "Prix :"/>
-						<p:spinner id="price" styleClass="inputText" size="20" required="true"
-							value="#{itembean.price}" requiredMessage="Le prix est obligatoire !"
-							validatorMessage="Ce champ ne doit pas contenir autre chose qu'un nombre."
-							stepFactor="0.25" suffix="€">
-							<f:convertNumber/>
-						</p:spinner>
-						
-						<h:outputText value = "Remise (en %) :"/>
-						<p:spinner id="discountArt" styleClass="inputText" size="2" required="true"
-							value="#{itembean.discount}" requiredMessage="La remise est obligatoire !"
-							validatorMessage="Ce champ ne doit pas contenir autre chose qu'un nombre allant de 0 à 50."
-							min="0" max="50" suffix="%">
-						</p:spinner>
-						
-						<h:outputText value = "Stock :"/>
-						<p:spinner id="stock" styleClass="inputText" size="2" required="true"
-							value="#{itembean.stock}" requiredMessage="Veuillez saisir le stock de l'article !"
-							validatorMessage="Ce champ ne doit pas contenir autre chose qu'un nombre allant de 0 à 50.">
-						</p:spinner>
-						
-						<h:outputText value = "Catégorie :"/>
-						<h:selectOneMenu id="category" styleClass="selectMenu" required="true" value="#{itembean.categoryId}"
-							requiredMessage="Veuillez sélectionner une catégorie !">
-							<f:selectItem itemValue="#{null}" itemLabel="--sélectionner--" />
-							<f:selectItems value="#{categorybean.categories}" var="category" itemValue="#{category.id}" itemLabel="#{category.name}"/>		
-						</h:selectOneMenu>
-						
-						<h:outputText value = "Vendable :"/>
-						<h:selectOneRadio id="isSellable" styleClass="buttonRadio" required="true" value="#{itembean.isSellable}"
-							requiredMessage="Vous devez spécifier si l'article est vendable ou non !">
-						    <f:selectItem itemValue="Y" itemLabel="Oui"/>
-						    <f:selectItem itemValue="N" itemLabel="Non"/>
-						</h:selectOneRadio>
-					</h:panelGrid>
-				</h:panelGroup>
-				<p></p>
-				<h:panelGroup>
-					<h:commandButton id = "btnAddItem" styleClass="commandButton" value = "Ajouter" action="#{itembean.createItem}"/>
-				</h:panelGroup>
-				<p></p>
-				<h:messages id="messages" styleClass="messages" showDetail="true" globalOnly="true" />
-				</h:form>
-			</div>
+					<h:outputText value = "Prix :"/>
+					<p:spinner id="price" styleClass="inputText" size="20" required="true"
+						value="#{itembean.price}" requiredMessage="Le prix est obligatoire !"
+						validatorMessage="Ce champ ne doit pas contenir autre chose qu'un nombre."
+						stepFactor="0.25" suffix="€">
+					</p:spinner>
+					
+					<h:outputText value = "Remise (en %) :"/>
+					<p:spinner id="discountArt" styleClass="inputText" size="2" required="true"
+						value="#{itembean.discount}" requiredMessage="La remise est obligatoire !"
+						validatorMessage="Ce champ ne doit pas contenir autre chose qu'un nombre allant de 0 à 50."
+						min="0" max="50" suffix="%">
+					</p:spinner>
+					
+					<h:outputText value = "Stock :"/>
+					<p:spinner id="stock" styleClass="inputText" min="0" size="2" required="true"
+						value="#{itembean.stock}" requiredMessage="Veuillez saisir le stock de l'article !"
+						validatorMessage="Ce champ ne doit contenir que des chiffres.">
+					</p:spinner>
+					
+					<h:outputText value = "Catégorie :"/>
+					<h:selectOneMenu id="category" styleClass="selectMenu" required="true" value="#{itembean.categoryId}"
+						requiredMessage="Veuillez sélectionner une catégorie !" >
+						<f:selectItem itemValue="#{null}" itemLabel="--sélectionner--" />
+						<f:selectItems value="#{categorybean.categories}" var="category" itemValue="#{category.id}" itemLabel="#{category.name}"/>
+					</h:selectOneMenu>
+					
+					<h:outputText value = "Vendable :"/>
+					<h:selectOneRadio id="isSellable" styleClass="buttonRadio" required="true" value="#{itembean.isSellable}"
+						requiredMessage="Vous devez spécifier si l'article est vendable ou non !">
+					    <f:selectItem itemValue="true" itemLabel="Oui"/>
+					    <f:selectItem itemValue="false" itemLabel="Non"/>
+					</h:selectOneRadio>
+				</h:panelGrid>
+			</h:panelGroup>
+			<p></p>
+			<h:panelGroup>
+				<p:commandButton update="items" id = "btnAddItem" styleClass="commandButton" value = "Ajouter" action="#{itembean.createItem}"/>
+			</h:panelGroup>
+			<p></p>
+			<h:messages id="messages" styleClass="messages" showDetail="true" globalOnly="true" />
+			</h:form>
+		</div>
 			
 			
-			<div class="right">
-				<h:form styleClass="form">
-					<p:selectOneMenu value="#{itembean.selectedCategory}" >
-			            <f:selectItem itemValue="#{null}" itemLabel="Tous" />
-			            <f:selectItem itemValue="0" itemLabel="Autre" />
-			            <f:selectItems value="#{categorybean.categories}" var="category" itemValue="#{category.name}" itemLabel="#{category.name}" />
-			            <p:ajax update="itemTable" />
-		        	</p:selectOneMenu>
-				</h:form>
+		<div class="right">
+			<h:form styleClass="form">
+				<p:selectOneMenu value="#{itembean.selectedCategory}" >
+		            <f:selectItem itemValue="#{null}" itemLabel="Tous" />
+		            <f:selectItem itemValue="0" itemLabel="Autre" />
+		            <f:selectItems value="#{categorybean.categories}" var="category" itemValue="#{category.name}" itemLabel="#{category.name}" />
+		            <p:ajax update=":form:itemTable" />
+	        	</p:selectOneMenu>
+			</h:form>
+			<h:form id="form">
 				<p:growl id="msgs" showDetail="true"/>
-				<p:dataTable cellpadding="10" id="itemTable" value="#{itembean.filteredItems}" var="item">
+				<p:dataTable cellpadding="10" id="itemTable" value="#{itembean.filteredItems}"
+				 var="item" showGridlines="true" editable="true" reflow="true">
+				<p:ajax event="rowEdit" listener="#{itembean.onRowEdit}" update=":form:msgs" />
+	           	<p:ajax event="rowEditCancel" listener="#{itembean.onRowCancel}" update=":form:msgs"/>
 					<f:facet name="header">
 		                Liste des articles
 		            </f:facet>
-					<p:column headerText="Catégorie">
-				        <h:outputText value="#{item.category.id == 0 ? 'Autre' : item.category.name}" />
+					<p:column headerText="Catégorie" width="80px">
+				        <p:cellEditor>
+						<f:facet name="output"><h:outputText value="#{item.category.id == 0 ? 'Autre' : item.category.name}" /></f:facet>
+						<f:facet name="input">
+							<p:selectOneMenu value="#{itembean.categoryId}" style="width:100%" >
+							    <f:selectItem itemValue="#{null}" itemLabel="" />
+								<f:selectItems value="#{categorybean.categories}" var="category" itemValue="#{category.id}" itemLabel="#{category.name}"/>
+	                            <p:ajax event="change" listener="#{itembean.updateItem(item)}" />
+	                       	</p:selectOneMenu>
+						</f:facet>
+					</p:cellEditor>
 				    </p:column>
-				    <p:column headerText="Nom">
-				        <h:outputText value="#{item.name}" />
+				    <p:column headerText="Nom" width="80px">
+		                <p:cellEditor>
+		                    <f:facet name="output">
+		                        <h:outputText value="#{item.name}"/>
+		                    </f:facet>
+		                    <f:facet name="input">
+		                        <p:inputText value="#{itembean.name}" style="width:100%" label="Nom">
+		                            <p:ajax event="change" listener="#{itembean.updateItem(item)}" />
+		                        </p:inputText>
+		                    </f:facet>
+		                </p:cellEditor>
+		            </p:column>
+				    <p:column headerText="Marque" width="80px">
+				        <p:cellEditor>
+		                    <f:facet name="output">
+		                        <h:outputText value="#{item.brand}"/>
+		                    </f:facet>
+		                    <f:facet name="input">
+		                        <p:inputText value="#{itembean.brand}" style="width:100%" label="Marque">
+		                        	<p:ajax event="change" listener="#{itembean.updateItem(item)}" />
+		                        </p:inputText>
+		                    </f:facet>
+		                </p:cellEditor>
 				    </p:column>
-				    <p:column headerText="Marque">
-				        <h:outputText value="#{item.brand}" />
+				    <p:column headerText="Taille" width="70px">
+				        <p:cellEditor>
+						<f:facet name="output"><h:outputText value="#{item.gender}" /></f:facet>
+						<f:facet name="input">
+							<p:selectOneMenu value="#{itembean.gender}" style="width:100%" >
+							    <f:selectItem itemValue="#{null}" itemLabel="" />
+								<f:selectItems value="#{itembean.genders}"/>
+	                            <p:ajax event="change" listener="#{itembean.updateItem(item)}" />
+	                       	</p:selectOneMenu>
+						</f:facet>
+					</p:cellEditor>
 				    </p:column>
-				    <p:column headerText="Taille">
-				        <h:outputText value="#{item.gender}" />
+				    <p:column headerText="Main dominante" width="70px">
+				        <p:cellEditor>
+						<f:facet name="output"><h:outputText value="#{item.mainHand}" /></f:facet>
+						<f:facet name="input">
+							<p:selectOneMenu value="#{itembean.mainHand}" style="width:100%" >
+							    <f:selectItem itemValue="#{null}" itemLabel="" />
+								<f:selectItems value="#{itembean.mainHands}"/>
+	                            <p:ajax event="change" listener="#{itembean.updateItem(item)}" />
+	                       	</p:selectOneMenu>
+						</f:facet>
+					</p:cellEditor>
 				    </p:column>
-				    <p:column headerText="Main dominante">
-				        <h:outputText value="#{item.mainHand}" />
-				    </p:column>
-				    <p:column headerText="Flexibilité">
-				        <h:outputText value="#{item.flexibility}" />
+				    <p:column headerText="Flexibilité" width="100px">
+				        <p:cellEditor>
+						<f:facet name="output"><h:outputText value="#{item.flexibility}" /></f:facet>
+						<f:facet name="input">
+							<p:selectOneMenu value="#{itembean.flexibility}" style="width:100%" >
+							    <f:selectItem itemValue="#{null}" itemLabel="" />
+								<f:selectItems value="#{itembean.flexibilities}"/>
+	                            <p:ajax event="change" listener="#{itembean.updateItem(item)}" />
+	                       	</p:selectOneMenu>
+						</f:facet>
+					</p:cellEditor>
 				    </p:column>
 				    <p:column width="300px" headerText="Description">
-				        <h:outputText value="#{item.description == '' ? 'Pas de description' : item.description}" />
+				        <p:cellEditor>
+		                    <f:facet name="output">
+		                        <h:outputText value="#{item.description == '' ? 'Pas de description' : item.description}"/>
+		                    </f:facet>
+		                    <f:facet name="input">
+		                        <p:inputTextarea  value="#{itembean.description}" style="width:100%" label="Description">					                
+					                <p:ajax event="change" listener="#{itembean.updateItem(item)}" />
+					            </p:inputTextarea>
+		                    </f:facet>
+		                </p:cellEditor>
 				    </p:column>
 				    <p:column headerText="Prix">
-				        <h:outputText value="#{item.price}" >
-				        	<f:convertNumber type="currency" currencySymbol="€"/>
-				        </h:outputText>
+				        <p:cellEditor>
+		                    <f:facet name="output">
+		                        <h:outputText value="#{item.price}">
+		                            <f:convertNumber type="currency" currencySymbol="€"/>
+		                        </h:outputText>
+		                    </f:facet>
+		                    <f:facet name="input">
+		                        <p:inputNumber value="#{itembean.price}" label="Prix" symbolPosition="s" symbol="€">
+		                        	<p:ajax event="change" listener="#{itembean.updateItem(item)}" />
+		                        </p:inputNumber>	
+		                    </f:facet>
+		                </p:cellEditor>
 				    </p:column>
 				    <p:column headerText="Remise">
-				        <h:outputText value="#{item.discount == 0 ? 'Pas de remise' : item.discount}">
-				        	<f:convertNumber type="currency" currencySymbol="%"/>
-				        </h:outputText>
+				        <p:cellEditor>
+		                    <f:facet name="output">
+		                        <h:outputText value="#{item.discount == 0 ? 'Pas de remise' : item.discount}">
+		                            <f:convertNumber type="currency" currencySymbol="%"/>
+		                        </h:outputText>
+		                    </f:facet>
+		                    <f:facet name="input">
+		                        <p:spinner value="#{itembean.discount}" label="Remise" min="0" max="50" suffix="%">
+		                        	<p:ajax event="change" listener="#{itembean.updateItem(item)}" />
+		                        </p:spinner>
+		                    </f:facet>
+		                </p:cellEditor>
 				    </p:column>
 				    <p:column headerText="Stock">
-				        <h:outputText value="#{item.stock == 0 ? 'En rupture' : item.stock}" >
-				        	<f:convertNumber type="currency" currencySymbol="unité(s)" />
-				        </h:outputText>
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText
+									value="#{item.stock == 0 ? 'En rupture' : item.stock}">
+									<f:convertNumber type="currency" currencySymbol="unité(s)" />
+								</h:outputText>
+							</f:facet>
+							<f:facet name="input">
+								<p:spinner value="#{itembean.stock}" label="Stock" min="0" >
+									<p:ajax event="change" listener="#{itembean.updateItem(item)}" />
+								</p:spinner>
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+				    <p:column headerText="Vendable" width="70px">
+				        <p:cellEditor>
+						<f:facet name="output"><h:outputText value="#{item.isSellable == true ? 'Oui' : 'Non'}" /></f:facet>
+						<f:facet name="input">
+							<p:selectOneMenu value="#{itembean.isSellable}" style="width:100%" >
+							    <f:selectItem itemValue="#{null}" itemLabel="" />
+								<f:selectItem itemValue="true" itemLabel="Oui"/>
+					    		<f:selectItem itemValue="false" itemLabel="Non"/>
+	                            <p:ajax event="change" listener="#{itembean.updateItem(item)}" />
+	                       	</p:selectOneMenu>
+						</f:facet>
+					</p:cellEditor>
 				    </p:column>
-				    <p:column headerText="Vendable">
-				        <h:outputText value="#{item.isSellable == true ? 'Oui' : 'Non'}" />
-				    </p:column>
+				    
+				    <p:column width="20px">
+	               		<p:rowEditor editTitle="Modification ligne" cancelTitle="Annulation modification" saveTitle="Ligne enregistrée"/>
+	          		</p:column>
 				</p:dataTable>
-			</div>
+			</h:form>
 		</div>
 	</f:view>
 </body>

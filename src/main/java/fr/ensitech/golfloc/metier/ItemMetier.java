@@ -38,6 +38,27 @@ public class ItemMetier {
 			}
 		}
 		
+		public void removeItem(Item item) {
+			try {
+				itemDao = new ItemDao();
+				itemDao.removeItem(item);
+			} catch (Exception e) {
+				e.printStackTrace();
+				System.out.println("Une erreur est survenue dans ItemMetier.RemoveItem : " + e.getMessage());
+			}
+		}
+		
+		public Item getItemById(int id) {
+			try {
+				itemDao = new ItemDao();
+				return itemDao.getItemById(id);
+			} catch (Exception e) {
+				e.printStackTrace();
+				System.out.println("Une erreur est survenue dans ItemMetier.GetItemById : " + e.getMessage());
+				return null;
+			}
+		}
+		
 		public Item getItemByName(String name) {
 			try {
 				itemDao = new ItemDao();
