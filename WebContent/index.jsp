@@ -11,6 +11,6 @@
 <body>
 
 	<!--  Tage de redirection vers les pages xhtml de l'application. -->
-	<jsp:forward page="faces/pages/accueil.xhtml"></jsp:forward>
+	<jsp:forward page="faces/pages/achats.xhtml"></jsp:forward>
 </body>
 </html>

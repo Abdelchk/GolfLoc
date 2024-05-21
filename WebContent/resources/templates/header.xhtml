@@ -1,16 +1,17 @@
-<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ui="http://java.sun.com/jsf/facelets">
-	
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
 <h:head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </h:head>
 
 <body>
 	<ui:composition>
-		<div id="navbar">
+        <div id="navbar">
 			<h:form>
 				<h:commandLink value="GolfLoc" styleClass="golfloc" action="accueil" />
 				<h:panelGroup rendered="#{userbean.connectedUser.getProfile() == 'admin'}">
@@ -22,7 +23,7 @@
 				<h:commandLink value="Achats" styleClass="commandlink" action="achats" />
 	            <h:commandLink value="A propos" styleClass="commandlink" action="about" />
 	            <h:panelGroup rendered="#{not empty userbean.connectedUser}">
-	            	<h:commandLink value="D�connexion" styleClass="commandlink" action="#{userbean.seDeconnecter}" />
+	            	<h:commandLink value="Déconnexion" styleClass="commandlink" action="#{userbean.seDeconnecter}" />
 	            </h:panelGroup>
 	            <h:panelGroup rendered="#{empty userbean.connectedUser}">
 	            	<h:commandLink value="Connexion" styleClass="commandlink" action="connexion" />
@@ -35,3 +36,18 @@
 	</ui:composition>
 </body>
 </html>
+
+<!-- 
+
+        
+        <div class="navbar">
+		    <p:menubar>
+		    	<p:menuitem value="Accueil" outcome="achats" icon="pi pi-fw pi-home" />
+		        <p:menuitem  rendered="#{userbean.connectedUser.getProfile() == 'admin'}" value="Admin" outcome="admin" icon="pi pi-fw pi-user-edit" />
+		        <p:menuitem  rendered="#{userbean.connectedUser.getProfile() == 'magasinier'}" value="Magasinier" outcome="magasinier" icon="pi pi-fw pi-pencil" />
+		        <p:menuitem value="A propos" outcome="about" icon="pi pi-fw pi-info-circle" />
+		        <p:menuitem rendered="#{not empty userbean.connectedUser}" value="Panier" outcome="cart" icon="pi pi-fw pi-shopping-cart" />
+		        <p:menuitem rendered="#{empty userbean.connectedUser}" value="Connexion" outcome="connexion" icon="pi pi-fw pi-user" />
+		        <p:menuitem rendered="#{not empty userbean.connectedUser}" value="Déconnexion" outcome="#{userbean.seDeconnecter()}" icon="pi pi-fw pi-user-minus" />
+		    </p:menubar>
+		</div> -->
