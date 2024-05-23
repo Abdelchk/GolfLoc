@@ -17,6 +17,7 @@ import org.hibernate.query.Query;
 import org.mindrot.jbcrypt.BCrypt;
 
 import fr.ensitech.golfloc.entity.User;
+import fr.ensitech.golfloc.entity.PwdReset;
 import fr.ensitech.golfloc.model.connection.UserDataSource;
 import fr.ensitech.golfloc.utils.Dates;
 import fr.ensitech.golfloc.utils.ResetRequestDetails;
@@ -375,7 +376,7 @@ public final class UserDao implements IUserDao {
 	        try {
 	            session = HibernateConnector.getSession();
 	            // Requête JPQL
-	            Query<User> query = session.createQuery("SELECT u from User u where u.email = :email", User.class);
+	            Query<User> query = session.createQuery("SELECT u from user u where u.email = :email", User.class);
 	            query.setParameter("email", email);
 	            
 	            // Requête native SQL pur
@@ -563,64 +564,58 @@ public final class UserDao implements IUserDao {
 	}
 	
 	// Méthode pour insérer une nouvelle demande de réinitialisation
-	public void insertResetRequest(int userId, String resetToken, Timestamp expirationTime) throws Exception {
-	    Connection connection = null;
-	    PreparedStatement ps = null;
-	    try {
-	        connection = UserDataSource.getConnection();
-	        String requete = "INSERT INTO password_reset_requests (user_id, reset_token, expiration_time) VALUES (?, ?, ?)";
-	        ps = connection.prepareStatement(requete);
-	        ps.setInt(1, userId);
-	        ps.setString(2, resetToken);
-	        ps.setTimestamp(3, expirationTime);
+	public void insertResetRequest(User user, String resetToken, Timestamp expirationTime) throws Exception {
+		Session session = null;
+        Transaction tx = null;
+        try {
+        	
+            session = HibernateConnector.getSession();
+            tx = session.beginTransaction();
+            PwdReset details = new PwdReset();
+            details.setUser(user);
+            details.setToken(resetToken);
+            String exp = expirationTime.toString();
+            details.setExpirationTime(exp);
+            session.save(details);
+            tx.commit();
 
-	        ps.executeUpdate();
-	    } finally {
-	        if (connection != null && !connection.isClosed()) {
-	            connection.close();
-	        }
-	        if (ps != null && !ps.isClosed()) {
-	            ps.close();
-	        }
-	    }
+        } catch (RollbackException e) {
+            tx.rollback();
+        } finally {
+            if (session != null && session.isOpen()) {
+                session.close();
+            }
+        }
 	}
 
 	// Méthode pour récupérer les détails de la demande de réinitialisation par token
-	public ResetRequestDetails getResetRequestDetails(String resetToken) throws Exception {
+	public PwdReset getResetRequestDetails(String resetToken) throws Exception {
 		if (resetToken == null || resetToken.trim().isEmpty()) {
 	        throw new IllegalArgumentException("Le token de réinitialisation ne doit pas être NULL !");
 	    }
 		
-	    Connection connection = null;
-	    ResultSet rs = null;
-	    PreparedStatement ps = null;
-	    try {
-	        connection = UserDataSource.getConnection();
-	        String requete = "SELECT * FROM password_reset_requests WHERE reset_token = ?";
-	        ps = connection.prepareStatement(requete);
-	        ps.setString(1, resetToken);
-	        ps.execute();
-	        rs = ps.getResultSet();
-	        if (rs != null && rs.next()) {
-	            // Retournez les détails de la demande de réinitialisation
-	            ResetRequestDetails details = new ResetRequestDetails();
-	            details.setUserId(rs.getInt("user_id"));
-	            details.setResetToken(rs.getString("reset_token"));
-	            details.setExpirationTime(rs.getTimestamp("expiration_time"));
-	            return details;
-	        }
-	    } finally {
-	        if (connection != null && !connection.isClosed()) {
-	            connection.close();
-	        }
-	        if (ps != null && !ps.isClosed()) {
-	            ps.close();
-	        }
-	        if (rs != null && !rs.isClosed()) {
-	            rs.close();
-	        }
-	    }
-	    return null;
+		Session session = null;
+        try {
+            session = HibernateConnector.getSession();
+            // Requête JPQL
+            Query<PwdReset> query = session.createQuery("SELECT p from pwd_reset u where p.reset_token = :resetToken", PwdReset.class);
+            query.setParameter("resetToken", resetToken);
+            
+            // Requête native SQL pur
+//            Query<User> query = session.createNativeQuery("SELECT * from user where email = :email", User.class);
+//            query.setParameter("email", email);
+            
+			// Requête prédéfinie
+//            Query<User> query = session.createNamedQuery("User:findByEmail", User.class);
+//			query.setParameter("email", email);
+			
+			// return query.getSingleResult();
+			return query.uniqueResult();
+        } finally {
+            if (session != null && session.isOpen()) {
+                session.close();
+            }
+        }
 	}
 
 }

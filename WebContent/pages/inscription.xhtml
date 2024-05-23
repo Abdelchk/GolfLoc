@@ -7,7 +7,6 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui">
 <h:head>
-<script src="https://www.google.com/recaptcha/enterprise.js?render=6LfbCdcpAAAAALDOS_7AFN1qGCZBjo060mIIzj1C" />
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 <h:outputStylesheet name="inscription.css" library="css" />
 <h:outputStylesheet name="common-style.css" library="css" />
@@ -107,7 +106,7 @@
 					<p:password id="pwdConfirm" feedback="true" toggleMask="true" redisplay="true" styleClass="inputSecret" size="20" required="true"
 						value="#{userbean.pwdConfirm}" requiredMessage="Veuillez confirmer le mot de passe !"
 						validator="#{userbean.validatePasswordConfirmation}" />
-						<p:captcha required="true" requiredMessage="Veuilez confirmer que vous n'êtes pas un robot" label="Captcha"/>
+					<p:captcha required="true" requiredMessage="Veuilez confirmer que vous n'êtes pas un robot" label="Captcha"/>
 				</h:panelGrid>
 			</h:panelGroup>
 			<p></p>

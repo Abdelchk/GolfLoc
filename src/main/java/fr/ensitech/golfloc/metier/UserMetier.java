@@ -6,6 +6,7 @@ import java.util.List;
 import org.mindrot.jbcrypt.BCrypt;
 
 import fr.ensitech.golfloc.entity.User;
+import fr.ensitech.golfloc.entity.PwdReset;
 import fr.ensitech.golfloc.model.dao.UserDao;
 import fr.ensitech.golfloc.utils.ResetRequestDetails;
 import fr.ensitech.golfloc.auth.GmailAuthentification;
@@ -146,11 +147,11 @@ public class UserMetier {
         return currentMillis > expirationMillis;
     }
     
-    public ResetRequestDetails validerToken(String resetToken) {
+    public PwdReset validerToken(String resetToken) {
 		try {
 			userDao = new UserDao();
 			
-			ResetRequestDetails details = userDao.getResetRequestDetails(resetToken);
+			PwdReset details = userDao.getResetRequestDetails(resetToken);
 			
 			if (details != null) {
 				return details;
@@ -175,17 +176,17 @@ public class UserMetier {
             	String resetToken = GmailAuthentification.generateResetToken();
                 
                 // Insérez une nouvelle ligne dans la table password_reset_requests
-                userDao.insertResetRequest(user.getId(), resetToken, calculateExpirationTime());
+                userDao.insertResetRequest(user, resetToken, calculateExpirationTime());
                 
                 // Instanciation des détails de la demande de réinitialisation
-                ResetRequestDetails details = new ResetRequestDetails();
+                PwdReset details = new PwdReset();
                 
-                details = userDao.getResetRequestDetails(resetToken);
-                
-                if (details != null && !isTokenExpired(details.getExpirationTime())) {
-					// Appeler la méthode sendResetEmail avec l'adresse e-mail et le jeton d'accès
-                	GmailAuthentification.sendResetEmail(email, resetToken);
-				}
+//                details = userDao.getResetRequestDetails(resetToken);
+//                
+//                if (details != null && !isTokenExpired(details.getExpirationTime())) {
+//					// Appeler la méthode sendResetEmail avec l'adresse e-mail et le jeton d'accès
+//                	GmailAuthentification.sendResetEmail(email, resetToken);
+//				}
                 
                 return true;
             } else {

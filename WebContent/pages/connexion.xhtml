@@ -18,6 +18,7 @@
 		<h2>Connexion</h2>
 		
 		<h:form>
+		<p:growl id="msgs" />
 			<h:panelGroup>
 				<h:panelGrid id = "panelFieldsUser" styleClass="panelFieldsUser" columns = "3" cellpadding = "5" cellspacing = "2" >
 				
@@ -37,9 +38,12 @@
 					<h:message for="password" styleClass="messages"></h:message>
 					
 					<h:outputText value = ""/>
-					<h:commandLink id="pwdReset" styleClass="pwdReset" value="Mot de passe oublié ?" action="envoiMail" immediate="true"/>	
+					<h:commandLink id="pwdReset" styleClass="pwdReset" value="Mot de passe oublié ?" action="envoiMail" immediate="true"/>
+					
+						
 					
 				</h:panelGrid>
+				<p:captcha required="true" requiredMessage="Veuilez confirmer que vous n'êtes pas un robot" label="Captcha"/>
 				
 			</h:panelGroup>
 			<p></p>

@@ -5,8 +5,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.List;
 
+import javax.persistence.RollbackException;
+
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.query.Query;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -88,7 +92,29 @@ public class CategoryDao implements ICategoryDao {
 
 	@Override
 	public Integer addCategory(Category category) throws Exception {
-		// TODO Auto-generated method stub
+		if (category == null) {
+			throw new NullPointerException("Le user à créer ne doit pas être NULL !");
+		}
+		if (category.getName() == null || category.getDiscount() < 0) 
+		{
+			throw new IllegalArgumentException("Tous les paramètres sont obligatoires !");
+		}
+		Session session = null;
+        Transaction tx = null;
+        try {
+        	
+            session = HibernateConnector.getSession();
+            tx = session.beginTransaction();
+            session.save(category);
+            tx.commit();
+
+        } catch (RollbackException e) {
+            tx.rollback();
+        } finally {
+            if (session != null && session.isOpen()) {
+                session.close();
+            }
+        }
 		return null;
 	}
 

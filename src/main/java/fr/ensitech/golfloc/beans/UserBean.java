@@ -18,6 +18,7 @@ import javax.faces.context.FacesContext;
 import org.primefaces.event.RowEditEvent;
 
 import fr.ensitech.golfloc.entity.Adresse;
+import fr.ensitech.golfloc.entity.PwdReset;
 import fr.ensitech.golfloc.entity.User;
 import fr.ensitech.golfloc.metier.UserMetier;
 import fr.ensitech.golfloc.utils.ResetRequestDetails;
@@ -327,7 +328,7 @@ public class UserBean implements Serializable {
 	        System.out.println("Token : " + resetToken);
 	        
 	     // Valider le token et récupérer l'utilisateur associé
-	        ResetRequestDetails userDetails = userMetier.validerToken(resetToken);
+	        PwdReset userDetails = userMetier.validerToken(resetToken);
 	        
 	        if (userDetails != null) {
 	        	// Récupérer le mot de passe depuis la session
@@ -337,7 +338,7 @@ public class UserBean implements Serializable {
 
 	            if (password != null) {
 	                // Mettre à jour le mot de passe
-	                boolean pwdUser = userMetier.reinitialiserMdp(password, userDetails.getUserId());
+	                boolean pwdUser = userMetier.reinitialiserMdp(password, userDetails.getId());
 
 	                if (pwdUser) {
 	                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Succès :", "Le mot de passe a bien été réinitialisé !"));

@@ -4,6 +4,8 @@ import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
+import fr.ensitech.golfloc.metier.CartMetier;
+
 @ManagedBean(name = "cartbean")
 @SessionScoped
 public class CartBean implements Serializable {
@@ -13,6 +15,7 @@ public class CartBean implements Serializable {
 	private Integer userId;
 	private Integer itemId;
 	private int quantity;
+	private CartMetier cartMetier;
 	
 	public CartBean() {
 		
@@ -44,7 +47,15 @@ public class CartBean implements Serializable {
 	
 	// Méthodes de Gestion
 	
-	public String addToCart() {
+	public String addToCart(int userId, int itemId) {
+		cartMetier = new CartMetier();
+		
+		try {
+			cartMetier.addToCart(userId, itemId);
+			return "achats.xhtml";
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
 	
