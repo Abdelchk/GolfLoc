@@ -3,17 +3,48 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html">
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
 <h:head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<h:outputStylesheet name="common-style.css" library="css" />
-<h:outputStylesheet name="cart.css" library="css" />
-<title>Panier</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<h:outputStylesheet name="common-style.css" library="css" />
+	<h:outputStylesheet name="cart.css" library="css" />
+	<title>Panier</title>
 </h:head>
 <body>
 	<f:view>
 		<ui:include src="/resources/templates/header.xhtml" />
 		<h2>Panier</h2>
+
+		<div class="product card">
+			<h:form>
+				<p:dataScroller value="#{cartBean.getCart()}" var="cart"
+					chunkSize="10" mode="inline" scrollHeight="500">
+					<f:facet name="header">
+		                Scroll Down to Load More Products
+		            </f:facet>
+
+					<div class="product">
+						<div class="product-list-item p-5">
+							<!-- Afficher le nom de l'item -->
+							<div class="product-name">#{cart.quantity}</div>
+							<!-- Afficher la description de l'item (s'il y en a une) -->
+							<div class="product-description"></div>
+							<!-- Afficher le prix de l'item -->
+							<h:outputText value="#{cart.id.item.price}"
+								styleClass="product-price">
+								<f:convertNumber currencySymbol="$" type="currency" />
+							</h:outputText>
+							<!-- Bouton ou action pour ajouter au panier -->
+							<p:commandButton value="Add To Cart" icon="pi pi-shopping-cart"
+								>
+							</p:commandButton>
+						</div>
+					</div>
+				</p:dataScroller>
+			</h:form>
+		</div>
+
 	</f:view>
 </body>
 </html>

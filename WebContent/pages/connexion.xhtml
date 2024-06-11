@@ -18,6 +18,7 @@
 		<h2>Connexion</h2>
 		
 		<h:form>
+		<p:growl id="msgs" />
 			<h:panelGroup id="panelFieldsUser" styleClass="panelFieldsUser">					
 				<p:inputText id="email" styleClass="inputText" size="20" required="true"
 					value="#{userbean.email}" requiredMessage="L'email est obligatoire !"
@@ -25,7 +26,7 @@
 					placeholder="Email">
 					<f:validateLength maximum="35"/>
 					<f:validateRegex pattern="\b[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+\.[A-Z|a-z]{2,}\b"/>
-				</p:inputText>	
+				</p:inputText>
 				
 				<p:password id="password" styleClass="inputSecret" size="20" required="true"
 					value="#{userbean.password}" requiredMessage="Le mot de passe est obligatoire !"
@@ -33,14 +34,14 @@
 				
 				<p:captcha required="true" requiredMessage="Veuilez confirmer que vous n'êtes pas un robot" label="Captcha"/>
 				
-				<p:commandButton id="btnConnection" styleClass="btnConnection" value="Se connecter" action="#{userbean.seConnecter}"/>
+				<h:commandButton id="btnConnection" styleClass="btnConnection" value="Se connecter" action="#{userbean.seConnecter}"/>
 			</h:panelGroup>		
 		
 		
 			<h:panelGroup>
 				<p:commandLink id="pwdReset" styleClass="pwdReset" value="Mot de passe oublié ?" action="envoiMail" immediate="true"/>
 				<p></p>
-				<p:commandButton id = "btnInscription" styleClass="btnInscription" value = "Créer un compte" action="inscription" immediate="true"/>
+				<h:commandButton id = "btnInscription" styleClass="btnInscription" value = "Créer un compte" action="inscription" immediate="true"/>
 			</h:panelGroup>
 		
 			<p></p>

@@ -62,7 +62,7 @@ public class User implements Serializable {
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<PwdReset> pwdReset;
 	
-	@OneToMany(mappedBy = "user")
+	@OneToMany(mappedBy = "id.user")
     private List<Cart> carts;
 	
 	@OneToMany(mappedBy = "user")

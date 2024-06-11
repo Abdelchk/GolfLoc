@@ -4,6 +4,7 @@ import javax.persistence.RollbackException;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 import fr.ensitech.golfloc.entity.Cart;
 import fr.ensitech.golfloc.entity.Item;
@@ -13,8 +14,8 @@ import fr.ensitech.golfloc.model.connection.HibernateConnector;
 public class CartDao implements ICartDao {
 
 	@Override
-	public Integer addToCart(int userId, int itemId, int quantity) {
-		if (userId == 0 && itemId == 0) {
+	public Integer addToCart(Cart cart) {
+		if (cart == null) {
 			throw new IllegalArgumentException("Tous les paramètres sont obligatoires !");
 		}
 		
@@ -24,10 +25,6 @@ public class CartDao implements ICartDao {
             
             session = HibernateConnector.getSession();
             tx = session.beginTransaction();
-            
-            Cart cart = new Cart();
-            User user = new User();
-            Item item = new Item();
             
             session.save(cart);
             tx.commit();
@@ -48,13 +45,31 @@ public class CartDao implements ICartDao {
 	}
 
 	@Override
-	public Cart clearCart(int userId) {
+	public Cart clearCart(User user) {
 		return null;
 	}
 
 	@Override
-	public Cart getCart(int userId) {
-		return null;
+	public Cart getCart(int id) {
+		Session session = null;
+        try {
+            session = HibernateConnector.getSession();
+
+            Query<Cart> query = session.createQuery("SELECT c, c.id.item.nom, c.id.item.prix FROM cart c WHERE c.id.user = :userId", Cart.class);
+            query.setParameter("user_id", id);
+            
+			return query.uniqueResult();
+			
+        } finally {
+            if (session != null && session.isOpen()) {
+                session.close();
+            }
+        }
+	}
+
+	@Override
+	public void updateItemQuantity(Item item, int quantity) throws Exception {
+			
 	}
 
 }

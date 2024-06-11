@@ -61,7 +61,7 @@ public class Item implements Serializable {
 	@Column(name = "is_sellable", nullable = false, columnDefinition = "boolean default true")
 	private boolean isSellable = true;
 	
-	@OneToMany(mappedBy = "item")
+	@OneToMany(mappedBy = "id.item")
     private List<Cart> carts;
 	
 	@OneToMany(mappedBy = "item")

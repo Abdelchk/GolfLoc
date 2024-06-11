@@ -8,6 +8,10 @@
 	xmlns:p="http://primefaces.org/ui">
 <h:head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<f:facet name="head">
+        <meta name="description" content="Réservez vos clubs de golf préférés à prix réduits !"/>
+        <meta name="keywords" content="golf, clubs de golf, réservation, pas cher"/>
+    </f:facet>
 <h:outputStylesheet name="achats.css" library="css"/>
 <h:outputStylesheet name="common-style.css" library="css" />
 <title>Articles</title>
@@ -55,12 +59,11 @@
 		                        <h:outputText  value="#{item.price}" styleClass="product-price">
 		                            <f:convertNumber currencySymbol="€" type="currency"/>
 		                        </h:outputText>
-		                        <p:commandButton styleClass="ui-button-raised ui-button-success" style="float: right" type="button"
+		                        	<h:commandLink styleClass="ui-button-raised ui-button-success" style="float: right" type="button"
 		                                            value="Ajouter au panier"
 		                                            icon="pi pi-shopping-cart"
 		                                            disabled="#{item.stock == 0}"
-		                                            action="#{cartbean.addToCart(userbean.connectedUser.id, item.id)}">
-		                        </p:commandButton>
+		                                            action="#{cartbean.addToCart(userbean.connectedUser.id, item.id)}" />
 		                    </div>
 		                </div>
 		            </p:dataViewGridItem>

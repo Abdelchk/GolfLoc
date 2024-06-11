@@ -27,7 +27,7 @@ public class Adresse implements Serializable {
 	@Column(name = "road", length = 45, nullable = false)
     private String rue;
 	
-	@Column(name = "city", length = 20, nullable = false)
+	@Column(name = "city", length = 45, nullable = false)
     private String ville;
 	
 	@Column(name = "postal_code", length = 5, nullable = false)
