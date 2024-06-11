@@ -18,49 +18,36 @@
 		<h2>Connexion</h2>
 		
 		<h:form>
-		<p:growl id="msgs" />
-			<h:panelGroup>
-				<h:panelGrid id = "panelFieldsUser" styleClass="panelFieldsUser" columns = "3" cellpadding = "5" cellspacing = "2">
+			<h:panelGroup id="panelFieldsUser" styleClass="panelFieldsUser">					
+				<p:inputText id="email" styleClass="inputText" size="20" required="true"
+					value="#{userbean.email}" requiredMessage="L'email est obligatoire !"
+					validatorMessage="Veuillez entrer une adresse email conforme."
+					placeholder="Email">
+					<f:validateLength maximum="35"/>
+					<f:validateRegex pattern="\b[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+\.[A-Z|a-z]{2,}\b"/>
+				</p:inputText>	
 				
-					<h:outputText value = "Email :"/>
-					<h:inputText id="email" styleClass="inputText" size="20" required="true"
-						value="#{userbean.email}" requiredMessage="L'email est obligatoire !"
-						validatorMessage="Veuillez entrer une adresse email conforme.">
-						<f:validateLength maximum="35" />
-						<f:validateRegex pattern="\b[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+\.[A-Z|a-z]{2,}\b" />
-					</h:inputText>
-					<h:message for="email" styleClass="messages" />
-					
-					<h:outputText value = "Mot de passe :"/>
-					<p:password id="password" styleClass="inputSecret" size="20" required="true"
-						value="#{userbean.password}" requiredMessage="Le mot de passe est obligatoire !"
-						toggleMask="true" redisplay="true" />
-					<h:message for="password" styleClass="messages"></h:message>
-					
-					<h:outputText value = ""/>
-					<p:captcha required="true" requiredMessage="Veuilez confirmer que vous n'êtes pas un robot" label="Captcha"/>
-					<h:outputText value = ""/>
-					
-					<h:outputText value = ""/>
-					<h:commandButton id = "btnConnection" styleClass="btnConnection" value = "Se connecter" action="#{userbean.seConnecter}"/>
-					<h:outputText value = ""/>
-						
-				</h:panelGrid>
-			</h:panelGroup>
-			
-			<h:panelGroup>
-			
-				<p></p>
-				<h:commandLink id="pwdReset" styleClass="pwdReset" value="Mot de passe oublié ?" action="envoiMail" immediate="true"/>
-				<p></p>
-				<h:commandButton id = "btnInscription" styleClass="btnInscription" value = "Créer un compte" action="inscription" immediate="true"/>
+				<p:password id="password" styleClass="inputSecret" size="20" required="true"
+					value="#{userbean.password}" requiredMessage="Le mot de passe est obligatoire !"
+					toggleMask="true" redisplay="true" placeholder="Mot de passe"/>
 				
+				<p:captcha required="true" requiredMessage="Veuilez confirmer que vous n'êtes pas un robot" label="Captcha"/>
+				
+				<p:commandButton id="btnConnection" styleClass="btnConnection" value="Se connecter" action="#{userbean.seConnecter}"/>
+			</h:panelGroup>		
+		
+		
+			<h:panelGroup>
+				<p:commandLink id="pwdReset" styleClass="pwdReset" value="Mot de passe oublié ?" action="envoiMail" immediate="true"/>
+				<p></p>
+				<p:commandButton id = "btnInscription" styleClass="btnInscription" value = "Créer un compte" action="inscription" immediate="true"/>
 			</h:panelGroup>
-			
+		
 			<p></p>
 			<!-- Afficher les messages globaux -->
         	<h:messages id="messages" showDetail="true" styleClass="messages" globalOnly="true" />
-		</h:form>
+       	</h:form>
 	</f:view>
 </h:body>
 </html>
+

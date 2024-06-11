@@ -276,7 +276,7 @@ public class UserBean implements Serializable {
                 return null;
             }
         } catch (Exception e) {
-            e.printStackTrace(); // Loguer l'erreur
+            e.printStackTrace(); // Log de l'erreur
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erreur :", "une erreur s'est produite lors de la connexion"));
             return null;
         }
