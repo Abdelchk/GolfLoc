@@ -17,33 +17,46 @@
 		<h2>Panier</h2>
 
 		<div class="product card">
-			<h:form>
-				<p:dataScroller value="#{cartBean.getCart()}" var="cart"
-					chunkSize="10" mode="inline" scrollHeight="500">
-					<f:facet name="header">
-		                Scroll Down to Load More Products
-		            </f:facet>
+    <h:form id="form">
+        <p:dataScroller id="cartTable" value="#{cartbean.getCart()}" var="cart" chunkSize="10" mode="inline" scrollHeight="500">
+            <f:facet name="header">
+                Liste de articles
+            </f:facet>
 
-					<div class="product">
-						<div class="product-list-item p-5">
-							<!-- Afficher le nom de l'item -->
-							<div class="product-name">#{cart.quantity}</div>
-							<!-- Afficher la description de l'item (s'il y en a une) -->
-							<div class="product-description"></div>
-							<!-- Afficher le prix de l'item -->
-							<h:outputText value="#{cart.id.item.price}"
-								styleClass="product-price">
-								<f:convertNumber currencySymbol="$" type="currency" />
-							</h:outputText>
-							<!-- Bouton ou action pour ajouter au panier -->
-							<p:commandButton value="Add To Cart" icon="pi pi-shopping-cart"
-								>
-							</p:commandButton>
-						</div>
-					</div>
-				</p:dataScroller>
-			</h:form>
-		</div>
+            <div class="product">
+                <div class="product-list-item p-5">
+                    <p:graphicImage name="#{cart.id.item.image += '.jpg'}" library="img"/>
+                    <div class="product-list-detail">
+                        <div class="product-name">#{cart.id.item.name}</div>
+                        <i class="pi pi-tag product-category-icon"/>
+                        <span class="product-category">#{cart.id.item.category.name}</span>
+                    </div>
+                    <div class="product-list-action">
+                        <h:outputText value="#{cart.id.item.price * cart.quantity}" styleClass="product-price">
+                            <f:convertNumber currencySymbol="€" type="currency"/>
+                        </h:outputText>
+                        <h:outputText value="Quantité : #{cart.quantity}" styleClass="product-price"/>
+                        <p:spinner value="#{cartbean.quantity}" min="1" max="#{cart.id.item.stock}">
+                            <p:ajax event="change" listener="#{cartbean.updateQuantity(cart.id)}" update=":form:cartTable"/>
+                        </p:spinner>
+
+                        <!-- Button to remove item from cart -->
+                        <p:commandButton value="Remove Item" icon="pi pi-trash" actionListener="#{cartbean.removeFromCart(cart.id)}" update=":form:cartTable"/>
+                    </div>
+                </div>
+            </div>
+        </p:dataScroller>
+
+        <!-- Button to clear the cart with confirmation dialog -->
+        <p:commandButton value="Clear Cart" icon="pi pi-times" onclick="PF('confirmDialog').show();" type="button"/>
+
+        <p:confirmDialog header="Confirmation" message="Are you sure you want to clear the cart?" widgetVar="confirmDialog">
+            <p:commandButton value="Yes" icon="pi pi-check" actionListener="#{cartbean.clearCart}" update=":form:cartTable" oncomplete="PF('confirmDialog').hide();"/>
+            <p:commandButton value="No" icon="pi pi-times" onclick="PF('confirmDialog').hide();" type="button"/>
+        </p:confirmDialog>
+    </h:form>
+</div>
+
 
 	</f:view>
 </body>

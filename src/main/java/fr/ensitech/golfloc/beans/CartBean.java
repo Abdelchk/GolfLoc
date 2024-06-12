@@ -1,6 +1,9 @@
 package fr.ensitech.golfloc.beans;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -22,6 +25,7 @@ public class CartBean implements Serializable {
 	private Integer userId;
 	private Integer itemId;
 	private int quantity;
+	private List<Cart> cart;
 	private CartMetier cartMetier;
 	
 	public CartBean() {
@@ -91,20 +95,62 @@ public class CartBean implements Serializable {
 		return null;
 	}
 	
-	public String removeFromCart() {
+	public String removeFromCart(CartId id) {
+		try {
+			
+			Cart cart = cartMetier.getCartItem(id);
+			
+            cartMetier.removeFromCart(cart);
+            return "cart.xhtml";
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 		return null;
 	}
 	
 	public String clearCart() {
+		 try {
+			 
+			 User user = (User) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user");
+
+	            cartMetier.clearCart(user);
+	            cart = new ArrayList<>();
+	            return "cart.xhtml";
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
 		return null;
 	}
 	
-	public Cart getCart() {
+	public String updateQuantity(CartId id) {
+        try {
+            // Logic to update the quantity in the database
+        	
+        	//System.out.println(id);
+        	Cart cart = cartMetier.getCartItem(id);
+        	
+        	System.out.println("Cart : " + cart);
+        	
+        	System.out.println("Quantité avant modification : " + cart.getQuantity());
+        	
+        	cart.setQuantity(quantity);
+        	
+			System.out.println("Quantité entré : " + quantity);
+        	System.out.println("Quantité après modification : " + cart.getQuantity());
+        	
+            cartMetier.updateCart(cart);
+            return "cart.xhtml";
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+		return null;
+    }
+	
+	public List<Cart> getCart() {
 		cartMetier = new CartMetier();
 		
 		try {
 			User user = (User) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user");
-			System.out.println("Bonjour");
 			return cartMetier.getCart(user.getId());
 		} catch (Exception e) {
 			e.printStackTrace();

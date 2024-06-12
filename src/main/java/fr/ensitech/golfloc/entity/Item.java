@@ -54,6 +54,9 @@ public class Item implements Serializable {
 	@Column(name = "stock")
 	private int stock;
 	
+	@Column(name = "image", nullable = true)
+	private String image;
+	
 	@ManyToOne
 	@JoinColumn(name = "category_id", columnDefinition = "0")
 	private Category category;
@@ -71,7 +74,7 @@ public class Item implements Serializable {
 	}
 
 	public Item(Integer id, String name, String brand, String gender, String mainHand, String flexibility,
-			String description, Float price, int discount, int stock, Category category, boolean isSellable) {
+			String description, Float price, int discount, int stock, String image, Category category, boolean isSellable) {
 		this.id = id;
 		this.name = name;
 		this.brand = brand;
@@ -82,6 +85,7 @@ public class Item implements Serializable {
 		this.price = price;
 		this.discount = discount;
 		this.stock = stock;
+		this.image = image;
 		this.category = category;
 		this.isSellable = isSellable;
 	}
@@ -164,6 +168,15 @@ public class Item implements Serializable {
 
 	public void setStock(int stock) {
 		this.stock = stock;
+	}
+	
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
 	}
 
 	public Category getCategory() {

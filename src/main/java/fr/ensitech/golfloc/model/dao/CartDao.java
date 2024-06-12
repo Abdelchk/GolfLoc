@@ -1,5 +1,7 @@
 package fr.ensitech.golfloc.model.dao;
 
+import java.util.List;
+
 import javax.persistence.RollbackException;
 
 import org.hibernate.Session;
@@ -7,6 +9,7 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 import fr.ensitech.golfloc.entity.Cart;
+import fr.ensitech.golfloc.entity.CartId;
 import fr.ensitech.golfloc.entity.Item;
 import fr.ensitech.golfloc.entity.User;
 import fr.ensitech.golfloc.model.connection.HibernateConnector;
@@ -40,25 +43,63 @@ public class CartDao implements ICartDao {
 	}
 
 	@Override
-	public void removeCartItem(int userId, int itemId) {
-		
+	public void removeCartItem(Cart cart) {
+		Session session = null;
+		Transaction tx = null;
+		try {
+			session = HibernateConnector.getSession();
+			tx = session.beginTransaction();
+			session.delete(cart);
+			tx.commit();
+
+		} catch (RollbackException e) {
+			tx.rollback();
+		} finally {
+			if (session != null && session.isOpen()) {
+				session.close();
+			}
+		}
 	}
 
-	@Override
-	public Cart clearCart(User user) {
-		return null;
+	public void clearCart(User user) throws Exception {
+	    Session session = null;
+	    Transaction tx = null;
+	    try {
+	        session = HibernateConnector.getSession();
+	        tx = session.beginTransaction();
+
+	        Query<Cart> query = session.createQuery("FROM cart WHERE id.user = :user", Cart.class);
+	        query.setParameter("user", user);
+
+	        List<Cart> cartItems = query.getResultList();
+	        for (Cart item : cartItems) {
+	            session.delete(item);
+	        }
+
+	        tx.commit();
+	    } catch (Exception e) {
+	        if (tx != null) {
+	            tx.rollback();
+	        }
+	        e.printStackTrace();
+	    } finally {
+	        if (session != null && session.isOpen()) {
+	            session.close();
+	        }
+	    }
 	}
 
+
 	@Override
-	public Cart getCart(int id) {
+	public List<Cart> getCart(int id) {
 		Session session = null;
         try {
             session = HibernateConnector.getSession();
 
-            Query<Cart> query = session.createQuery("SELECT c, c.id.item.nom, c.id.item.prix FROM cart c WHERE c.id.user = :userId", Cart.class);
+            Query<Cart> query = session.createNativeQuery("SELECT item.name, item.price, cart.* FROM cart INNER JOIN item on item_id = item.id WHERE user_id = :user_id", Cart.class);
             query.setParameter("user_id", id);
             
-			return query.uniqueResult();
+			return query.list();
 			
         } finally {
             if (session != null && session.isOpen()) {
@@ -68,8 +109,58 @@ public class CartDao implements ICartDao {
 	}
 
 	@Override
-	public void updateItemQuantity(Item item, int quantity) throws Exception {
-			
+	public void updateItemQuantity(Cart cart) throws Exception {
+	    if (cart == null) {
+	        throw new IllegalArgumentException("Tous les paramètres sont obligatoires !");
+	    }
+	    
+	    Session session = null;
+	    Transaction tx = null;
+	    try {
+	        session = HibernateConnector.getSession();
+	        tx = session.beginTransaction();
+	        
+	        Cart existingCart = (Cart) session.get(Cart.class, cart.getId());
+	        if (existingCart != null) {
+	            existingCart.setQuantity(cart.getQuantity());
+	            session.update(existingCart);
+	            tx.commit();
+	        } else {
+	            throw new IllegalArgumentException("Panier non trouvé pour l'utilisateur et l'item spécifiés !");
+	        }
+
+	    } catch (Exception e) {
+	        if (tx != null) {
+	            tx.rollback();
+	        }
+	        throw new Exception("Erreur lors de la mise à jour de la quantité de l'article dans le panier.", e);
+	    } finally {
+	        if (session != null && session.isOpen()) {
+	            session.close();
+	        }
+	    }
 	}
+
+	@Override
+	public Cart getCartItem(CartId id) throws Exception {
+	    Session session = null;
+	    try {
+	        session = HibernateConnector.getSession();
+
+	        // Utilisation de HQL pour récupérer le Cart basé sur la clé composite
+	        String hql = "SELECT c FROM cart c JOIN FETCH c.id.item i WHERE c.id = :id";
+	        Query<Cart> query = session.createQuery(hql, Cart.class);
+	        query.setParameter("id", id);
+	        
+	        return query.uniqueResult();
+	        
+	    } finally {
+	        if (session != null && session.isOpen()) {
+	            session.close();
+	        }
+	    }
+	}
+
+
 
 }
