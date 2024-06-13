@@ -263,7 +263,10 @@ public class ItemBean implements Serializable {
 			        break;
 			}
 
-			if (item.getPrice() != price) {
+			System.out.println("Prix BDD : " + item.getPrice());
+			System.out.println("Prix entré : " + price);
+			
+			if (item.getPrice() != price && price != null) {
 				item.setPrice(price);
 			}
 			
@@ -286,6 +289,7 @@ public class ItemBean implements Serializable {
 			System.out.println("Category ID modifié : " + item.getCategory().getId());
 			System.out.println("Flexibility modifié : " + item.getFlexibility());
 			System.out.println("Description modifié : " + item.getDescription());
+			System.out.println("Prix modifié : " + item.getPrice());
 			
 			itemMetier.updateItem(item);
 			return "items.xhtml";

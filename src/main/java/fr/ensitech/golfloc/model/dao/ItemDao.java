@@ -68,18 +68,6 @@ public class ItemDao implements IItemDao {
 
 	@Override
 	public void updateItem(Item item) throws Exception {
-		if (item.getName() == null || item.getName().trim().isEmpty() ||
-				item.getBrand() == null || item.getBrand().trim().isEmpty() ||
-				item.getGender() == null || item.getGender().trim().isEmpty() ||
-				item.getMainHand() == null || item.getMainHand().trim().isEmpty() ||
-				item.getFlexibility() == null || item.getFlexibility().trim().isEmpty() ||
-				item.getPrice() < 0f || 
-				item.getDiscount() < 0 ||
-				item.getStock() < 0 ||
-				item.getCategory() == null)
-		{
-			throw new IllegalArgumentException("Tous les paramètres sont obligatoires !");
-		}
 		
 		Session session = null;
         Transaction tx = null;
