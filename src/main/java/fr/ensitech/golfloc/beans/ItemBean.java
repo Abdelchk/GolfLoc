@@ -322,6 +322,16 @@ public class ItemBean implements Serializable {
 		}
 	}
 	
+	public Item getItemById() {
+		itemMetier = new ItemMetier();
+		try {
+			return itemMetier.getItemById(id);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
 //	public List<Item> getItems() {
 //		itemMetier = new ItemMetier();
 //		try {

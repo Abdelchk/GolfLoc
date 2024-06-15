@@ -107,8 +107,16 @@ public class ItemDao implements IItemDao {
 
 	@Override
 	public Item getItemByName(String name) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+Session session = null;
+		
+		try {
+			session = HibernateConnector.getSession();
+			return session.get(Item.class, name);
+		} finally {
+			if (session != null && session.isOpen()) {
+				session.close();
+			}
+		}
 	}
 
 	@Override

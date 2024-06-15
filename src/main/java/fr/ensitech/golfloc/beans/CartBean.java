@@ -84,7 +84,7 @@ public class CartBean implements Serializable {
 				
 				cartMetier.addToCart(cart);
 				
-				return "achats.xhtml";
+				return "";
 			}
 			else {
 				return "connexion.xhtml";

@@ -14,6 +14,12 @@ h2 {
 	margin-bottom: 10px;
 }
 
+.link {
+	text-decoration: none;
+	color: #333;
+
+	}
+
 
 .product .product-grid-item .product-grid-item-content {
     text-align: center;

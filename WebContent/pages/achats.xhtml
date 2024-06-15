@@ -50,16 +50,19 @@
 		                        <span class="product-badge status-#{item.stock} #{item.stock > 5 ? 'status-greater-than-5' : ''}">#{item.stock == 0 ? 'En rupture de stock' : item.stock += ' en stock'}</span>
 		                    </div>
 		                    <div class="product-grid-item-content">
-		                        <p:graphicImage name="#{item.image += '.jpg'}" library="img" height="400px"/>
-		                        <div class="product-name">#{item.name}</div>
-		                        <div class="product-description">#{item.description == '' ? 'Pas de description' : item.description}</div>
-		                        <p:rating readonly="true" value="#{product.rating}"/>
+		                    	<h:link styleClass="link" outcome="itemDetails" includeViewParams="true">
+		                    		<f:param name="itemId" value="#{item.id}" />
+			                        <p:graphicImage name="#{item.image += '.jpg'}" library="img"/>
+			                        <div class="product-name">#{item.name}</div>
+			                        <div class="product-description">#{item.description == '' ? 'Pas de description' : item.description}</div>
+			                        <!-- <p:rating readonly="true" value="#{product.rating}"/> -->
+		                        </h:link>
 		                    </div>
 		                    <div class="product-grid-item-bottom">
 		                        <h:outputText  value="#{item.price}" styleClass="product-price">
 		                            <f:convertNumber currencySymbol="€" type="currency"/>
 		                        </h:outputText>
-		                        	<h:commandLink styleClass="ui-button-raised ui-button-success" style="float: right" type="button"
+		                        	<p:commandButton styleClass="ui-button-raised ui-button-success"
 		                                            value="Ajouter au panier"
 		                                            icon="pi pi-shopping-cart"
 		                                            disabled="#{item.stock == 0}"
