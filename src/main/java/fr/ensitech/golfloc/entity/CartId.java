@@ -18,7 +18,7 @@ public class CartId implements Serializable {
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "item_id")
+    @JoinColumn(name = "item_id", unique = true)
     private Item item;
 
     // Default constructor

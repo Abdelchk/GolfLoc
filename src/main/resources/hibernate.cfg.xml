@@ -20,5 +20,8 @@
     	<mapping class="fr.ensitech.golfloc.entity.Item" />
     	<mapping class="fr.ensitech.golfloc.entity.Cart" />
     	<mapping class="fr.ensitech.golfloc.entity.Comment" />
+    	<mapping class="fr.ensitech.golfloc.entity.Commande" />
+    	
+    	<mapping class="fr.ensitech.golfloc.entity.Payment" />
     </session-factory>
 </hibernate-configuration>

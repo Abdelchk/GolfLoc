@@ -50,7 +50,7 @@
 		                        <span class="product-badge status-#{item.stock} #{item.stock > 5 ? 'status-greater-than-5' : ''}">#{item.stock == 0 ? 'En rupture de stock' : item.stock += ' en stock'}</span>
 		                    </div>
 		                    <div class="product-grid-item-content">
-		                    	<h:link styleClass="link" outcome="itemDetails" includeViewParams="true">
+		                    	<h:link disabled="#{userbean.connectedUser.getProfile() == 'magasinier'}" styleClass="link" outcome="itemDetails" includeViewParams="true">
 		                    		<f:param name="itemId" value="#{item.id}" />
 			                        <p:graphicImage name="#{item.image += '.jpg'}" library="img"/>
 			                        <div class="product-name">#{item.name}</div>
@@ -66,6 +66,7 @@
 		                                            value="Ajouter au panier"
 		                                            icon="pi pi-shopping-cart"
 		                                            disabled="#{item.stock == 0}"
+		                                            rendered="#{userbean.connectedUser.getProfile() == 'client'}"
 		                                            action="#{cartbean.addToCart(userbean.connectedUser.id, item.id)}" />
 		                    </div>
 		                </div>

@@ -18,6 +18,7 @@ import javax.faces.context.FacesContext;
 import org.primefaces.event.RowEditEvent;
 
 import fr.ensitech.golfloc.entity.Adresse;
+import fr.ensitech.golfloc.entity.Payment;
 import fr.ensitech.golfloc.entity.PwdReset;
 import fr.ensitech.golfloc.entity.User;
 import fr.ensitech.golfloc.metier.UserMetier;
@@ -44,6 +45,7 @@ public class UserBean implements Serializable {
 	private User connectedUser;
 	@ManagedProperty(value="#{adresseBean}")
     private AdresseBean adresseBean;
+	private Payment carteDePaiement;
 	
 	public UserBean() {
 	}
@@ -148,9 +150,17 @@ public class UserBean implements Serializable {
         this.adresseBean = adresseBean;
     }
 	
+	public Payment getCarteDePaiement() {
+		return carteDePaiement;
+	}
+
+	public void setCarteDePaiement(Payment carteDePaiement) {
+		this.carteDePaiement = carteDePaiement;
+	}
+	
 	// Méthodes qui gère l'edit du formulaire des utilisateurs
 	
-	 public void onRowEdit(RowEditEvent<User> event) {
+	public void onRowEdit(RowEditEvent<User> event) {
 	        FacesMessage msg = new FacesMessage("Utilisateur", event.getObject().getNom().concat(" ".concat(event.getObject().getPrenom().concat(" modifié"))));
 	        FacesContext.getCurrentInstance().addMessage(null, msg);
 	    }
@@ -246,12 +256,13 @@ public class UserBean implements Serializable {
 			user.setProfile(profile);
 			user.setIsActive(isActive);
 			
+			
 			System.out.println("Profil après modif : " + user.getProfile());
 			System.out.println("Compte actif après modif : " + user.getIsActive());
 			
 			userMetier.updateUser(user);
 
-			return "admin.xhtml";
+			return "";
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("Une erreur s'est produite dans UserBean.UpdateUser : " + e.getMessage());
@@ -296,6 +307,17 @@ public class UserBean implements Serializable {
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ArrayList<>();
+		}
+	}
+	
+	public String getUserById(int id) {
+		userMetier = new UserMetier();
+		try {
+			userMetier.getUserById(id);
+			return "";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
 		}
 	}
 	

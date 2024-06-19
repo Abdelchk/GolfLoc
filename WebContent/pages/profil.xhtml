@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<title>Profil</title>
+</head>
+<body>
+	<f:view>
+		<ui:include src="/resources/templates/header.xhtml" />
+		<h2>Page d'administration des utilisateurs</h2>
+		
+		<h:form id="form">
+    		<p:growl id="msgs" showDetail="true"/>
+			<p:dataTable cellpadding="10" id="userTable" value="#{userbean.getUserById(userbean.connectedUser.id)}" var="user" editable="true">
+			
+			<p:ajax event="rowEdit" listener="#{userbean.onRowEdit}" update=":form:msgs" />
+            <p:ajax event="rowEditCancel" listener="#{userbean.onRowCancel}" update=":form:msgs"/>
+            
+				<f:facet name="header">
+	                Liste des utilisateurs
+	            </f:facet>
+				<p:column headerText="ID">
+			        <h:outputText value="#{user.id}" />
+			    </p:column>
+			    <p:column headerText="Nom">
+			        <h:outputText value="#{user.nom}" />
+			    </p:column>
+			    <p:column headerText="Prénom">
+			        <h:outputText value="#{user.prenom}" />
+			    </p:column>
+			    <p:column width="250px" headerText="Email">
+			        <h:outputText value="#{user.email}" />
+			    </p:column>
+			    <p:column  headerText="Compte actif">
+					<p:cellEditor>
+						<f:facet name="output"><h:outputText value="#{user.isActive == true ? 'Oui' : 'Non'}" /></f:facet>
+						<f:facet name="input">
+							<p:selectOneMenu value="#{userbean.isActive}" style="width:100%">
+	                            <f:selectItem itemLabel="Oui" itemValue="true" />
+	                            <f:selectItem itemLabel="Non" itemValue="false" />
+	                            <p:ajax event="change" listener="#{userbean.updateUser(user)}" />
+                        	</p:selectOneMenu>
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+			    <p:column headerText="N° de tél">
+			        <h:outputText value="#{user.phoneNumber}" />
+			    </p:column>
+			    <p:column headerText="Adresse">
+			        <h:outputText value="#{user.adresse.numero} #{user.adresse.rue} #{user.adresse.codePostal} #{user.adresse.ville}" />
+			    </p:column>
+			    <p:column headerText="Carte de Paiement">
+			        <h:outputText value="#{user.carteDePaiement}" />
+			    </p:column>
+			    
+			    <p:column style="width:6rem">
+                	<p:rowEditor editTitle="Modification ligne" cancelTitle="Annulation modification" saveTitle="Ligne enregistrée"/>
+           		</p:column>
+			</p:dataTable>
+		</h:form>
+	</f:view>
+</body>
+</html>

@@ -59,6 +59,9 @@ public class User implements Serializable {
 	@OneToOne(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Adresse adresse;
 	
+	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+	private Payment carteDePaiement;
+	
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<PwdReset> pwdReset;
 	
@@ -163,6 +166,10 @@ public class User implements Serializable {
 	
 	public void setAdresse(Adresse adresse) {
 		this.adresse = adresse;
+	}
+
+	public Payment getCarteDePaiement() {
+		return carteDePaiement;
 	}
 
 	@Override

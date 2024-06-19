@@ -1,8 +1,10 @@
 package fr.ensitech.golfloc.beans;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -25,7 +27,8 @@ public class CartBean implements Serializable {
 	private Integer userId;
 	private Integer itemId;
 	private int quantity;
-	private List<Cart> cart;
+	private List<Cart> carts;
+	private Cart cart;
 	private CartMetier cartMetier;
 	
 	public CartBean() {
@@ -57,6 +60,16 @@ public class CartBean implements Serializable {
 	}
 	
 	// Méthodes de Gestion
+	public float getTotal() {
+		List<Cart> carts = getCart();
+        BigDecimal total = BigDecimal.ZERO;
+        for (Cart cart : carts) {
+            BigDecimal price = BigDecimal.valueOf(cart.getId().getItem().getPrice());
+            BigDecimal quantity = BigDecimal.valueOf(cart.getQuantity());
+            total = total.add(price.multiply(quantity));
+        }
+        return total.floatValue();
+    }
 	
 	public String addToCart(int userId, int itemId) {
 		cartMetier = new CartMetier();
@@ -67,10 +80,12 @@ public class CartBean implements Serializable {
 			
 			if (userId != 0) {
 				
+				System.out.println("User ID : " + userId);
+				
 				User user = userMetier.getUserById(userId);
 				Item item = itemMetier.getItemById(itemId);
 				
-//				System.out.println(user.getNom() + " " + item.getName());
+				System.out.println(user.getNom() + " " + item.getName());
 				
 				CartId cartId = new CartId();
 		        cartId.setUser(user);
@@ -114,7 +129,7 @@ public class CartBean implements Serializable {
 			 User user = (User) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user");
 
 	            cartMetier.clearCart(user);
-	            cart = new ArrayList<>();
+	            carts = new ArrayList<>();
 	            return "cart.xhtml";
 	        } catch (Exception e) {
 	            e.printStackTrace();
@@ -151,7 +166,8 @@ public class CartBean implements Serializable {
 		
 		try {
 			User user = (User) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user");
-			return cartMetier.getCart(user.getId());
+			return cartMetier.getCart(user.getId()).stream().filter(cart -> cart.getIsValide() == false)
+                    .collect(Collectors.toList());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

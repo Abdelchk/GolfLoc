@@ -41,6 +41,7 @@
 		                                            value="Ajouter au panier"
 		                                            icon="pi pi-shopping-cart"
 		                                            disabled="#{item.stock == 0}"
+		                                            rendered="#{userbean.connectedUser.getProfile() == 'client'}"
 		                                            action="#{cartbean.addToCart(userbean.connectedUser.id, item.id)}" />
 		                        <span class="product-badge status-#{item.stock}">#{item.stock == 0 ? 'En rupture de stock' : item.stock += ' en stock'}</span>
 		                    </div>

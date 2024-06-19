@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<h:outputStylesheet name="common-style.css" library="css" />
+<h:outputStylesheet name="common-style.css" library="css" />
+<title>Page de confirmation</title>
+</h:head>
+<h:body>
+    <h2>Confirmation de Commande</h2>
+
+    <h:form id="confirmationForm">
+    <h3>Détails de la Commande</h3>
+    <h:panelGrid columns="2" cellpadding="5">
+        <h:outputText value="Numéro de Commande:" />
+        <h:outputText value="#{commandebean.currentCommande.id}" />
+
+        <h:outputText value="Utilisateur:" />
+        <h:outputText value="#{commandebean.currentCommande.user.nom}" />
+
+        <h:outputText value="Articles Commandés:" />
+        <ul>
+            <ui:repeat value="#{commandebean.currentCommande.cartItems}" var="cartItem">
+                <li>#{cartItem.id.item.name} - Quantité: #{cartItem.quantity}</li>
+            </ui:repeat>
+        </ul>
+        <h:outputText value="Total:" />
+        <h:outputText value="#{commandebean.currentCommande.total} €" />
+        <p:dataTable value="#{commandebean.findByUser(userbean.connectedUser)}" var="commande">
+		    <p:column headerText="Numéro de Commande:">
+		        <h:outputText value="#{commande.id}" />
+		    </p:column>
+		    <p:column headerText="Article(s) Commandé(s):">
+		        <ul>
+		            <ui:repeat value="#{commande.cartItems}" var="cartItem">
+		                <li>#{cartItem.id.item.name} - Quantité: #{cartItem.quantity}</li>
+		            </ui:repeat>
+		        </ul>
+		    </p:column>
+			<p:column headerText="Total:">
+				<h:outputText value="#{commande.total} €" />
+				<p:commandButton value="Payer" action="#{commandebean.pay(commande.id)}" ajax="false" />
+			</p:column>
+			
+		</p:dataTable>
+    </h:panelGrid>
+    </h:form>
+
+    <h3>Paiement</h3>
+    
+    	<p:growl id="msgs" />
+        <!-- Ici vous pouvez intégrer un composant de paiement, par exemple avec PrimeFaces -->
+        <h:form id="paiement">
+        <h:panelGroup>
+        <p:panelGrid columns="2" rendered="#{userbean.connectedUser.getCarteDePaiement() == null}">
+            <p:outputLabel for="cardNumber" value="Numéro de Carte:" />
+            <p:inputText id="cardNumber" value="#{paymentbean.cardNumber}" required="true"
+            validatorMessage="Le numéro de carte doit être de 16 chiffres"
+            requiredMessage="Le numéro de carte est obligatoire">
+                <f:validateLength minimum="16" maximum="16" />
+                <f:validateRegex pattern="\d{16}" />
+                </p:inputText>
+
+            <p:outputLabel for="expiryDate" value="Date d'Expiration:" />
+            <p:calendar mindate="1/6/2024" id="expiryDate" value="#{paymentbean.expiryDate}" required="true"
+            requiredMessage="La date d'expiration est obligatoire" />
+
+            <p:outputLabel for="cvv" value="CVV:" />
+            <p:inputText id="cvv" value="#{paymentbean.cvv}" required="true" requiredMessage="Le CVV est obligatoire">
+            <f:validateLength minimum="3" maximum="3" />
+                <f:validateRegex pattern="\d{3}" />
+            </p:inputText>
+	        <p:outputLabel for="cardHolderName" value="Nom du Titulaire de la Carte:" />
+	        <p:inputText id="cardHolderName" value="#{paymentbean.cardHolderName}" required="true" requiredMessage="Le nom de carte est obligatoire"
+	        validatorMessage="Le nom ne doit pas avoir de chiffre ou caractères spéciaux" >
+	            <f:validateLength minimum="2" />
+	            <f:validateRegex pattern="^[A-Za-zÀ-ÖØ-öø-ÿ '-]+$" />
+	        </p:inputText>
+	        
+	        <h:outputLabel for="saveCard" />
+            <p:commandButton id="saveCard" value="Enregistrer la carte" action="#{paymentbean.saveCard(userbean.connectedUser)}" update=":paiement" />
+
+        
+    </p:panelGrid>
+    </h:panelGroup>
+    </h:form>
+	
+</h:body>
+</html>

@@ -19,6 +19,7 @@ import org.mindrot.jbcrypt.BCrypt;
 import fr.ensitech.golfloc.entity.User;
 import fr.ensitech.golfloc.entity.PwdReset;
 import fr.ensitech.golfloc.model.connection.UserDataSource;
+import fr.ensitech.golfloc.utils.DESUtil;
 import fr.ensitech.golfloc.utils.Dates;
 import fr.ensitech.golfloc.utils.ResetRequestDetails;
 import fr.ensitech.golfloc.model.connection.HibernateConnector;
@@ -156,12 +157,22 @@ public final class UserDao implements IUserDao {
 	        try {
 	            session = HibernateConnector.getSession();
 	            // return session.get(User.class, id);
-	            return session.find(User.class, id);
-	        } finally {
-	            if (session != null && session.isOpen()) {
-	                session.close();
-	            }
-	        }
+	            User user = session.find(User.class, id);
+	            
+//				if (user.getCarteDePaiement().getCardNumber() != null && user.getCarteDePaiement().getCvv() != null) {
+//					String decryptedCardNumber = DESUtil.decrypt(user.getCarteDePaiement().getCardNumber());
+//                    String decryptedCVV = DESUtil.decrypt(user.getCarteDePaiement().getCvv());
+//                    user.getCarteDePaiement().setCardNumber(decryptedCardNumber);
+//                    user.getCarteDePaiement().setCvv(decryptedCVV);
+//                }
+                
+                return user;
+            } finally {
+                if (session != null && session.isOpen()) {
+                    session.close();
+                }
+            }       
+	           
 	    }
 
 //	@Override

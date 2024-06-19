@@ -10,6 +10,7 @@ import org.hibernate.query.Query;
 
 import fr.ensitech.golfloc.entity.Cart;
 import fr.ensitech.golfloc.entity.CartId;
+import fr.ensitech.golfloc.entity.Commande;
 import fr.ensitech.golfloc.entity.Item;
 import fr.ensitech.golfloc.entity.User;
 import fr.ensitech.golfloc.model.connection.HibernateConnector;
@@ -159,6 +160,90 @@ public class CartDao implements ICartDao {
 	            session.close();
 	        }
 	    }
+	}
+
+	@Override
+    public List<Cart> getCartItemsByUser(int userId) throws Exception {
+        Session session = null;
+        try {
+            session = HibernateConnector.getSession();
+            return session.createQuery("FROM cart WHERE user_id = :userId", Cart.class)
+                    .setParameter("userId", userId)
+                    .getResultList();
+        } finally {
+            if (session != null && session.isOpen()) {
+                session.close();
+            }
+        }
+    }
+
+    @Override
+    public void deleteCartItemsByUser(int userId) throws Exception {
+        Session session = null;
+        Transaction tx = null;
+        try {
+            session = HibernateConnector.getSession();
+            tx = session.beginTransaction();
+            session.createQuery("DELETE FROM cart WHERE user_id = :userId")
+                    .setParameter("userId", userId)
+                    .executeUpdate();
+            tx.commit();
+        } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            throw new Exception("Erreur lors de la suppression des articles du panier", e);
+        } finally {
+            if (session != null && session.isOpen()) {
+                session.close();
+            }
+        }
+    }
+
+	@Override
+	public void updateCartValide(User user) throws Exception {
+		Session session = null;
+		Transaction tx = null;
+		try {
+			session = HibernateConnector.getSession();
+			tx = session.beginTransaction();
+			session.createQuery("UPDATE cart SET is_valide = true WHERE user_id = :user").setParameter("user", user)
+					.executeUpdate();
+			tx.commit();
+		} catch (Exception e) {
+			if (tx != null) {
+				tx.rollback();
+			}
+			throw new Exception("Erreur lors de la mise à jour de la validation du panier", e);
+		} finally {
+			if (session != null && session.isOpen()) {
+				session.close();
+			}
+		}
+		
+	}
+
+	@Override
+	public void updateCartCommande(Commande commande) throws Exception {
+		Session session = null;
+		Transaction tx = null;
+		try {
+			session = HibernateConnector.getSession();
+			tx = session.beginTransaction();
+			session.createQuery("UPDATE cart SET commande_id = :commande WHERE is_valide = 1")
+					.setParameter("commande", commande).executeUpdate();
+			tx.commit();
+		} catch (Exception e) {
+			if (tx != null) {
+				tx.rollback();
+			}
+			throw new Exception("Erreur lors de la mise à jour de la commande du panier", e);
+		} finally {
+			if (session != null && session.isOpen()) {
+				session.close();
+			}
+		}
+		
 	}
 
 
