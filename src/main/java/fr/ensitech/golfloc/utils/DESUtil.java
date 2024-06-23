@@ -13,7 +13,8 @@ public class DESUtil {
         String key = "GoLfLoc1";
         System.out.println("DES_SECRET_KEY: " + key);
         if (key == null || key.length() != 8) {
-            throw new IllegalArgumentException("The DES secret key must be 8 characters long and set in the DES_SECRET_KEY environment variable.");
+            throw new IllegalArgumentException("La clé secrète DES doit être doit être d'au moins 8 caractères "
+            		+ "et doit être initialisée dans la variable d'environnement DES_SECRET_KEY.");
         }
         keyValue = key.getBytes();
     }

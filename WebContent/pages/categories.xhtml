@@ -25,7 +25,8 @@
 						<h:panelGroup>
 							<h:panelGrid id ="panelFieldsCategory" styleClass="panelFieldsCategory" columns = "2" cellpadding = "4" cellspacing = "2">
 								<h:outputText value = "Nom :"/>
-								<p:selectOneMenu id="nom" value="#{categorybean.name}" styleClass="selectMenu" required="true" requiredMessage="Vous devez sélectionner un nom !">
+								<p:selectOneMenu id="nom" value="#{categorybean.name}" styleClass="selectMenu" required="true" 
+												requiredMessage="Vous devez sélectionner un nom !">
 								    <f:selectItem itemValue="#{null}" itemLabel="--sélectionner--" />
 			    					<f:selectItems value="#{categorybean.types}" />
 								</p:selectOneMenu>
