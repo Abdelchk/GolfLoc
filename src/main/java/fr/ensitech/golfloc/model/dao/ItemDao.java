@@ -41,8 +41,7 @@ public class ItemDao implements IItemDao {
 				item.getFlexibility() == null || item.getFlexibility().trim().isEmpty() ||
 				item.getPrice() < 0f || 
 				item.getDiscount() < 0 ||
-				item.getStock() < 0 ||
-				item.getCategory() == null)
+				item.getStock() < 0)
 		{
 			throw new IllegalArgumentException("Tous les paramètres sont obligatoires !");
 		}

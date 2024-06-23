@@ -1,40 +1,66 @@
-<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
 xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui">
-<head>
+<h:head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<h:outputStylesheet name="common-style.css" library="css" />
+<h:outputStylesheet name="admin.css" library="css" />
 <title>Profil</title>
-</head>
-<body>
+</h:head>
+<h:body>
 	<f:view>
+		<f:metadata>
+			<f:param name="adresseBean" value="#{adressebean}" />
+		</f:metadata>
 		<ui:include src="/resources/templates/header.xhtml" />
-		<h2>Page d'administration des utilisateurs</h2>
+		<h2>Profil</h2>
 		
 		<h:form id="form">
     		<p:growl id="msgs" showDetail="true"/>
-			<p:dataTable cellpadding="10" id="userTable" value="#{userbean.getUserById(userbean.connectedUser.id)}" var="user" editable="true">
+			<p:dataTable lazy="false" cellpadding="10" id="userTable" value="#{userbean.getUserById(userbean.connectedUser.id)}" var="user" editable="true">
 			
 			<p:ajax event="rowEdit" listener="#{userbean.onRowEdit}" update=":form:msgs" />
             <p:ajax event="rowEditCancel" listener="#{userbean.onRowCancel}" update=":form:msgs"/>
             
 				<f:facet name="header">
-	                Liste des utilisateurs
+	                Vos informations
 	            </f:facet>
-				<p:column headerText="ID">
-			        <h:outputText value="#{user.id}" />
-			    </p:column>
 			    <p:column headerText="Nom">
-			        <h:outputText value="#{user.nom}" />
+			        <p:cellEditor>
+			        	<f:facet name="output"><h:outputText value="#{user.nom}" /></f:facet>
+			        	<f:facet name="input">
+			        		<p:inputText value="#{userbean.nom}">
+								<f:validator validatorId="stringValidator" />
+								<p:ajax event="change" listener="#{userbean.updateUser(user)}" />
+							</p:inputText>
+			        	</f:facet>
+			        </p:cellEditor>
 			    </p:column>
-			    <p:column headerText="Pr�nom">
-			        <h:outputText value="#{user.prenom}" />
+			    <p:column headerText="Prénom">
+			        <p:cellEditor>
+			        	<f:facet name="output"><h:outputText value="#{user.prenom}" /></f:facet>
+			        	<f:facet name="input">
+			        		<p:inputText value="#{userbean.prenom}">
+								<f:validator validatorId="stringValidator" />
+								<p:ajax event="change" listener="#{userbean.updateUser(user)}" />
+							</p:inputText>
+			        	</f:facet>
+			        </p:cellEditor>
 			    </p:column>
 			    <p:column width="250px" headerText="Email">
-			        <h:outputText value="#{user.email}" />
+			    	<p:cellEditor>
+				    	<f:facet name="output"><h:outputText value="#{user.email}" /></f:facet>
+				        <f:facet name="input">
+				        	<p:inputText placeholder="email" value="#{userbean.email}">
+								<f:validator validatorId="emailValidator" />
+								<p:ajax event="change" listener="#{userbean.updateUser(user)}" />
+							</p:inputText>
+				        </f:facet>
+			        </p:cellEditor>
 			    </p:column>
 			    <p:column  headerText="Compte actif">
 					<p:cellEditor>
@@ -48,21 +74,119 @@ xmlns:ui="http://java.sun.com/jsf/facelets"
 						</f:facet>
 					</p:cellEditor>
 				</p:column>
-			    <p:column headerText="N� de t�l">
-			        <h:outputText value="#{user.phoneNumber}" />
+			    <p:column headerText="N° de tél">
+			        <p:cellEditor>
+			            <f:facet name="output"><h:outputText value="#{user.phoneNumber}" /></f:facet>
+			            <f:facet name="input">
+				        	<p:inputText value="#{userbean.phoneNumber}">
+								<f:validator validatorId="phoneValidator" />
+								<p:ajax event="change" listener="#{userbean.updateUser(user)}" />
+							</p:inputText>
+						 </f:facet>
+			        </p:cellEditor>
+			    </p:column>
+			    <p:column headerText="Mot de passe">
+			        <p:cellEditor>
+			            <f:facet name="output"><h:outputText value="#{user.password}" /></f:facet>
+			            <f:facet name="input">
+				        	<p:inputText value="#{userbean.password}">
+								<f:validator validatorId="pwdValidator" />
+								<p:ajax event="change" listener="#{userbean.updateUser(user)}" />
+							</p:inputText>
+						 </f:facet>
+			        </p:cellEditor>
 			    </p:column>
 			    <p:column headerText="Adresse">
-			        <h:outputText value="#{user.adresse.numero} #{user.adresse.rue} #{user.adresse.codePostal} #{user.adresse.ville}" />
+			    	<p:cellEditor>
+			    		<f:facet name="output"><h:outputText value="#{user.adresse.numero} #{user.adresse.rue} #{user.adresse.codePostal} #{user.adresse.ville}" /></f:facet>
+						<f:facet name="input">
+						<p:inputText placeholder="N°" value="#{adressebean.numero}">
+							<f:validator validatorId="numeroValidator" />
+							<p:ajax event="change" listener="#{userbean.updateUser(user)}" />
+						</p:inputText>
+						
+						<p:inputText placeholder="Rue" value="#{adressebean.rue}">
+							<f:validator validatorId="stringValidator" />
+							<p:ajax event="change" listener="#{userbean.updateUser(user)}" />
+						</p:inputText>
+						
+						<p:inputText placeholder="Ville" value="#{adressebean.ville}">
+							<f:validator validatorId="stringValidator" />
+							<p:ajax event="change" listener="#{userbean.updateUser(user)}" />
+						</p:inputText>
+						
+						<p:inputText placeholder="Code postal" value="#{adressebean.codePostal}">
+							<f:validator validatorId="codeValidator" />
+							<p:ajax event="change" listener="#{userbean.updateUser(user)}" />
+						</p:inputText>
+						</f:facet>
+					</p:cellEditor>
 			    </p:column>
-			    <p:column headerText="Carte de Paiement">
-			        <h:outputText value="#{user.carteDePaiement}" />
-			    </p:column>
-			    
 			    <p:column style="width:6rem">
-                	<p:rowEditor editTitle="Modification ligne" cancelTitle="Annulation modification" saveTitle="Ligne enregistr�e"/>
+                	<p:rowEditor editTitle="Modification ligne" cancelTitle="Annulation modification" saveTitle="Ligne enregistrée">
+                		<f:param name="adresseBean" value="#{adressebean}" />
+                	</p:rowEditor>
            		</p:column>
 			</p:dataTable>
+			<h:panelGroup rendered="#{userbean.connectedUser.getCarteDePaiement() != null}">
+				<p:dataTable id="card" value="#{userbean.getUserById(userbean.connectedUser.id)}" var="user">
+					<f:facet name="header">
+	                    Votre carte de paiement
+	                </f:facet>
+	                <p:column headerText="Nom sur la carte">
+						<h:outputText value="#{user.carteDePaiement.cardHolderName}" />
+	                </p:column>
+					<p:column headerText="Numéro de Carte">
+						<h:outputText value="#{paymentbean.getMaskedCardNumber(user.carteDePaiement.cardNumber)}" />
+					</p:column>
+					<p:column headerText="Date d'Expiration">
+						<h:outputText value="#{user.carteDePaiement.expiryDate}" />
+					</p:column>
+					<p:column>
+						<p:commandButton value="Supprimer" icon="pi pi-times" onclick="PF('confirmDialog').show();" type="button" styleClass="ui-button-raised ui-button-danger"/>
+					</p:column>
+				</p:dataTable>
+				<p:confirmDialog header="Confirmation" message="Êtes-vous certain de vouloir supprimer votre carte ?" widgetVar="confirmDialog">
+		            <p:commandButton value="Oui" icon="pi pi-check" actionListener="#{paymentbean.deleteCard(userbean.connectedUser)}" update=":form:card" oncomplete="PF('confirmDialog').hide();"/>
+		            <p:commandButton value="Non" styleClass="ui-button-secondary" icon="pi pi-times" onclick="PF('confirmDialog').hide();" type="button"/>
+		        </p:confirmDialog>
+			</h:panelGroup>
 		</h:form>
+		<h:panelGroup rendered="#{userbean.connectedUser.getCarteDePaiement() == null}">
+		<h:form id="card">
+				<h2>Ajoutez une carte de paiement</h2>
+			        <p:panelGrid columns="2" id="cardTable">
+			            <p:outputLabel for="cardNumber" value="Numéro de Carte:" />
+			            <p:inputText id="cardNumber" value="#{paymentbean.cardNumber}" required="true"
+			            validatorMessage="Le numéro de carte doit être de 16 chiffres"
+			            requiredMessage="Le numéro de carte est obligatoire">
+			                <f:validateLength minimum="16" maximum="16" />
+			                <f:validateRegex pattern="\d{16}" />
+			                </p:inputText>
+			
+			            <p:outputLabel for="expiryDate" value="Date d'Expiration:" />
+			            <p:calendar mindate="1/6/2024" id="expiryDate" value="#{paymentbean.expiryDate}" required="true"
+			            requiredMessage="La date d'expiration est obligatoire" />
+			
+			            <p:outputLabel for="cvv" value="CVV:" />
+			            <p:inputText id="cvv" value="#{paymentbean.cvv}" required="true" requiredMessage="Le CVV est obligatoire">
+			            <f:validateLength minimum="3" maximum="3" />
+			                <f:validateRegex pattern="\d{3}" />
+			            </p:inputText>
+				        <p:outputLabel for="cardHolderName" value="Nom du Titulaire de la Carte:" />
+				        <p:inputText id="cardHolderName" value="#{paymentbean.cardHolderName}" required="true" requiredMessage="Le nom de carte est obligatoire"
+				        validatorMessage="Le nom ne doit pas avoir de chiffre ou caractères spéciaux" >
+				            <f:validateLength minimum="2" />
+				            <f:validateRegex pattern="^[A-Za-zÀ-ÖØ-öø-ÿ '-]+$" />
+				        </p:inputText>
+				        
+				        <h:outputLabel for="saveCard" />
+			            <p:commandButton id="saveCard" value="Enregistrer la carte" action="#{paymentbean.saveCard(userbean.connectedUser)}" update=":card" ajax="true" />
+			
+			        
+			    </p:panelGrid>
+			    </h:form>
+		    </h:panelGroup>
 	</f:view>
-</body>
+</h:body>
 </html>

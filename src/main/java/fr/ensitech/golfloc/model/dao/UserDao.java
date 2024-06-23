@@ -159,12 +159,12 @@ public final class UserDao implements IUserDao {
 	            // return session.get(User.class, id);
 	            User user = session.find(User.class, id);
 	            
-//				if (user.getCarteDePaiement().getCardNumber() != null && user.getCarteDePaiement().getCvv() != null) {
-//					String decryptedCardNumber = DESUtil.decrypt(user.getCarteDePaiement().getCardNumber());
-//                    String decryptedCVV = DESUtil.decrypt(user.getCarteDePaiement().getCvv());
-//                    user.getCarteDePaiement().setCardNumber(decryptedCardNumber);
-//                    user.getCarteDePaiement().setCvv(decryptedCVV);
-//                }
+	            if (user != null && user.getCarteDePaiement() != null) {
+	                String decryptedCardNumber = DESUtil.decrypt(user.getCarteDePaiement().getCardNumber());
+	                user.getCarteDePaiement().setCardNumber(decryptedCardNumber);
+	                
+	                System.out.println("Carte trouvé : " + user.getCarteDePaiement().getCardNumber());
+	            }
                 
                 return user;
             } finally {
@@ -215,6 +215,12 @@ public final class UserDao implements IUserDao {
         try {
             session = HibernateConnector.getSession();
             tx = session.beginTransaction();
+            
+			if (user.getPassword() != null && !user.getPassword().isEmpty()) {
+				String hashedPassword = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
+				user.setPassword(hashedPassword);
+			}
+            
             session.update(user);
             tx.commit();
 

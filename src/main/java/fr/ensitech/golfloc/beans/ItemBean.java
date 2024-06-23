@@ -299,7 +299,7 @@ public class ItemBean implements Serializable {
 		}
 	}
 	
-	public String removeItem() {
+	public String removeItem(Item item) {
 		itemMetier = new ItemMetier();
 		try {
 			System.out.println(item);

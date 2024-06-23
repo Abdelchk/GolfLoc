@@ -14,16 +14,21 @@
 <h:body>
 	<f:view>
 		<ui:include src="/resources/templates/header.xhtml" />
-		<h2>Page de magasinier</h2>
-		<h:outputText value="Bonjour #{userbean.connectedUser.prenom} !" />
-		
-		<p>Que voulez-vous gérer ?</p>
-		
-		<h:form>
-			<h:commandButton value="Catégories" styleClass="commandButton" action="categories" />
-		
-			<h:commandButton value="Articles" styleClass="commandButton" action="items" />
-		</h:form>
+		<h:panelGroup rendered="#{userbean.connectedUser.getProfile() != 'magasinier'}">
+             <p style="color: red; text-align: center">Vous ne possédez pas les permissions pour accéder à cette page.</p>
+         </h:panelGroup>
+         <h:panelGroup rendered="#{userbean.connectedUser.getProfile() == 'magasinier'}">
+			<h2>Page de magasinier</h2>
+			<h:outputText value="Bonjour #{userbean.connectedUser.prenom} !" />
+			
+			<p>Que voulez-vous gérer ?</p>
+			
+			<h:form>
+				<h:commandButton value="Catégories" styleClass="commandButton" action="categories" />
+			
+				<h:commandButton value="Articles" styleClass="commandButton" action="items" />
+			</h:form>
+		</h:panelGroup>
 	</f:view>
 </h:body>
 </html>

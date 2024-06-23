@@ -65,7 +65,7 @@ public class CategoryMetier {
 				
 			} catch (Exception e) {
 				e.printStackTrace();
-				System.out.println("Une erreur s'est produite dans CategoryMetier.getCategoryByName : " + e.getMessage());
+				System.out.println("Une erreur s'est produite dans CategoryMetier.getCategoryById : " + e.getMessage());
 				return null;
 			}
 		}

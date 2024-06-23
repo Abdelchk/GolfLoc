@@ -14,61 +14,96 @@
 <body>
 	<f:view>
 		<ui:include src="/resources/templates/header.xhtml" />
-		
-		<div class="container">
-			<div class="left">
-			<h2>Gestionnaire de catégories</h2>
-				<h:form>
-					<h:panelGroup>
-						<h:panelGrid id ="panelFieldsCategory" styleClass="panelFieldsCategory" columns = "3" cellpadding = "4" cellspacing = "2">
-							<h:outputText value = "Nom :"/>
-							<h:selectOneMenu id="nom" value="#{categorybean.name}" styleClass="selectMenu" required="true" requiredMessage="Vous devez sélectionner un nom !">
-							    <f:selectItem itemValue="#{null}" itemLabel="--sélectionner--" />
-		    					<f:selectItems value="#{categorybean.types}" />
-							</h:selectOneMenu>
-							<h:message for="nom" styleClass="messages"></h:message>
-							
-							<h:outputText value = "Remise (en %) :"/>
-							<p:spinner id="discountCat" styleClass="inputText" size="2" required="true"
-								value="#{categorybean.discount}" requiredMessage="La remise est obligatoire !"
-								validatorMessage="Ce champ ne doit pas contenir autre chose qu'un nombre allant de 0 à 50."
-								min="0" max="50" suffix="%">
-							</p:spinner>
-							<h:message for="discountCat" styleClass="messages"></h:message>
-							
-							<h:outputText value = "Remise cumulative :"/>
-							<h:selectOneRadio id="isCumulative" styleClass="buttonRadio" required="true" value="#{categorybean.isCumulative}"
-								requiredMessage="Vous devez sélectionner si la remise de la catégorie peut se cumuler ou non avec celle des articles.">
-							    <f:selectItem itemValue="Y" itemLabel="Oui"/>
-							    <f:selectItem itemValue="N" itemLabel="Non"/>
-							</h:selectOneRadio>
-							<h:message for="isCumulative" styleClass="messages"></h:message>
-						</h:panelGrid>
-					</h:panelGroup>
-					<p></p>
-					<h:panelGroup>
-						<h:commandButton id = "btnAddCategory" styleClass="commandButton" value = "Ajouter" action="#{categorybean.createCategory}"/>
-					</h:panelGroup>
-					<p></p>
-					<h:messages id="messages" styleClass="messages" showDetail="true" globalOnly="true" />
-				</h:form>
+		<h:panelGroup rendered="#{userbean.connectedUser.getProfile() != 'magasinier'}">
+             <p style="color: red; text-align: center">Vous ne possédez pas les permissions pour accéder à cette page.</p>
+         </h:panelGroup>
+		<h:panelGroup rendered="#{userbean.connectedUser.getProfile() == 'magasinier'}">
+			<div class="container">
+				<div class="left">
+				<h2>Gestionnaire de catégories</h2>
+					<h:form>
+						<h:panelGroup>
+							<h:panelGrid id ="panelFieldsCategory" styleClass="panelFieldsCategory" columns = "2" cellpadding = "4" cellspacing = "2">
+								<h:outputText value = "Nom :"/>
+								<p:selectOneMenu id="nom" value="#{categorybean.name}" styleClass="selectMenu" required="true" requiredMessage="Vous devez sélectionner un nom !">
+								    <f:selectItem itemValue="#{null}" itemLabel="--sélectionner--" />
+			    					<f:selectItems value="#{categorybean.types}" />
+								</p:selectOneMenu>
+								
+								<h:outputText value = "Remise :"/>
+								<p:spinner id="discountCat" styleClass="inputText" size="2" required="true"
+									value="#{categorybean.discount}" requiredMessage="La remise est obligatoire !"
+									validatorMessage="Ce champ ne doit pas contenir autre chose qu'un nombre allant de 0 à 50."
+									min="0" max="50" suffix="%">
+								</p:spinner>
+								
+								<h:outputText value = "Remise cumulative :"/>
+								<p:selectOneRadio id="isCumulative" styleClass="buttonRadio" required="true" value="#{categorybean.isCumulative}"
+									requiredMessage="Vous devez sélectionner si la remise de la catégorie peut se cumuler ou non avec celle des articles.">
+								    <f:selectItem itemValue="true" itemLabel="Oui"/>
+								    <f:selectItem itemValue="false" itemLabel="Non"/>
+								</p:selectOneRadio>
+							</h:panelGrid>
+						</h:panelGroup>
+						<p></p>
+						<h:panelGroup>
+							<h:commandButton id = "btnAddCategory" styleClass="commandButton" value = "Ajouter" action="#{categorybean.createCategory}"/>
+						</h:panelGroup>
+						<p></p>
+					</h:form>
+				</div>
+				
+				<div class="right">
+					<h:form id="form">
+						<p:growl id="msgs" showDetail="true" />
+						<p:dataTable editable="true" value="#{categorybean.categories}" var="category">
+							<p:ajax event="rowEdit" listener="#{categorybean.onRowEdit}" update=":form:msgs" />
+		            		<p:ajax event="rowEditCancel" listener="#{categorybean.onRowCancel}" update=":form:msgs"/>
+						
+						    <f:facet name="header">
+				                Liste des catégories
+				            </f:facet>	
+				            <p:column headerText="Nom">
+								<h:outputText value="#{category.name}" />
+						    </p:column>
+						    <p:column headerText="Remise">
+						        <p:cellEditor>
+				                    <f:facet name="output">
+				                        <h:outputText value="#{category.discount == 0 ? 'Pas de remise' : category.discount}">
+				                            <f:convertNumber type="currency" currencySymbol="%"/>
+				                        </h:outputText>
+				                    </f:facet>
+				                    <f:facet name="input">
+				                        <p:spinner value="#{categorybean.discount}" label="Remise" min="0" max="50" suffix="%">
+				                        	<p:ajax event="change" listener="#{categorybean.updateCategory(category)}" />
+				                        </p:spinner>
+				                    </f:facet>
+				                </p:cellEditor>
+						    </p:column>
+						    <p:column headerText="Cumulative">
+								<p:cellEditor>
+									<f:facet name="output">
+										<h:outputText
+											value="#{category.isCumulative == true ? 'Oui' : 'Non'}" />
+									</f:facet>
+									<f:facet name="input">
+										<p:selectOneRadio value="#{categorybean.isCumulative}"
+											layout="pageDirection">
+											<f:selectItem itemValue="true" itemLabel="Oui" />
+											<f:selectItem itemValue="false" itemLabel="Non" />
+											<p:ajax event="change" listener="#{categorybean.updateCategory(category)}" />
+										</p:selectOneRadio>
+									</f:facet>
+								</p:cellEditor>
+						    </p:column>
+						    <p:column>
+			               		<p:rowEditor editTitle="Modification ligne" cancelTitle="Annulation modification" saveTitle="Ligne enregistrée"/>
+			          		</p:column>
+						</p:dataTable>
+					</h:form>
+				</div>
 			</div>
-			
-			<div class="right">
-				<h2>Liste des catégories</h2>
-				<p:dataTable value="#{categorybean.categories}" var="category">
-				    <p:column headerText="Nom">
-				        <h:outputText value="#{category.name}" />
-				    </p:column>
-				    <p:column headerText="Remise (en %)">
-				        <h:outputText value="#{categorybean.discount == 0 ? 'Pas de remise' : categorybean.discount}" />
-				    </p:column>
-				    <p:column headerText="Cumulative">
-				        <h:outputText value="#{category.isCumulative == 'Y' ? 'Oui' : 'Non'}" />
-				    </p:column>
-				</p:dataTable>
-			</div>
-		</div>
+		</h:panelGroup>
 	</f:view>
 </body>
 </html>

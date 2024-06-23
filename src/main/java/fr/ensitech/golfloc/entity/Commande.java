@@ -31,6 +31,9 @@ public class Commande implements Serializable {
     
     @Column(name = "is_paid", nullable = true, columnDefinition = "boolean default false")
     private boolean isPaid;
+    
+    @Column(name = "is_canceled", nullable = true, columnDefinition = "boolean default false")
+    private boolean isCanceled;
 
     @OneToMany(mappedBy = "commande", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Cart> cartItems;
@@ -39,13 +42,14 @@ public class Commande implements Serializable {
     
 	
 
-    public Commande(int id, User user, Date dateCommande, Payment carteDePaiement, float total, boolean isPaid) {
+    public Commande(int id, User user, Date dateCommande, Payment carteDePaiement, float total, boolean isPaid, boolean isCanceled) {
 		this.id = id;
 		this.user = user;
 		this.dateCommande = dateCommande;
 		this.carteDePaiement = carteDePaiement;
 		this.total = total;
 		this.isPaid = isPaid;
+		this.isCanceled = isCanceled;
 	}
 
 
@@ -115,8 +119,14 @@ public class Commande implements Serializable {
 	public void setPaid(boolean isPaid) {
 		this.isPaid = isPaid;
 	}
+	
+	public boolean isCanceled() {
+		return isCanceled;
+	}
 
-
+	public void setCanceled(boolean isCanceled) {
+		this.isCanceled = isCanceled;
+	}
 
 	public List<Cart> getCartItems() {
         return cartItems;

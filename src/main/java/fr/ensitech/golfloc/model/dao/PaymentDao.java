@@ -7,6 +7,7 @@ import fr.ensitech.golfloc.utils.DESUtil;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 import java.util.List;
 
@@ -19,6 +20,8 @@ public class PaymentDao implements IPaymentDao {
             
             String encryptedCardNumber = DESUtil.encrypt(payment.getCardNumber());
             String encryptedCVV = DESUtil.encrypt(payment.getCvv());
+            System.out.println("Card Number : " + encryptedCardNumber);
+            System.out.println("CVV : " + encryptedCVV);
             payment.setCardNumber(encryptedCardNumber);
             payment.setCvv(encryptedCVV);
             
@@ -68,10 +71,21 @@ public class PaymentDao implements IPaymentDao {
 
     @Override
     public Payment findByUser(User user) {
-        try (Session session = HibernateConnector.getSession()) {
-            return session.createQuery("FROM Payment WHERE user = :user", Payment.class)
-                          .setParameter("user", user)
-                          .getSingleResult();
+    	Session session = null;
+        try {
+            session = HibernateConnector.getSession();
+            Query<Payment> query = session.createQuery("FROM Payment WHERE user = :user", Payment.class);
+            query.setParameter("user", user);
+            Payment payment = query.getSingleResult();
+            
+//            System.out.println("Carte trouvé : " + payment.getCardNumber());
+            
+//            if (payment != null) {
+//                String decryptedCardNumber = DESUtil.decrypt(payment.getCardNumber());
+//                payment.setCardNumber(decryptedCardNumber);
+//            }
+            
+            return payment;
         } catch (Exception e) {
             e.printStackTrace();
         }

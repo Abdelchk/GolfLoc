@@ -3,10 +3,15 @@ package fr.ensitech.golfloc.beans;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
+
+import org.primefaces.event.RowEditEvent;
 
 import fr.ensitech.golfloc.entity.Category;
+import fr.ensitech.golfloc.entity.User;
 import fr.ensitech.golfloc.metier.CategoryMetier;
 import fr.ensitech.golfloc.enums.Type;
 
@@ -73,6 +78,16 @@ public class CategoryBean implements Serializable {
 		return Type.values();
 	}
 	
+	public void onRowEdit(RowEditEvent<Category> event) {
+        FacesMessage msg = new FacesMessage("Categorie", event.getObject().getName().concat(" modifié"));
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+
+    public void onRowCancel(RowEditEvent<Category> event) {
+        FacesMessage msg = new FacesMessage("Modification annulée pour la catégorie", event.getObject().getName());
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+	
 	
 	
 	// Méthodes de Gestion
@@ -110,13 +125,21 @@ public class CategoryBean implements Serializable {
 		}
 	}
 	
-	public String updateCategory() {
+	public String updateCategory(Category category) {
 		
 		categoryMetier = new CategoryMetier();
 		
 		try {
 			
-			category = new Category();
+			System.out.println("Category ID : " + category.getId());
+			
+			if (category.getDiscount() != discount) {
+				category.setDiscount(discount);
+			}
+			
+			if (category.getIsCumulative() != isCumulative) {
+				category.setIsCumulative(isCumulative);
+			}
 			
 			categoryMetier.updateCategory(category);
 			

@@ -42,7 +42,7 @@ public class CommandeDao implements ICommandeDao {
         Transaction transaction = null;
         try (Session session = HibernateConnector.getSession()) {
             transaction = session.beginTransaction();
-            session.delete(commande);
+            session.update(commande);
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) transaction.rollback();

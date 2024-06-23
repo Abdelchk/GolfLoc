@@ -99,5 +99,37 @@ public class PaymentBean implements Serializable {
             
         
     }
+    
+	public String deleteCard(User user) {
+    	try {
+    		paymentDao = new PaymentDao();
+    		Payment payment = paymentDao.findByUser(user);
+    		paymentDao.delete(payment);
+    		return "";
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    	}
+		return null;
+    	}
+    
+	public Payment findByUser(User user) {
+		try {
+			paymentDao = new PaymentDao();
+			Payment payment = paymentDao.findByUser(user);
+			
+			return payment;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public String getMaskedCardNumber(String cardNumber) {
+        if (cardNumber == null || cardNumber.length() < 4) {
+            return "";
+        }
+        int length = cardNumber.length();
+        return "**** **** **** " + cardNumber.substring(length - 4);
+    }
 }
 

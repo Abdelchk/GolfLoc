@@ -120,7 +120,22 @@ public class CategoryDao implements ICategoryDao {
 
 	@Override
 	public void updateCategory(Category category) throws Exception {
-		// TODO Auto-generated method stub
+		Session session = null;
+		Transaction tx = null;
+		try {
+
+			session = HibernateConnector.getSession();
+			tx = session.beginTransaction();
+			session.update(category);
+			tx.commit();
+
+		} catch (RollbackException e) {
+			tx.rollback();
+		} finally {
+			if (session != null && session.isOpen()) {
+				session.close();
+			}
+		}
 		
 	}
 

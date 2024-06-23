@@ -1,11 +1,15 @@
 package fr.ensitech.golfloc.beans;
 
+import java.io.IOException;
 import java.io.Serializable;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -14,7 +18,9 @@ import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.faces.validator.ValidatorException;
 
+import org.mindrot.jbcrypt.BCrypt;
 import org.primefaces.event.RowEditEvent;
 
 import fr.ensitech.golfloc.entity.Adresse;
@@ -46,10 +52,27 @@ public class UserBean implements Serializable {
 	@ManagedProperty(value="#{adresseBean}")
     private AdresseBean adresseBean;
 	private Payment carteDePaiement;
+	private boolean acceptCGU;
+    private String cguContent;
 	
 	public UserBean() {
 	}
-
+	
+	 @PostConstruct
+	    public void init() {
+	        // Chemin relatif du fichier PDF des CGU
+	        cguContent = "/GolfLoc/resources/files/CGU.pdf";
+	        // Obtenir le chemin absolu du fichier PDF
+//	        String absolutePath = FacesContext.getCurrentInstance().getExternalContext().getRealPath(relativePath);
+//
+//	        // Vérifier si le fichier existe
+//	        if (Files.exists(Paths.get(absolutePath))) {
+//	            cguContent = relativePath;
+//	        } else {
+//	            cguContent = "Impossible de charger les Conditions Générales d'Utilisation.";
+//	        }
+	    }
+	 
 	public Integer getId() {
 		return id;
 	}
@@ -158,6 +181,44 @@ public class UserBean implements Serializable {
 		this.carteDePaiement = carteDePaiement;
 	}
 	
+	public boolean isAcceptCGU() {
+		return acceptCGU;
+	}
+
+	public void setAcceptCGU(boolean acceptCGU) {
+		this.acceptCGU = acceptCGU;
+	}
+
+	public String getCguContent() {
+		return cguContent;
+	}
+
+	public void setCguContent(String cguContent) {
+		this.cguContent = cguContent;
+	}
+
+	public Adresse getAdresse() {
+		return adresse;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
+	}
+
+
+
+	private static final String REGEX_PATTERN = "^[A-Za-zÀ-ÖØ-öø-ÿ '-]+$";
+
+    
+    public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
+        String input = (String) value;
+        if (input != null && !input.isEmpty() && !input.matches(REGEX_PATTERN)) {
+            FacesMessage msg = new FacesMessage("Le nom ne doit pas contenir de caractères spéciaux ou de chiffres.");
+            msg.setSeverity(FacesMessage.SEVERITY_ERROR);
+            throw new ValidatorException(msg);
+        }
+    }
+	
 	// Méthodes qui gère l'edit du formulaire des utilisateurs
 	
 	public void onRowEdit(RowEditEvent<User> event) {
@@ -204,6 +265,11 @@ public class UserBean implements Serializable {
 		userMetier = new UserMetier();
 		
 		try {
+			
+			if (!acceptCGU) {
+	            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erreur", "Vous devez accepter les conditions générales d'utilisation."));
+	            return null;
+	        }
 			User user = new User();
 			Adresse adresse = new Adresse();
 			
@@ -215,6 +281,7 @@ public class UserBean implements Serializable {
 			user.setEmail(email);
 			user.setPassword(password);
 			user.setPhoneNumber(phoneNumber);
+			user.setAcceptCGU(acceptCGU);
 			
 			adresse.setUser(user);
 			adresse.setNumero(adresseBean.getNumero());
@@ -253,9 +320,59 @@ public class UserBean implements Serializable {
 
 			user = userMetier.getUserById(user.getId());
 			
-			user.setProfile(profile);
-			user.setIsActive(isActive);
+			if (user.getNom() != nom && nom != null && nom != "") {
+				user.setNom(nom);
+			}
 			
+			if (user.getPrenom() != prenom && prenom != null && prenom != "") {
+				user.setPrenom(prenom);
+			}
+			
+			if (user.getEmail() != email && email != null && email != "") {
+				user.setEmail(email);
+			}
+			
+			if (user.getPhoneNumber() != phoneNumber && phoneNumber != null && phoneNumber != "") {
+				user.setPhoneNumber(phoneNumber);
+			}
+			
+			if (user.getProfile() != profile && profile != null && profile != "") {
+				user.setProfile(profile);
+			}
+			
+			if (user.getIsActive() != isActive) {
+				user.setIsActive(isActive);
+			}
+			
+			if (BCrypt.checkpw(password, user.getPassword()) == false && password != null && password != "") {
+				user.setPassword(password);
+			}
+			
+			AdresseBean adresseBean = (AdresseBean) FacesContext.getCurrentInstance().getApplication().evaluateExpressionGet(FacesContext.getCurrentInstance(), "#{adressebean}", AdresseBean.class);
+			
+			Adresse adresse = user.getAdresse();
+			
+			System.out.println("Adresse : " + adresse.getNumero() + " " + adresse.getRue() + " " + adresse.getVille() + " " + adresse.getCodePostal());
+			
+			if (adresse.getNumero() != adresseBean.getNumero() && adresseBean.getNumero() != null && adresseBean.getNumero() != "") {
+				adresse.setNumero(adresseBean.getNumero());
+			}
+			
+			if (adresse.getRue() != adresseBean.getRue() && adresseBean.getRue() != null && adresseBean.getRue() != "") {
+				adresse.setRue(adresseBean.getRue());
+			}
+			
+			if (adresse.getVille() != adresseBean.getVille() && adresseBean.getVille() != null && adresseBean.getVille() != "") {
+				adresse.setVille(adresseBean.getVille());
+			}
+			
+			if (adresse.getCodePostal() != adresseBean.getCodePostal() && adresseBean.getCodePostal() != null && adresseBean.getCodePostal() != "") {
+				adresse.setCodePostal(adresseBean.getCodePostal());
+			}
+			adresse.setUser(user);
+			
+			
+			user.setAdresse(adresse);
 			
 			System.out.println("Profil après modif : " + user.getProfile());
 			System.out.println("Compte actif après modif : " + user.getIsActive());
@@ -310,11 +427,11 @@ public class UserBean implements Serializable {
 		}
 	}
 	
-	public String getUserById(int id) {
+	public User getUserById(int id) {
 		userMetier = new UserMetier();
 		try {
-			userMetier.getUserById(id);
-			return "";
+			User user = userMetier.getUserById(id);
+			return user;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<h:outputStylesheet name="common-style.css" library="css" />
+<h:outputStylesheet name="cart.css" library="css" />
+<title>Commandes</title>
+</h:head>
+<h:body>
+	<f:view>
+		<ui:include src="/resources/templates/header.xhtml" />
+		<h2>Liste des commandes</h2>
+		
+		<h:form id="form">
+			<p:dataTable value="#{commandebean.findByUser(userbean.connectedUser)}" var="commande">
+			    <p:column headerText="Numéro de Commande">
+			        <h:outputText value="#{commande.id}" />
+			    </p:column>
+			    <p:column headerText="Date de commande">
+					<h:outputText value="#{commande.dateCommande}" />
+				</p:column>
+				<p:column headerText="Total">
+					<h:outputText value="#{commande.total} €" />
+				</p:column>
+				<p:column headerText="Statut">
+					<h:outputText value="#{commande.isPaid() == true ? 'Passée' : 'Annulée'}" />
+				</p:column>
+				<p:column rendered="#{commande.isPaid() == true}">
+					<p:commandButton onclick="PF('confirmDialog').show();" icon="pi pi-times" value="Annuler" styleClass="ui-button-raised ui-button-danger"
+						actionListener="#{commandebean.setCurrentCommande(commande)}" 
+                        />
+				</p:column>
+			</p:dataTable>
+		</h:form>
+		
+		<p:confirmDialog header="Confirmation" message="Êtes-vous certain de vouloir annuler votre commande ?" widgetVar="confirmDialog">
+            <p:commandButton value="Oui" icon="pi pi-check" actionListener="#{commandebean.delete(commandebean.currentCommande)}" update=":form" oncomplete="PF('confirmDialog').hide();"/>
+            <p:commandButton value="Non" styleClass="ui-button-secondary" icon="pi pi-times" onclick="PF('confirmDialog').hide();" type="button"/>
+        </p:confirmDialog>
+	</f:view>
+</h:body>
+</html>

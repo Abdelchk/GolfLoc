@@ -58,7 +58,7 @@ public class Item implements Serializable {
 	private String image;
 	
 	@ManyToOne
-	@JoinColumn(name = "category_id", columnDefinition = "0")
+	@JoinColumn(name = "category_id", nullable = true, columnDefinition = "0")
 	private Category category;
 	
 	@Column(name = "is_sellable", nullable = false, columnDefinition = "boolean default true")

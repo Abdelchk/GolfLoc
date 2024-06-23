@@ -59,14 +59,14 @@
 
         <p:confirmDialog header="Confirmation" message="Êtes-vous certain de vouloir vider votre panier ?" widgetVar="confirmDialog">
             <p:commandButton value="Oui" icon="pi pi-check" actionListener="#{cartbean.clearCart}" update=":form:cartTable" oncomplete="PF('confirmDialog').hide();"/>
-            <p:commandButton value="Non" icon="pi pi-times" onclick="PF('confirmDialog').hide();" type="button"/>
+            <p:commandButton value="Non" styleClass="ui-button-secondary" icon="pi pi-times" onclick="PF('confirmDialog').hide();" type="button"/>
         </p:confirmDialog>
         
         <p:commandButton value="Valider panier" icon="pi pi-check" onclick="PF('validateCart').show();" type="button"/>
         
         <p:confirmDialog header="Confirmation" message="Voulez-vous valider votre panier ?" widgetVar="validateCart">
             <p:commandButton value="Oui" icon="pi pi-check" action="#{commandebean.saveCommande(userbean.connectedUser, cartbean.getTotal())}" update=":form:cartTable" oncomplete="PF('validateCart').hide();"/>
-            <p:commandButton value="Non" icon="pi pi-times" onclick="PF('validateCart').hide();" type="button"/>
+            <p:commandButton value="Non" styleClass="ui-button-secondary" icon="pi pi-times" onclick="PF('validateCart').hide();" type="button"/>
         </p:confirmDialog>
         
         

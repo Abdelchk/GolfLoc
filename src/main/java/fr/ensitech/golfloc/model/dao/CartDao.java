@@ -246,6 +246,20 @@ public class CartDao implements ICartDao {
 		
 	}
 
+	@Override
+	public List<Cart> getCartItemsByCommande(int commandeId) throws Exception {
+		Session session = null;
+		try {
+			session = HibernateConnector.getSession();
+			return session.createQuery("FROM cart WHERE commande_id = :commandeId", Cart.class)
+					.setParameter("commandeId", commandeId).getResultList();
+		} finally {
+			if (session != null && session.isOpen()) {
+				session.close();
+			}
+		}
+	}
+
 
 
 }

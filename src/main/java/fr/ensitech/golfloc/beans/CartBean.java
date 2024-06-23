@@ -85,6 +85,8 @@ public class CartBean implements Serializable {
 				User user = userMetier.getUserById(userId);
 				Item item = itemMetier.getItemById(itemId);
 				
+				System.out.println("Item ID " + itemId);
+				
 				System.out.println(user.getNom() + " " + item.getName());
 				
 				CartId cartId = new CartId();

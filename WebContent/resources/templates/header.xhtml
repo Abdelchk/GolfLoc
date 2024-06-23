@@ -13,7 +13,7 @@
 	<ui:composition>
         <div id="navbar">
 			<h:form>
-				<h:commandLink value="GolfLoc" styleClass="golfloc" action="accueil" />
+				<h:commandLink value="GolfLoc" styleClass="golfloc" action="achats" />
 				<h:panelGroup rendered="#{userbean.connectedUser.getProfile() == 'admin'}">
 					<h:commandLink value="Admin" styleClass="commandlink" action="admin" />
 				</h:panelGroup>
@@ -23,13 +23,19 @@
 				<h:commandLink value="Achats" styleClass="commandlink" action="achats" />
 	            <h:commandLink value="A propos" styleClass="commandlink" action="about" />
 	            <h:panelGroup rendered="#{not empty userbean.connectedUser}">
+	            	<h:commandLink value="Panier" styleClass="commandlink" action="cart" />
+	            </h:panelGroup>
+	            <h:panelGroup rendered="#{not empty userbean.connectedUser}">
+	            	<h:commandLink value="Commande" styleClass="commandlink" action="commande" />
+	            </h:panelGroup>
+	            <h:panelGroup rendered="#{not empty userbean.connectedUser}">
+	            	<h:commandLink value="Profil" styleClass="commandlink" action="profil" />
+	            </h:panelGroup>
+	            <h:panelGroup rendered="#{not empty userbean.connectedUser}">
 	            	<h:commandLink value="Déconnexion" styleClass="commandlink" action="#{userbean.seDeconnecter}" />
 	            </h:panelGroup>
 	            <h:panelGroup rendered="#{empty userbean.connectedUser}">
 	            	<h:commandLink value="Connexion" styleClass="commandlink" action="connexion" />
-	            </h:panelGroup>
-	            <h:panelGroup rendered="#{not empty userbean.connectedUser}">
-	            	<h:commandLink value="Panier" styleClass="commandlink" action="cart" />
 	            </h:panelGroup>
 			</h:form>
         </div>

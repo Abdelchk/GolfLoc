@@ -56,10 +56,13 @@ public class User implements Serializable {
 	@Column(name = "phone_number", length = 45, nullable = false)
 	private String phoneNumber;
 	
+	@Column(name = "accept_cgu", nullable = false)
+	private boolean acceptCGU;
+	
 	@OneToOne(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Adresse adresse;
 	
-	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+	@OneToOne(mappedBy = "user")
 	private Payment carteDePaiement;
 	
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -71,11 +74,14 @@ public class User implements Serializable {
 	@OneToMany(mappedBy = "user")
     private List<Comment> comments;
 	
+	@OneToMany(mappedBy = "user")
+	private List<Commande> commandes;
+	
 	public User() {
 	}
 
 	public User(Integer id, String nom, String prenom, String email, String password, Date dateNaissance, boolean isActive,
-			String profile, String phoneNumber, Adresse adresse) {
+			String profile, String phoneNumber, Adresse adresse, boolean acceptCGU) {
 		this.id = id;
 		this.nom = nom;
 		this.prenom = prenom;
@@ -86,6 +92,7 @@ public class User implements Serializable {
 		this.profile = profile;
 		this.phoneNumber = phoneNumber;
 		this.adresse = adresse;
+		this.acceptCGU = acceptCGU;
 	}
 	
 	public Integer getId() {
@@ -170,6 +177,20 @@ public class User implements Serializable {
 
 	public Payment getCarteDePaiement() {
 		return carteDePaiement;
+	}
+	
+	
+
+	public boolean isAcceptCGU() {
+		return acceptCGU;
+	}
+
+	public void setAcceptCGU(boolean acceptCGU) {
+		this.acceptCGU = acceptCGU;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
 	}
 
 	@Override

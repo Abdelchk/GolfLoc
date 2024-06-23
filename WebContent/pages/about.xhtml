@@ -1,19 +1,35 @@
-<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
 <h:head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-<h:outputStylesheet name="common-style.css" library="css" />
-<h:outputStylesheet name="about.css" library="css" />
-<title>A propos</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+    <h:outputStylesheet name="common-style.css" library="css" />
+    <h:outputStylesheet name="about.css" library="css" />
+    <title>À propos</title>
 </h:head>
 <body>
-	<f:view>
-		<ui:include src="/resources/templates/header.xhtml" />
-		<h2>A propos</h2>
-	</f:view>
+    <f:view>
+        <ui:include src="/resources/templates/header.xhtml"  />
+        
+        <h:form>
+            <h2>À propos</h2>
+            <p:panelGrid columns="1" styleClass="justified-text">
+                <p:graphicImage style="justify-contents: center" name="logo_GolfLoc.png" library="img"/>
+                <p:outputLabel value="GolfLoc est une plateforme en ligne qui propose une large sélection de clubs de golf d’occasion à des prix compétitifs. Notre mission est de rendre l’achat de clubs de golf d’occasion simple, rapide et abordable pour les passionnés de golf de tous niveaux." escape="false"/>
+                <p:outputLabel value="Le site GolfLoc a été créé dans le but de donner la possibilité d’acheter en ligne des clubs de golf d’occasion à des utilisateurs possédants un compte. L’achat doit pouvoir s’effectuer en passant par un panier préalablement rempli." escape="false"/>
+                
+                <p:outputLabel value="En tant que fondateur de GolfLoc, je suis animé par la vision de créer une plateforme en ligne révolutionnaire qui simplifie et rend accessible l’achat de clubs de golf d’occasion pour les passionnés comme moi. Pour réaliser cette vision, j'ai pris la décision stratégique de m'associer avec UGOLF, une entreprise reconnue dans le monde du golf, faisant partie du prestigieux Groupe Duval." escape="false"/>
+                <p:outputLabel value="Cette collaboration avec UGOLF et le Groupe Duval confère à GolfLoc une crédibilité inégalée et une expertise reconnue dans la gestion de parcours de golf à travers la France. En travaillant en étroite collaboration avec ces acteurs majeurs du secteur, je suis convaincu de pouvoir offrir à nos clients une expérience d’achat de clubs de golf exceptionnelle, alliant qualité, fiabilité et accessibilité." escape="false"/>
+                <p:outputLabel value="Grâce à notre partenariat avec UGOLF, nous avons accès à une vaste sélection de parcours de golf renommés à travers le pays, ce qui nous permet de proposer à nos clients une gamme variée de clubs de golf à acheter, adaptés à tous les niveaux de jeu. Notre plateforme conviviale et nos fonctionnalités intuitives permettent aux utilisateurs de GolfLoc de parcourir facilement les différentes options de clubs, de commander en ligne et de planifier leur journée de golf en toute simplicité." escape="false"/>
+                <p:outputLabel value="En mettant en avant la marque UGOLF et en bénéficiant du soutien du Groupe Duval, GolfLoc se positionne comme le partenaire de confiance des golfeurs amateurs comme moi, en quête de matériel de qualité et d'une expérience d’acquisition de clubs de golf sans tracas." escape="false"/>
+                <p:outputLabel value="Ainsi, en tant que fondateur de GolfLoc, je m'efforce de créer une plateforme qui allie l'excellence opérationnelle d'UGOLF avec l'innovation et la convivialité de notre entreprise, offrant ainsi à nos clients une expérience inégalée dans le domaine de l’achat de clubs de golf." escape="false"/>
+            </p:panelGrid>
+        </h:form>
+    </f:view>
+    
 </body>
 </html>
